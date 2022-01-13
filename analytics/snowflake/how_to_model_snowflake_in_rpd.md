@@ -169,7 +169,7 @@ Install and Configure a Local Data Gateway to connect and model Snowflake in an 
 
     ![](images/image24.png)
 
-## **Step 5: Upload Model in OAC and Test in DV**
+## **Step 6: Upload Model in OAC and Test in DV**
 
 ![](images/image25.png)
 
