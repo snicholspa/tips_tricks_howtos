@@ -4,7 +4,7 @@
 	"tutorials": [
         {
             "title": "Model Snowflake in an RPD in the BI Client Tool (admintool.exe) using a local Data Gateway",
-            "filename":"https://raw.githubusercontent.com/snicholspa/tips_tricks_howtos/main/analytics/epbcs/how_to_model_snowflake_in_rpd.md"
+            "filename":"https://raw.githubusercontent.com/snicholspa/tips_tricks_howtos/main/analytics/snowflake/how_to_model_snowflake_in_rpd.md"
         }
    ]
 }
