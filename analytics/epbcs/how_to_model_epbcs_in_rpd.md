@@ -56,7 +56,7 @@ Model EPBCS in an RPD in the BI Client Tool (admintool.exe) using a local JAVAHO
 
     ![](/images/analytics/epbcs/image7.png)
 
-**Note:** Be sure to take note of the documentation as it relates to the ADM URL
+    **Note:** Be sure to take note of the documentation as it relates to the ADM URL
 
     ![](/images/analytics/epbcs/image8.png)
 
