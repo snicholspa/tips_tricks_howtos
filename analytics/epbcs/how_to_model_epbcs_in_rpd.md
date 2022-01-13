@@ -48,7 +48,7 @@ Model EPBCS in an RPD in the BI Client Tool (admintool.exe) using a local JAVAHO
 
 ## **Step 5: Import EPBCS Metadata into RPD**
 
-10.  Open the Admin Tool and select **File-\>Import Metadata**
+10. Open the Admin Tool and select **File-\>Import Metadata**
 
     ![](/images/analytics/epbcs/image6.png)
 
