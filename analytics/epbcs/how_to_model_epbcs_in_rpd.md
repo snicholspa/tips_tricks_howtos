@@ -48,11 +48,11 @@ Model EPBCS in an RPD in the BI Client Tool (admintool.exe) using a local JAVAHO
 
 ## **Step 5: Import EPBCS Metadata into RPD**
 
-10.  Open the Admin Tool and select **File-\>Import Metadata**
+10. Open the Admin Tool and select **File-\>Import Metadata**
 
     ![](/images/analytics/epbcs/image6.png)
 
-11.  Select/Enter the following values
+11. Select/Enter the following values
 
     ![](/images/analytics/epbcs/image7.png)
 
@@ -60,21 +60,21 @@ Model EPBCS in an RPD in the BI Client Tool (admintool.exe) using a local JAVAHO
 
     ![](/images/analytics/epbcs/image8.png)
 
-12.  Select the desired EPBCS Applications and Click **Finish**
+12. Select the desired EPBCS Applications and Click **Finish**
 
     ![](/images/analytics/epbcs/image9.png)
 
     ![](/images/analytics/epbcs/image10.png)
 
-13.  Replace Data Model in OAC
+13. Replace Data Model in OAC
 
 ## **Step 6: Test Subject Area in DV**
 
-14.  Add Data Set from Subject Area
+14. Add Data Set from Subject Area
 
     ![](/images/analytics/epbcs/image11.png)
 
-15.  Create Visualization
+15. Create Visualization
     
     ![](/images/analytics/epbcs/image12.png)
 
