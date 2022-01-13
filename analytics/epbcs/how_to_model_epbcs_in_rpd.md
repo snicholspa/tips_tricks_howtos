@@ -26,13 +26,13 @@ Model EPBCS in an RPD in the BI Client Tool (admintool.exe) using a local JAVAHO
 
 4.  Download the desired version of the OAC Client Tools from <https://www.oracle.com/middleware/technologies/oac-tools-downloads.html>
 
-5.  Make note of where you installed the Client Tools, this will be referenced as the **\<BIClient\_Home\>** in this example it is **C:\\Oracle\\Middleware\\Oracle\_Home\\\...**
+5.  Make note of where you installed the Client Tools, this will be referenced as the **BIClient\_Home** in this example it is **C:\\Oracle\\Middleware\\Oracle\_Home\\\...**
 
 ## **Step 3: Configure the admintool.cmd file**
 
 6.  Edit the **admintool.cmd**
 
-    Located here - **\<BIClient\_Home\>**\\bi\\bitools\\bin\\admintool.cmd
+    Located here - **BIClient\_Home**\\bi\\bitools\\bin\\admintool.cmd
 
 7.  Add **set INSTANCE\_NAME=%DOMAIN\_HOME%** to the file
 
@@ -40,7 +40,7 @@ Model EPBCS in an RPD in the BI Client Tool (admintool.exe) using a local JAVAHO
 
 ## **Step 4: Start the local JAVAHOST**
 
-8.  Navigate to **\<BIClient\_Home\>**\\bi\\bifoundation\\javahost\\bin
+8.  Navigate to **BIClient\_Home**\\bi\\bifoundation\\javahost\\bin
 
 9.  Run the **startOnClient.bat** command script. Run the script a second time to confirm it is running
 
