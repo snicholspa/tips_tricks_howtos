@@ -4,7 +4,7 @@
 	"tutorials": [
         {
             "title": "Model EPBCS in an RPD in the BI Client Tool (admintool.exe) using a local JAVAHOST",
-            "filename":"../../how_to_model_epbcs_in_rpd.md"
+            "filename":"../how_to_model_epbcs_in_rpd.md"
         }
    ]
 }
