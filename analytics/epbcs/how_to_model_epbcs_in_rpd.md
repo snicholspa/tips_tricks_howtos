@@ -80,14 +80,12 @@ Model EPBCS in an RPD in the BI Client Tool (admintool.exe) using a local JAVAHO
 
 ## **Log Files Locations**
 
-### JAVAHOST Log File
-
+17. JAVAHOST Log File
 ```
-<BIClient_Home>\domains\bi\servers\obijh1\logs\jh.log
+{BIClient_Home}\domains\bi\servers\obijh1\logs\jh.log
 ```
 
-### Admin Tool Log File
-
+18. Admin Tool Log File
 ```
-<BIClient_Home>\domains\bi\servers\obis1\logs\<win_user_name>\_NQSAdminTool.log
+{BIClient_Home}\domains\bi\servers\obis1\logs\{win_user_name}\_NQSAdminTool.log
 ```
