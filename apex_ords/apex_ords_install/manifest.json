@@ -1,0 +1,10 @@
+{
+    "workshoptitle": "Install and Config APEX and ORDS",
+    "help": "",
+	"tutorials": [
+        {
+            "title": "Install APEX into a DBCS PDB and ORDS into a Compute Instance",
+            "filename":"https://raw.githubusercontent.com/snicholspa/tips_tricks_howtos/main/apex_ords/apex_ords_install/how_to_intall_config_apex_and_ords.md"
+        }
+   ]
+}
