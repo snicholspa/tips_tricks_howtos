@@ -13,38 +13,66 @@ Install
 
 ## **Step 1: SSH into Compute Instance**
 
-	```
+1. Issue SSH command
+
+    ```
     <copy>
-	ssh -i {ssh_private_key} opc@{compute_public_ip}
-	<copy>
-	```
+    ssh -i {ssh_private_key} opc@{compute_public_ip}
+    </copy>
+    ```
 
 ## **Step 2: Install JAVA JDK into Compute Instance**
+
+1. Yum install JAVA and verify version 
 
 	```
     <copy>
 	sudo yum install jdk-17.x86_64 
 	java --version
-	<copy>
+	</copy>
 	```
 
 ## **Step 3: Install Instant Client into Compute Instance and Verify**
 
+1. Yum install Instant Client and test SQL*Plus Connection
 	```
     <copy>
     sudo yum install oracle-instantclient-release-el8  
     sudo yum install oracle-instantclient-sqlplus
     sqlplus username/password@//[host]:[port]/[service_name]
-	<copy>
+	</copy>
 	```
 
 ## **Step 4: Install ORDS into Compute Instance**
 
-    This also creates linux ORACLE:OINSTALL user:group
+1. Yum install ORDS and verify version
+
+    **Note:**  This also creates linux user:group ORACLE:OINSTALL
 
 	```
     <copy>
     sudo yum install ords
     ords --version
-	<copy>
+	</copy>
 	```
+
+## **Step 5: Install APEX into DBCS PDB from Compute Instance**
+
+1. Download and Unzip APEX Software
+    ```
+    <copy>
+    sudo su - oracle
+    wget https://download.oracle.com/otn_software/apex/apex_22.1.zip
+    unzip apex_22.1.zip
+    cd apex
+    </copy>
+    ```
+
+2.  Install APEX
+
+	```
+    <copy>
+    sqlplus username/password@//[host]:[port]/[service_name]
+    @apexins.sql SYSAUX SYSAUX TEMP /i/
+    </copy>
+    ```
