@@ -92,6 +92,10 @@ Install APEX into a DBCS Instance and ORDS into a Compute Instance
 
     **Note:**  APEX Install Log will reside in the following directory **/home/oracle/apex/install{timestamp}.log**
 
+    **Note:**  You may have previous versions of APEX already installed.  If this is the case, please refer to the **APEX Remove Previous Verions** links under the Documentation section above.  You may wish to remove previous versions of APEX.
+
+    **Note:**  To verify the APEX Install, you may want to reference the  **APEX Verify Install** link under the Documentation section above.
+
  3.  Set APEX ADMIN Password
 
     **Note:**  You will enter a new password for the APEX Administrator User **ADMIN**
@@ -113,7 +117,7 @@ Install APEX into a DBCS Instance and ORDS into a Compute Instance
     </copy>
     ```
 
-5.  APEX REST Config
+5.  Run the APEX REST Config
 
     **Note:**  You will enter a new password for users **APEX\_LISTENER, APEX\_REST\_PUBLIC_USER**
 
@@ -128,7 +132,7 @@ Install APEX into a DBCS Instance and ORDS into a Compute Instance
  
  1. Alter PASSWORD\_VERIFY\_FUNCTION (**May not be Required**)
 
-    You may recieve errors related to strong passwords when install ORDS.  Please see the above documentation link **ORDS Install Password Validation Error**.  
+    You may recieve errors related to strong passwords when installing ORDS.  Please see the above documentation link **ORDS Install Password Validation Error**.  
 
     ```
     ORA-28003: password verification for the specified password failed
@@ -154,14 +158,15 @@ Install APEX into a DBCS Instance and ORDS into a Compute Instance
     </copy>
     ```
 
-3. Open the firewall on the Compute Instance and update the VCN for the ORDS Port
+3. Open the firewall on the Compute Instance and update the VCN Ingress Rules for the ORDS Port
 
-    As linux user OPC
+    **Note:** As linux user OPC
+    **Note:** Be sure to update the port in the command below before running.
 
     ```
     <copy>
     sudo firewall-cmd --list-all
-    sudo firewall-cmd --zone=public --add-port=8443/tcp --permanent
+    sudo firewall-cmd --zone=public --add-port={port}/tcp --permanent
     sudo firewall-cmd --reload
     </copy>
     ```
@@ -174,13 +179,14 @@ Install APEX into a DBCS Instance and ORDS into a Compute Instance
 
 	```
     <copy>
+    sudo su - oracle
     ords --config /etc/ords/config install
     </copy>
     ```
 
 ## **Step 7: Test APEX and ORDS from Local Browser**
 
-If the following tests are not successful, please refer to the **APEX Verify Install** link under the Documentation section above.  You may need to remove previous versions of APEX
+If the following tests are not successful, please refer to the **APEX Remove Previous Versions** links under the Documentation section above.  You may need to remove previous versions of APEX
 
 1.  Test APEX Admin
 
@@ -209,5 +215,18 @@ If the following tests are not successful, please refer to the **APEX Verify Ins
 	```
     <copy>
     https://[compute_ip_address]:[port]/ords/sql-developer
+    </copy>
+    ```
+
+## **Step 8: Starting the ORDS Server on the Compute Instance**
+
+If you closed the command window where ORDS was running in the forground and wish to start it again.
+
+1.  Start the ORDS Server
+
+	```
+    <copy>
+    sudo su - oracle
+    ords --config /etc/ords/config serve
     </copy>
     ```
