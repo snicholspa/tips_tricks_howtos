@@ -1,6 +1,6 @@
 ## **Introduction**
 
-Install
+Install APEX into a DBCS Instance and ORDS into a Compute Instance
 
 ## **Documentation Links**
 
