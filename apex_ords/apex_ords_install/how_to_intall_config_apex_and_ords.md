@@ -86,7 +86,7 @@ Install APEX into a DBCS Instance and ORDS into a Compute Instance
     </copy>
     ```
 
-    **Note:**  APEX Install Log will reside in the following directory **/home/oracle/apex/install2022-07-22_18-28-45.log**
+    **Note:**  APEX Install Log will reside in the following directory **/home/oracle/apex/install{timestamp}.log**
 
  3.  Set APEX ADMIN Password
 
@@ -99,7 +99,7 @@ Install APEX into a DBCS Instance and ORDS into a Compute Instance
     </copy>
     ```
 
- 4.  Unlock APEX_PUBLIC_USER account and set password
+ 4.  Unlock APEX\_PUBLIC\_USER account and set password
 
 	```
     <copy>
@@ -111,7 +111,7 @@ Install APEX into a DBCS Instance and ORDS into a Compute Instance
 
 5.  APEX REST Config
 
-    **Note:**  You will enter a new password for users **APEX_LISTENER, APEX_REST_PUBLIC_USER**
+    **Note:**  You will enter a new password for users **APEX\_LISTENER, APEX\_REST\_PUBLIC_USER**
 
 	```
     <copy>
@@ -122,7 +122,7 @@ Install APEX into a DBCS Instance and ORDS into a Compute Instance
 
 ## **Step 6: Install and Config ORDS into Compute Instance and DBCS PDB**
  
- 1. Alter PASSWORD_VERIFY_FUNCTION (**May not be Required**)
+ 1. Alter PASSWORD\_VERIFY\_FUNCTION (**May not be Required**)
 
     You may recieve errors related to strong passwords when install ORDS.  Please see the above documentation link **ORDS Install Password Validation Error**.  
 
@@ -130,7 +130,7 @@ Install APEX into a DBCS Instance and ORDS into a Compute Instance
     ORA-28003: password verification for the specified password failed
     ```
 
-    If you recieve an error similar to the one above, follow the below steps to view, unset and reset after ORDS installation the **PASSWORD_VERIFY_FUNCTION**
+    If you recieve an error similar to the one above, follow the below steps to view, unset and reset after ORDS installation the **PASSWORD\_VERIFY\_FUNCTION**
 
 	```
     <copy>
@@ -176,7 +176,7 @@ Install APEX into a DBCS Instance and ORDS into a Compute Instance
 
 ## **Step 7: Test APEX and ORDS from Local Browser**
 
-If the following tests are not success.  Please refer to the **APEX Verify Install** link under the Documentation section above.  You may need to remove previous versions of APEX
+If the following tests are not successful, please refer to the **APEX Verify Install** link under the Documentation section above.  You may need to remove previous versions of APEX
 
 1.  Test APEX Admin
 
@@ -200,7 +200,7 @@ If the following tests are not success.  Please refer to the **APEX Verify Insta
 
 3.  Test ORDS-Database Actions
 
-    **Note:**  Once you have REST Enabled Schema Created, you can access **Database Actions** using that schema's credentials.
+    **Note:**  Once you have a REST Enabled Schema Created, you can access **Database Actions** using that schema's credentials.
 
 	```
     <copy>
