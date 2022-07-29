@@ -4,7 +4,7 @@ Install APEX into a DBCS Instance and ORDS into a Compute Instance
 
 ## **Youtube Recording**
 
-[![Watch Youtube Video](./images/youtube.png)](https://www.youtube.com/watch?v=_qTnhoZ1vKI)
+[![Watch Youtube Video](./images/youtube.png)](https://youtu.be/YiKAPpjevkA)
 
 ## **Documentation Links**
 
