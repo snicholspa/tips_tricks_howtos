@@ -11,7 +11,7 @@ Install APEX into a DBCS Instance and ORDS into a Compute Instance
     [APEX Verify Install](https://support.oracle.com/cloud/faces/DocumentDisplay?id=1254932.1)
 
     [Remove Previous Versions of APEX - 555624.1](https://support.oracle.com/cloud/faces/DocumentDisplay?id=555624.1)
-    
+
     [Remove Previous Versions of APEX - 558340.1](https://support.oracle.com/cloud/faces/DocumentDisplay?id=558340.1)
 
 2.  ORDS Documentation
@@ -174,7 +174,7 @@ Install APEX into a DBCS Instance and ORDS into a Compute Instance
     </copy>
     ```
 
-## **Step 7: Test APEX and ORDS from Local Browser
+## **Step 7: Test APEX and ORDS from Local Browser**
 
 If the following tests are not success.  Please refer to the **APEX Verify Install** link under the Documentation section above.  You may need to remove previous versions of APEX
 
