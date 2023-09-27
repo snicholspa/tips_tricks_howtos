@@ -20,7 +20,7 @@ You can view all the DBMS\_CLOUD\_OCI\_ Packages and Types in the documentation 
 
     ![](images/types.png)
 
-## **DBMS\_CLOUD.CREATE\_CREDENTIAL for PL/SQL SDK**
+## **DBMS_CLOUD.CREATE_CREDENTIAL for PL/SQL SDK**
 
 **DBMS\_CLOUD.CREATE\_CREDENTIAL:** <https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-subprograms.html#GUID-742FC365-AA09-48A8-922C-1987795CF36A>
 
@@ -206,7 +206,7 @@ Non-ADMIN users in an Autonomous Database instance on Shared Exadata requires gr
 	</copy>
 	```
 
-## **DBMS\_CLOUD Manual Install into non-ADBs**
+## **DBMS_CLOUD Manual Install into non-ADBs**
 
 The DBMS\_CLOUD package provides a comprehensive support for working with data in Object Storage starting with Oracle Database 19c and later releases. However, this package is not pre-installed with Oracle Database. You need to manually install the DBMS\_CLOUD package and also configure users or roles to use this package.
 
