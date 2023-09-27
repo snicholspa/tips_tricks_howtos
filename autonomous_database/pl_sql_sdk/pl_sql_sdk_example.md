@@ -20,7 +20,7 @@ You can view all the DBMS_CLOUD_OCI_ Packages and Types in the documentation lin
 
     ![](images/packages.png)
 
-## **DBMS_CLOUD.CREATE_CREDENTIAL for PL/SQL SDK **
+## **DBMS\_CLOUD.CREATE\_CREDENTIAL for PL/SQL SDK**
 
 **DBMS_CLOUD.CREATE_CREDENTIAL:** <https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-subprograms.html#GUID-742FC365-AA09-48A8-922C-1987795CF36A>
 
@@ -40,7 +40,7 @@ You can view all the DBMS_CLOUD_OCI_ Packages and Types in the documentation lin
 	</copy>
 	```
 
-## **PL/SQL SDK Grants **
+## **PL/SQL SDK Grants**
 
 Non-ADMIN users in an Autonomous Database instance on Shared Exadata requires grants to the DBMS_CLOUD_OCI_ Packages and Types
 
