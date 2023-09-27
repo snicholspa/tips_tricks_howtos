@@ -1,0 +1,10 @@
+{
+    "workshoptitle": "Pl/SQL SDK for OCI Example",
+    "help": "",
+	"tutorials": [
+        {
+            "title": "PL/SQL SDK for OCI Example",
+            "filename":"https://raw.githubusercontent.com/snicholspa/tips_tricks_howtos/main/autonomous_database/pl_sql_sdk/pl_sql_sdk_example.md"
+        }
+   ]
+}
