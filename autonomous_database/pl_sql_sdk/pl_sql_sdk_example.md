@@ -20,7 +20,7 @@ You can view all the DBMS\_CLOUD\_OCI\_ Packages and Types in the documentation 
 
     ![](images/types.png)
 
-## **Credential for PL/SQL SDK**
+## **PL/SQL SDK Credential**
 
 **DBMS\_CLOUD.CREATE\_CREDENTIAL:** <https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-subprograms.html#GUID-742FC365-AA09-48A8-922C-1987795CF36A>
 
