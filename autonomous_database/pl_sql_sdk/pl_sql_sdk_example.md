@@ -10,7 +10,7 @@ PL/SQL SDK for OCI
 
 ## **PL/SQL SDK Packages and Types**
 
-You can view all the DBMS_CLOUD_OCI_ Packages and Types in the documentation link above or from within Database Actions -> SQL or SQL Develeoper under the user **C##CLOUD$SERVICE**.
+You can view all the DBMS\_CLOUD\_OCI\_ Packages and Types in the documentation link above or from within Database Actions -> SQL or SQL Develeoper under the user **C##CLOUD$SERVICE**.
 
 1.  Packages
 
@@ -18,11 +18,11 @@ You can view all the DBMS_CLOUD_OCI_ Packages and Types in the documentation lin
 
 2.  Types
 
-    ![](images/packages.png)
+    ![](images/types.png)
 
 ## **DBMS\_CLOUD.CREATE\_CREDENTIAL for PL/SQL SDK**
 
-**DBMS_CLOUD.CREATE_CREDENTIAL:** <https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-subprograms.html#GUID-742FC365-AA09-48A8-922C-1987795CF36A>
+**DBMS\_CLOUD.CREATE\_CREDENTIAL:** <https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-subprograms.html#GUID-742FC365-AA09-48A8-922C-1987795CF36A>
 
 	```
     <copy>
@@ -42,7 +42,7 @@ You can view all the DBMS_CLOUD_OCI_ Packages and Types in the documentation lin
 
 ## **PL/SQL SDK Grants**
 
-Non-ADMIN users in an Autonomous Database instance on Shared Exadata requires grants to the DBMS_CLOUD_OCI_ Packages and Types
+Non-ADMIN users in an Autonomous Database instance on Shared Exadata requires grants to the DBMS\_CLOUD\_OCI\_ Packages and Types
 
 	```
     <copy>
@@ -59,7 +59,7 @@ Non-ADMIN users in an Autonomous Database instance on Shared Exadata requires gr
 **PL/SQL SDK Examples:** <https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/plsqlsdkexamples.htm>
 
 
-1.  get_compartment and list_compartments
+1.  get\_compartment and list\_compartments
 
 	```
     <copy>
@@ -134,7 +134,7 @@ Non-ADMIN users in an Autonomous Database instance on Shared Exadata requires gr
 
 **Python SDK:** <https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/pythonsdk.htm>
 
-1.  get_compartment and list_compartments
+1.  get\_compartment and list\_compartments
 
 	```
     <copy>
@@ -167,7 +167,6 @@ Non-ADMIN users in an Autonomous Database instance on Shared Exadata requires gr
 
     # Get ROOT Compartment
     get_compartment_response = identity_client.get_compartment(compartment_id=tenancy_ocid)
-    print(get_compartment_response.data)
     # Add ROOT Compartment Tree with NO parent
     compartment_tree.create_node(get_compartment_response.data.name, get_compartment_response.data.id, data=(get_compartment_response.data.description,str(get_compartment_response.data.time_created),'tenant_creator'))
 
@@ -207,13 +206,12 @@ Non-ADMIN users in an Autonomous Database instance on Shared Exadata requires gr
 	</copy>
 	```
 
-## **DBMS_CLOUD Manual Install into non-ADBs**
+## **DBMS\_CLOUD Manual Install into non-ADBs**
 
-The DBMS_CLOUD package provides a comprehensive support for working with data in Object Storage starting with Oracle Database 19c and later releases. However, this package is not pre-installed with Oracle Database. You need to manually install the DBMS_CLOUD package and also configure users or roles to use this package.
+The DBMS\_CLOUD package provides a comprehensive support for working with data in Object Storage starting with Oracle Database 19c and later releases. However, this package is not pre-installed with Oracle Database. You need to manually install the DBMS_CLOUD package and also configure users or roles to use this package.
 
-For information on installing the DBMS_CLOUD package and configuring users/roles, see the MOS-NOTE with Doc ID 2748362.1.
+For information on installing the DBMS\_CLOUD package and configuring users/roles, see the MOS-NOTE with Doc ID 2748362.1.
 
 **Database 23c Documentation:** <https://docs.oracle.com/en/database/oracle/oracle-database/23/arpls/DBMS_CLOUD.html>
 
-**Support ID 2748362.1:** <https://support.oracle.com/rs?type=doc&id=2748362.1>
-
+**Doc ID 2748362.1:** <https://support.oracle.com/rs?type=doc&id=2748362.1>
