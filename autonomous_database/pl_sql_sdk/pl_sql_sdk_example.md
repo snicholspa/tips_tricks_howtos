@@ -208,7 +208,7 @@ Non-ADMIN users in an Autonomous Database instance on Shared Exadata requires gr
 
 ## **DBMS\_CLOUD Manual Install into non-ADBs**
 
-The DBMS\_CLOUD package provides a comprehensive support for working with data in Object Storage starting with Oracle Database 19c and later releases. However, this package is not pre-installed with Oracle Database. You need to manually install the DBMS_CLOUD package and also configure users or roles to use this package.
+The DBMS\_CLOUD package provides a comprehensive support for working with data in Object Storage starting with Oracle Database 19c and later releases. However, this package is not pre-installed with Oracle Database. You need to manually install the DBMS\_CLOUD package and also configure users or roles to use this package.
 
 For information on installing the DBMS\_CLOUD package and configuring users/roles, see the MOS-NOTE with Doc ID 2748362.1.
 
