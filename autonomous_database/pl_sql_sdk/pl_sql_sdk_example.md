@@ -10,7 +10,7 @@ PL/SQL SDK for OCI
 
 ## **PL/SQL SDK Packages and Types**
 
-You can view all the DBMS\_CLOUD\_OCI\_ Packages and Types in the documentation link above or from within Database Actions -> SQL or SQL Develeoper under the user **C##CLOUD$SERVICE**.
+You can view all the DBMS\_CLOUD\_OCI\_ Packages and Types in the documentation link above or from within Database Actions -> SQL or SQL Develeoper under the user **C##CLOUD$SERVICE**.  You can also perform a describe on a package and lastly, search for a package using the search bar.
 
 1.  Packages
 
@@ -19,6 +19,14 @@ You can view all the DBMS\_CLOUD\_OCI\_ Packages and Types in the documentation 
 2.  Types
 
     ![](images/types.png)
+
+3.  Describe
+
+    ![](images/describe_package.png)
+
+4.  Search
+
+    ![](images/search_dbms_cloud_oci.png)
 
 ## **PL/SQL SDK Credential**
 
@@ -93,7 +101,7 @@ Non-ADMIN users in an Autonomous Database instance on Shared Exadata requires gr
         dbms_output.put_line(CHR(10));
         BEGIN
             -- Insert into Table
-            INSERT INTO COMPARTMENTS VALUES (get_response_body.id,get_response_body.name,get_response_body.description,get_response_body.time_created,'tenant_creator',null);
+            INSERT INTO COMPARTMENTS VALUES (get_response_body.id,get_response_body.name,get_response_body.description,get_response_body.time_created,'tenancy_creator',null);
             commit;
         END;
         -- Get All Compartments in Tenancy
@@ -168,7 +176,7 @@ Non-ADMIN users in an Autonomous Database instance on Shared Exadata requires gr
     # Get ROOT Compartment
     get_compartment_response = identity_client.get_compartment(compartment_id=tenancy_ocid)
     # Add ROOT Compartment Tree with NO parent
-    compartment_tree.create_node(get_compartment_response.data.name, get_compartment_response.data.id, data=(get_compartment_response.data.description,str(get_compartment_response.data.time_created),'tenant_creator'))
+    compartment_tree.create_node(get_compartment_response.data.name, get_compartment_response.data.id, data=(get_compartment_response.data.description,str(get_compartment_response.data.time_created),'tenancy_creator'))
 
     # Get Compartments under ROOT
     list_compartments_response = identity_client.list_compartments(
@@ -205,13 +213,3 @@ Non-ADMIN users in an Autonomous Database instance on Shared Exadata requires gr
     print('\nIn {} seconds\n'.format(duration_all))    
 	</copy>
 	```
-
-## **DBMS_CLOUD Manual Install into non-ADBs**
-
-The DBMS\_CLOUD package provides a comprehensive support for working with data in Object Storage starting with Oracle Database 19c and later releases. However, this package is not pre-installed with Oracle Database. You need to manually install the DBMS\_CLOUD package and also configure users or roles to use this package.
-
-For information on installing the DBMS\_CLOUD package and configuring users/roles, see the MOS-NOTE with Doc ID 2748362.1.
-
-**Database 23c Documentation:** <https://docs.oracle.com/en/database/oracle/oracle-database/23/arpls/DBMS_CLOUD.html>
-
-**Doc ID 2748362.1:** <https://support.oracle.com/rs?type=doc&id=2748362.1>
