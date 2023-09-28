@@ -48,7 +48,7 @@ You can view all the DBMS\_CLOUD\_OCI\_ Packages and Types in the documentation 
 	</copy>
 	```
 
-**Note:**  Requires **GRANT EXECUTE ON DBMS_CLOUD TO non-Admin_user;** to create the credential.
+**Note:**  Requires **GRANT EXECUTE ON DBMS\_CLOUD TO non-Admin_user** to create the credential.
 
 ## **PL/SQL SDK Grants**
 
