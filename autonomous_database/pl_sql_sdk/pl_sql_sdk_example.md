@@ -48,7 +48,19 @@ You can view all the DBMS\_CLOUD\_OCI\_ Packages and Types in the documentation 
 	</copy>
 	```
 
+**Note:**  Requires **GRANT EXECUTE ON DBMS_CLOUD TO non-Admin_user;** to create the credential.
+
 ## **PL/SQL SDK Grants**
+
+Non-ADMIN users in an Autonomous Database instance on Shared Exadata requires grants to the DBMS\_CLOUD Package in order to create the credential.
+
+	```
+    <copy>
+    GRANT EXECUTE ON DBMS_CLOUD TO webinar;
+	</copy>
+	```
+
+
 
 Non-ADMIN users in an Autonomous Database instance on Shared Exadata requires grants to the DBMS\_CLOUD\_OCI\_ Packages and Types
 
