@@ -1,0 +1,10 @@
+{
+    "workshoptitle": "Select AI Setup and Examples",
+    "help": "",
+	"tutorials": [
+        {
+            "title": "Select AI Setup and Examples",
+            "filename":"https://raw.githubusercontent.com/snicholspa/tips_tricks_howtos/main/autonomous_database/select_ai/select_ai.md"
+        }
+   ]
+}
