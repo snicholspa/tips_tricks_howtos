@@ -3,6 +3,7 @@
 ## Autonomous Database
 
 1.  [PL/SQL SDK for OCI](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/pl_sql_sdk/)
+2.  [Select AI for ADB-S](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai/)
 
 ## Analytics
 
