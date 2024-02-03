@@ -42,15 +42,15 @@ Select AI for Oracle Autonomous Database
     | --- | ----------- |
     | OpenAI | api.openai.com |
     | Cohere | api.cohere.ai |
-    | Azure OpenAI | <azure_resource_name>.openai.azure.com |
+    | Azure OpenAI | `<azure_resource_name>.openai.azure.com` |
 
-    If you would like to see what existin ACL Priviledges exist, execute the following SQL Statement
+    If you would like to see what existing ACL Priviledges exist, execute the following SQL Statement
 
     ```
     <copy>
     select a.host, b.principal, b.privilege, b.is_grant 
     from dba_network_acls a, dba_network_acl_privileges b
-    where a.acl = b.acl    
+    where a.acl = b.acl; 
     </copy>
     ```
 
@@ -70,11 +70,30 @@ Select AI for Oracle Autonomous Database
 
 3. Create Credential to Access AI Providers
 
+    As the user your granted access to the PL/SQL Packages in Step 2, issue the following PL/SQL Code.
+
     ```
     <copy>
+    BEGIN
+      DBMS_CLOUD.CREATE_CREDENTIAL(
+        credential_name => 'WEBINAR_COHERE_CRED',
+        username => '{cohere_user}',
+        password => '{cohere_api_key}');
+    END;
+    /    
     </copy>
     ```
 
+    If you would like to see what existing ACL Priviledges exist, execute the following SQL Statement
+
+    ```
+    <copy>
+    select * from user_credentials;  
+    </copy>
+    ```
+
+
+    For more details, see the [`DBMS_CLOUD.CREATE_CREDENTIAL` PL/SQL Package](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-subprograms.html#GUID-742FC365-AA09-48A8-922C-1987795CF36A) documentation.
 
 4. Create Select AI Profile
 
