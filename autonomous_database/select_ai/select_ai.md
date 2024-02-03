@@ -14,31 +14,107 @@ Select AI for Oracle Autonomous Database
 
 * [Using Oracle Autonomous Database Serverless](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/index.html)
 
-
-## Configuration
-
-You can view DBMS\_NETWORK\_ACL\_ADMIN.APPEND\_HOST\_ACE....
+## Task 1: Configuration
 
 1. Grant Non-Admin User Permission to Access AI Providers 
 
+    As the user **ADMIN**, issue the following PL/SQL Code
+
+    ```
+    <copy>
+    BEGIN
+    DBMS_NETWORK_ACL_ADMIN.APPEND_HOST_ACE (
+      HOST         => 'api.cohere.ai',
+      LOWER_PORT   => 443,
+      UPPER_PORT   => 443,
+      ACE          => xs$ace_type(
+          PRIVILEGE_LIST => xs$name_list('http'),
+          PRINCIPAL_NAME => 'MOVIESTREAM',
+          PRINCIPAL_TYPE => xs_acl.ptype_db));
+    END;
+    /
+    </copy>
+    ```
+
+    The valid **HOSTs** are below
+
+    | PROVIDER | HOST |
+    | --- | ----------- |
+    | OpenAI | api.openai.com |
+    | Cohere | api.cohere.ai |
+    | Azure OpenAI | <azure_resource_name>.openai.azure.com |
+
+    If you would like to see what existin ACL Priviledges exist, execute the following SQL Statement
+
+    ```
+    <copy>
+    select a.host, b.principal, b.privilege, b.is_grant 
+    from dba_network_acls a, dba_network_acl_privileges b
+    where a.acl = b.acl    
+    </copy>
+    ```
+
+    For more details, see the [`DBMS_NETWORK_ACL_ADMIN.APPEND_HOST_ACE` PL/SQL Package](https://docs.oracle.com/en/database/oracle/oracle-database/23/arpls/DBMS_NETWORK_ACL_ADMIN.html#GUID-254AE700-B355-4EBC-84B2-8EE32011E692) documentation.
+
+
 2. Grant Non-Admin User Permission to PL/SQL Packages
+
+    As the user **ADMIN**, issue the following SQL Statements
+
+    ```
+    <copy>
+    grant execute on DBMS_CLOUD to moviestream;
+    grant execute on DBMS_CLOUD_AI to moviestream;
+    </copy>
+    ```
 
 3. Create Credential to Access AI Providers
 
+    ```
+    <copy>
+    </copy>
+    ```
+
+
 4. Create Select AI Profile
 
-## Basic Usage
+    ```
+    <copy>
+    </copy>
+    ```
+
+
+## Task 2: Basic Usage
 
 1. Set Select AI Profile for Current Session
 
+    ```
+    <copy>
+    </copy>
+    ```
+
 2. Select AI Chat Examples
+
+    ```
+    <copy>
+    </copy>
+    ```
 
 3. Select AI RUNSQL Examples
 
+    ```
+    <copy>
+    </copy>
+    ```
+
 4. Select AI PL/SQL Package DBMS\_CLOUD\_AI.GENERATE
 
+    ```
+    <copy>
+    </copy>
+    ```
 
-## How To Understand What is Happening
+## Task 3: How To Understand What is Happening
 
 1. RUNSQL Action
 
@@ -48,7 +124,7 @@ You can view DBMS\_NETWORK\_ACL\_ADMIN.APPEND\_HOST\_ACE....
 
 4. NARRATE Action
 
-## The Effects of Cache
+## Task 4: The Effects of Cache
 
 1. Set AI Profile
 
@@ -58,7 +134,7 @@ You can view DBMS\_NETWORK\_ACL\_ADMIN.APPEND\_HOST\_ACE....
 
 4. Re-Execute Select AI Query
 
-## How To Improve Results
+## Task 5: How To Improve Results
 
 1. Changing Table and Column Names
 
@@ -68,14 +144,14 @@ You can view DBMS\_NETWORK\_ACL\_ADMIN.APPEND\_HOST\_ACE....
 
 4. Transforming Embedded JSON to Flattened JSON
 
-## Using Select AI in Applications
+## Task 6: Using Select AI in Applications
 
 1.  Select AI with other SQL
 
 2.  Select AI within an APEX Application
 
 ## Acknowledgements
-  * **Authors:** Derrick Cameron and Steven Nichols, Consulting User Assistance Developer
+  * **Authors:** Derrick Cameron and Steven Nichols, Master Principal Cloud Architects
   * **Contributors:** Marty Gubar, Product Management
 * **Last Updated By/Date:** Steven Nichols, Febuary 2, 2024
 
