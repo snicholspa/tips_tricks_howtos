@@ -19,7 +19,8 @@ We'll show you
 
 ## Webcast Replays
 
-* [Gain business insights instantly. Just ask your database!](https://go.oracle.com/LP=139057?elqCampaignId=508924#On-Demand-Webinars)
+* [Chat with your data. Autonomous Database speaks human.](https://go.oracle.com/LP=139057?elqCampaignId=508924#On-Demand-Webinars)
+    * Attend this 60-minute session to learn how easy it is to use Autonomous Database Select AI, which surfaces the latest in Generative AI capabilities that are revolutionizing the way we interact with data.
 
 ## Documentation Links
 
