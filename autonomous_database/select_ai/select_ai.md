@@ -43,7 +43,7 @@ We'll show you
       UPPER_PORT   => 443,
       ACE          => xs$ace_type(
           PRIVILEGE_LIST => xs$name_list('http'),
-          PRINCIPAL_NAME => 'MOVIESTREAM',
+          PRINCIPAL_NAME => '<database user>',
           PRINCIPAL_TYPE => xs_acl.ptype_db));
     END;
     /
@@ -76,8 +76,8 @@ We'll show you
 
     ```
     <copy>
-    grant execute on DBMS_CLOUD to moviestream;
-    grant execute on DBMS_CLOUD_AI to moviestream;
+    grant execute on DBMS_CLOUD to <database user>;
+    grant execute on DBMS_CLOUD_AI to <database user>;
     </copy>
     ```
 
@@ -89,9 +89,9 @@ We'll show you
     <copy>
     BEGIN
       DBMS_CLOUD.CREATE_CREDENTIAL(
-        credential_name => 'WEBINAR_COHERE_CRED',
-        username => '<cohere_user>',
-        password => '<cohere_api_key>');
+        credential_name => '<enter credential name>',
+        username => '<ai_provider_user>',
+        password => '<ai_provider_api_key>');
     END;
     /    
     </copy>
@@ -113,7 +113,7 @@ We'll show you
     <copy>
     BEGIN
     DBMS_CLOUD_AI.CREATE_PROFILE(
-        profile_name => 'WEBINAR_COHERE_PROF',
+        profile_name => '<enter ai profile name>',
         attributes => '{"provider":"cohere",
                         "credential_name":"<credential name from step 3>",
                         "model":"cohere-command",
@@ -140,7 +140,7 @@ We'll show you
 
     [Profile Attributes](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-ai-package.html#GUID-12D91681-B51C-48E0-93FD-9ABC67B0F375)
 
-    If you would like to see what Profiles exist and they attributes, execute the following SQL Statement
+    If you would like to see what Profiles exist and their attributes, execute the following SQL Statement
 
     ```
     <copy>
@@ -247,7 +247,7 @@ We'll show you
     select dbms_lob.substr(dbms_cloud_ai.generate(
         prompt => 'give me a cookie recipe',
         action => 'chat',
-        profile_name => '<any profile name>'),4000,1) as recipe from dual;    
+        profile_name => '<enabled profile name>'),4000,1) as recipe from dual;    
     </copy>
     ```
 
