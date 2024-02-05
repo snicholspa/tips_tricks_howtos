@@ -152,6 +152,16 @@ We'll show you
 
 ## Task 2: Basic Usage
 
+Use **AI** as the keyword in a **SELECT** statement for interacting with the database using natural language prompts.
+
+The **AI** keyword in a **SELECT** statement instructs the SQL execution engine to use the LLM identified in the active AI profile to process natural language and to generate SQL.
+
+You can use the **AI** keyword in a query with Oracle clients such as SQL Developer, OML Notebooks, and third-party tools, to interact with database in natural language.
+
+For more details on running **Select AI** statements, see the following documentation
+
+[Use AI Keyword to Enter Prompts](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/sql-generation-ai-autonomous.html#GUID-B3E0EE68-3B4C-4002-9B45-BBE258A2F15A)
+
 1. Set Select AI Profile for Current Session
 
     ```
@@ -200,16 +210,6 @@ We'll show you
     [Create and Set an AI Profile](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/sql-generation-ai-autonomous.html#GUID-7B6A819E-AF51-445B-949D-E8E16A936CFE)
 
 2. Select AI CHAT Examples
-
-    Use **AI** as the keyword in a **SELECT** statement for interacting with the database using natural language prompts.
-
-    The **AI** keyword in a **SELECT** statement instructs the SQL execution engine to use the LLM identified in the active AI profile to process natural language and to generate SQL.
-
-    You can use the **AI** keyword in a query with Oracle clients such as SQL Developer, OML Notebooks, and third-party tools, to interact with database in natural language.
-
-    For more details on running **Select AI** statements, see the following documentation
-
-    [Use AI Keyword to Enter Prompts](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/sql-generation-ai-autonomous.html#GUID-B3E0EE68-3B4C-4002-9B45-BBE258A2F15A)
 
     ```
     <copy>
