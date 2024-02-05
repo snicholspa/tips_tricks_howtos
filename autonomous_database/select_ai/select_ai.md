@@ -195,21 +195,11 @@ We'll show you
     </copy>
     ```
 
-    If you would like to see what Profiles exist and they attributes, execute the following SQL Statement
-
-    ```
-    <copy>
-    select a.profile_name, a.status, b.attribute_name, b.attribute_value 
-    from user_CLOUD_AI_PROFILES a, user_cloud_ai_profile_attributes b
-    where a.profile_id = b.profile_id;
-    </copy>
-    ```
-
-    For more details on creating a Profile and the associated attributes, see the following documentation
+    For more details on Setting the Profile, see the following documentation
 
     [Create and Set an AI Profile](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/sql-generation-ai-autonomous.html#GUID-7B6A819E-AF51-445B-949D-E8E16A936CFE)
 
-2. Select AI Examples
+2. Select AI CHAT Examples
 
     Use **AI** as the keyword in a **SELECT** statement for interacting with the database using natural language prompts.
 
