@@ -2,11 +2,24 @@
 
 ## Introduction
 
-Select AI for Oracle Autonomous Database
+Introducing Select AI - A new way to talk to and converse with your Oracle Autonomous Database
+
+The Autonomous Database now speaks “human.” Select AI is a new Autonomous Database capability that is included with the service and allows you to use natural language (English, Spanish, French, Portuguese, etc.) to query data, AND pose questions to LLMs (external to the database). You no longer need to understand where and how your data is stored to gain insights about your business. SQL (structured query language) has been and continues to be the language of choice for querying relational databases, but not everyone knows SQL, and you do need to know your data. Select AI provides a new approach to querying data in the database and external LLMs by breaking down the grammatical elements of a typical question posed by person into its component parts (subject, object, verbs, etc.) to answer their question.
+
+This webinar will show how to enable this feature and how it can be effective at finding data in your applications and leveraging LLMs.
+
+We'll show you
+
+* Database configuration/setup
+* Configuration with OpenAI and Cohere
+* Sample queries/questions and results
+* Select AI on JSON documents in ADB
+* Tips for improving response accuracy
+* Select AI as an APEX Application
 
 ## Webcast Replays
 
-## Workshops and Additional Information
+* [Gain business insights instantly. Just ask your database!](https://go.oracle.com/LP=139057?elqCampaignId=508924#On-Demand-Webinars)
 
 ## Documentation Links
 
@@ -101,7 +114,7 @@ Select AI for Oracle Autonomous Database
     DBMS_CLOUD_AI.CREATE_PROFILE(
         profile_name => 'WEBINAR_COHERE_PROF',
         attributes => '{"provider":"cohere",
-                        "credential_name":"{credential name from step 3}",
+                        "credential_name":"<credential name from step 3>",
                         "model":"cohere-command",
                         "comments":"true",
                         "max_tokens":"1024",
@@ -144,7 +157,7 @@ Select AI for Oracle Autonomous Database
     <copy>
     BEGIN
         DBMS_CLOUD_AI.SET_PROFILE(
-            profile_name => '{profile name from step 4}'
+            profile_name => '<profile name from step 4>'
         );
     END;
     /
@@ -157,7 +170,7 @@ Select AI for Oracle Autonomous Database
     <copy>
     CREATE OR REPLACE TRIGGER SET_AI_PROFILE AFTER LOGON ON SCHEMA
         BEGIN
-            DBMS_CLOUD_AI.SET_PROFILE(profile_name => 'profile name from step 4F');
+            DBMS_CLOUD_AI.SET_PROFILE(profile_name => '<profile name from step 4>');
         END;
     /    
     </copy>
@@ -233,7 +246,7 @@ Select AI for Oracle Autonomous Database
     select dbms_lob.substr(dbms_cloud_ai.generate(
         prompt => 'give me a cookie recipe',
         action => 'chat',
-        profile_name => '{any profile name}'),4000,1) as recipe from dual;    
+        profile_name => '<any profile name>'),4000,1) as recipe from dual;    
     </copy>
     ```
 
