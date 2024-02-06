@@ -729,7 +729,7 @@ Transform embedded JSON into structured views and columns to provide LLM with me
     </copy>
     ```
 
-3.  Insert into ... DBMS_CLOUD_AI.GENERATE
+3.  Insert into ... DBMS\_CLOUD\_AI.GENERATE
 
     ```
     <copy>
