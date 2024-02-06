@@ -774,8 +774,8 @@ Transform embedded JSON into structured views and columns to provide LLM with me
 
 ## Acknowledgements
   * **Authors:** Derrick Cameron and Steven Nichols, Master Principal Cloud Architects
-  * **Contributors:** Marty Gubar, Product Management
-* **Last Updated By/Date:** Steven Nichols, Febuary 2, 2024
+  * **Contributors:** Marty Gubar and Mark Hornick, Product Management
+* **Last Updated By/Date:** Steven Nichols, Febuary 6, 2024
 
 Data about movies in this workshop were sourced from **Wikipedia**.
 
