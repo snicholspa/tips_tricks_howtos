@@ -113,23 +113,24 @@ We'll show you
     ```
     <copy>
     BEGIN
-    DBMS_CLOUD_AI.CREATE_PROFILE(
-        profile_name => '<enter ai profile name>',
-        attributes => '{"provider":"cohere",
-                        "credential_name":"<credential name from step 3>",
-                        "model":"cohere-command",
-                        "comments":"true",
-                        "max_tokens":"1024",
-                        "temperature":"0",
-                        "stop_tokens":["#", ";"],
-                        "object_list":[{"owner": "MOVIESTREAM", "name": "customer"},
-                                        {"owner": "MOVIESTREAM", "name": "movies"},
-                                        {"owner": "MOVIESTREAM", "name": "genre"},
-                                        {"owner": "MOVIESTREAM", "name": "actors"},
-                                        {"owner": "MOVIESTREAM", "name": "streams"}]
-        }');
+        DBMS_CLOUD_AI.CREATE_PROFILE(
+            profile_name => 'WEBINAR_COHERE_PROF',
+            attributes =>
+                '{"provider": "cohere",
+                "credential_name": "WEBINAR_COHERE_CRED",
+                "model":"command",
+                "object_list": [{"owner": "MOVIESTREAM", "name": "movies"},
+                                {"owner": "MOVIESTREAM", "name": "streams"},
+                                {"owner": "MOVIESTREAM", "name": "customer_extension"},
+                                {"owner": "MOVIESTREAM", "name": "pizza_shop"},
+                                {"owner": "MOVIESTREAM", "name": "actors"},
+                                {"owner": "MOVIESTREAM", "name": "genre"},
+                                {"owner": "MOVIESTREAM", "name": "customer_segment"},
+                                {"owner": "MOVIESTREAM", "name": "customer_contact"}]
+                }'
+        );
     END;
-    /    
+    /
     </copy>
     ```
 
@@ -225,8 +226,15 @@ For more details on running **Select AI** statements, see the following document
     ```
     <copy>
     select ai runsql What movies are tom hanks in
+
+    select ai what are our total streams for each tom hanks movie -- counts looks off
+    select ai showsql what are our total streams for each tom hanks movie 
+
+    select ai count streams for each tom hanks movie 
+    select ai showsql count streams for each tom hanks movie 
+
     select ai list the stream count by movies
-    select ai list the stream count by actor
+    select ai list the stream count by actor -- does not work
     select ai how many customers are there
     </copy>
     ```
