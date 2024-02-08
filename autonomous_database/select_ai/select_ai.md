@@ -17,17 +17,114 @@ We'll show you
 * Tips for improving response accuracy
 * Select AI as an APEX Application
 
-## Webcast Replays
+###  Replay of this Cloud Coaching Event
 
+**COMING SOON**
+
+## Upcoming Webcasts, Replays
+
+### Upcoming Webcasts
+
+* [Learn How to Easily Load, Analyze and Visualize Data](http://tinyurl.com/ycahnzxt)
+    * February 29, 2024 | 12:00 p.m. ET | Duration: 90 mins
+    * Live Demo. Deeper and faster insights from data with Oracle ADB, Analytics and Auto ML.
+    * Learn how Oracle simplifies advanced analytics and AI/ML leveraging Oracle Autonomous Database (ADB) and Oracle Analytics Cloud (OAC).
+
+### Replays
 * [Chat with your data. Autonomous Database speaks human.](https://go.oracle.com/LP=139057?elqCampaignId=508924#On-Demand-Webinars)
     * Attend this 60-minute session to learn how easy it is to use Autonomous Database Select AI, which surfaces the latest in Generative AI capabilities that are revolutionizing the way we interact with data.
     * Oracle LiveLabs Workshop - [Chat with Your Data in Autonomous Database Using Generative AI](https://apexapps.oracle.com/pls/apex/f?p=133:180:8657447273761::::wid:3831)
+
+* [Gain business insights instantly. Just ask your database](https://go.oracle.com/LP=139057?elqCampaignId=508924#On-Demand-Webinars)
+    * Use natural language to analyze your data using Select AI and GenAI.
+
+* [Streamline developing RESTful web services that support natural language queries](bit.ly/adb-learning-lounge)
+    * Learn how to develop a RESTful web service that allows any tool or application to get answers from natural language questions.
+
+## Continue Your Select AI Journey
+
+* [Oracle LiveLab. Chat with Your Data in Autonomous Database Using Generative AI](http://tinyurl.com/a7j3kmtb)
+
+* [Get Started with Autonomous Database , Try it for free. Watch demos. Learn with self-service workshops.](http://tinyurl.com/ymmxpp9f)
+
+* [Explore AI Services. Prebuilt ML Models make it easier to apply AI to applications and business operations.](http://tinyurl.com/mz2wps2y)
 
 ## Documentation Links
 
 * [Select AI for ADB](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/sql-generation-ai-autonomous.html)
 
 * [Using Oracle Autonomous Database Serverless](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/index.html)
+
+## MOVIESTREAM Demo Data
+
+The Moviestream data leveraged for this Cloud Coaching event was sourced from the below Oracle LiveLabs Workshop listed in **item 1**.  The LiveLabs Workshop leverages an Oracle Resource Manager (ORM) Stack which deploys a new Autonomous Database Instance on Shared Infrastructure (ADB-S).  If you prefer to load only the data into an existing ADB-S Shared Intance, reference **item 2** below.
+
+1. Oracle LiveLabs Workshop - Lab 1 - [Chat with Your Data in Autonomous Database Using Generative AI](https://apexapps.oracle.com/pls/apex/f?p=133:180:8657447273761::::wid:3831)  
+
+2.  The below PL/SQL Code will deploy only the Moviestream data.  The first code block should be executed as the user **ADMIN** in your ADB-S instance and will create the objects required for the second code block.  The second code block should be executed as the **MOVIESTREAM** user/schema.
+
+    **STEP 1: Execute the below PL/SQL as the user ADMIN**
+
+    ```
+    <copy>
+    -- **Copyright © 2023, Oracle and/or its affiliates.
+    -- **All rights reserved. Licensed under the Universal Permissive License (UPL), Version 1.0 as shown at https://oss.oracle.com/licenses/upl.
+
+    -- **Connect to ADB as ADMIN To install the database objects required for the demo.**
+
+    -- This will create the following objects 
+    --      Table:          WORKSHOP_LOG
+    --      External Table: EXT_DATASETS
+    --      View:           WORKSHOP_DATASETS
+    --      Package:        WORKSHOP   
+
+    declare 
+        l_uri varchar2(500) := 'https://objectstorage.us-ashburn-1.oraclecloud.com/n/c4u04/b/building_blocks_utilities/o/setup/workshop-setup.sql';
+    begin
+        dbms_cloud_repo.install_sql(
+            content => to_clob(dbms_cloud.get_object(object_uri => l_uri))
+        );
+    end;
+    /
+
+    -- ** ENTER THE DESIRED PASSWORD **
+    -- Add the MOVIESTREAM  user
+    begin
+        workshop.write('Begin demo install');
+        workshop.write('add user MOVIESTREAM', 1);
+        workshop.add_adb_user('MOVIESTREAM','{enter_password}');
+        
+        ords_admin.enable_schema (
+            p_enabled               => TRUE,
+            p_schema                => 'MOVIESTREAM',
+            p_url_mapping_type      => 'BASE_PATH',
+            p_auto_rest_auth        => TRUE   
+        );    
+        
+    end;
+    /
+    </copy>
+    ```
+    
+    **STEP 2: Execute the below PL/SQL as the user MOVIESTREAM**
+    
+    ```
+    <copy>
+    -- **Copyright © 2023, Oracle and/or its affiliates.
+    -- **All rights reserved. Licensed under the Universal Permissive License (UPL), Version 1.0 as shown at https://oss.oracle.com/licenses/upl.
+
+        -- Tables will be installed in the current schema
+        -- Connect as the MOVIESTREAM user
+
+    begin
+        workshop.add_dataset 
+            (tag => 'gen-ai',
+            run_post_load_procedures => true
+            );   
+    end;
+    /
+    </copy>
+    ```
 
 ## Task 1: Configuration
 
@@ -261,6 +358,10 @@ For more details on running **Select AI** statements, see the following document
 
     ```
     <copy>
+    -- profile for moviestream relational tables
+    -- removed similar/redundant customer_contacts and customer_extensions tables
+    -- object list can be a database schema with thousands of tables - this can generate and/or exceed token limits very quickly and consume a lot of resources - be careful!
+    -- On the topic of tokens, prompt design should consider token behaviour (https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them)    
     BEGIN
     dbms_cloud_ai.create_profile(
         profile_name => 'OPENAI_MOVIE',
