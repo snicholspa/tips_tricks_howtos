@@ -17,9 +17,7 @@ We'll show you
 * Tips for improving response accuracy
 * Select AI as an APEX Application
 
-###  Replay of this Cloud Coaching Event
-
-**COMING SOON**
+[Introducing Select AI Recording](youtube:19Ms3I7TaAU)
 
 ## Upcoming Webcasts, Replays
 
