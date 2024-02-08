@@ -36,7 +36,7 @@ We'll show you
 * [Gain business insights instantly. Just ask your database](https://go.oracle.com/LP=139057?elqCampaignId=508924#On-Demand-Webinars)
     * Use natural language to analyze your data using Select AI and GenAI.
 
-* [Streamline developing RESTful web services that support natural language queries](bit.ly/adb-learning-lounge)
+* [Streamline developing RESTful web services that support natural language queries](https://bit.ly/adb-learning-lounge)
     * Learn how to develop a RESTful web service that allows any tool or application to get answers from natural language questions.
 
 ## Continue Your Select AI Journey
