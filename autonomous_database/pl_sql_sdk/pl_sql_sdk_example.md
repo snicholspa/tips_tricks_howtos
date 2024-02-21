@@ -2,6 +2,8 @@
 
 PL/SQL SDK for OCI 
 
+[Introducing PL/SQL Recording](youtube:1mye241dtUo)
+
 ## **Documentation Links**
 
 **OCI SDKs:** <https://docs.oracle.com/en-us/iaas/Content/API/Concepts/sdks.htm>
