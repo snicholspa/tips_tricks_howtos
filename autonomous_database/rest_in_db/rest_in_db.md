@@ -266,7 +266,7 @@ We'll show you
     </copy>
     ```
 
-## Task 4: REST in OAC and OCI Data Integration
+## Task 4: REST with OCI Services 
 
 ## Acknowledgements
   * **Authors:** Steven Nichols and Derrick Cameron, Master Principal Cloud Architects
