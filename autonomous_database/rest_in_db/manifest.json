@@ -1,0 +1,11 @@
+{
+    "workshoptitle": "REST API fundamentals",
+    "help": "",
+	"tutorials": [
+        {
+            "title": "REST API fundamentals",
+	    "description":"Leveraging REST in OCI",
+            "filename":"https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/rest_in_db/rest_in_db.md"
+        }
+    ]
+}
