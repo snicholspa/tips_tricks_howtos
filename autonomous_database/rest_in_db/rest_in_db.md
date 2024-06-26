@@ -22,7 +22,7 @@ We'll show you
 
 * [OCI REST APIs](https://docs.oracle.com/en-us/iaas/api/)
 
-* [OAC REST APIs](https://docs.oracle.com/en/cloud/paas/analytics-cloud/acapi/quick-start.html)
+* [UTL_HTTP](https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/UTL_HTTP.html)
 
 * [DBMS_CLOUD](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-package.html)
 
@@ -82,7 +82,7 @@ We'll show you
     </copy>
     ```
 
-## Task 3: REST in Autonomous Database using DBMS\_CLOUD.SEND\_REQUEST
+## Task 3: REST in Autonomous Database using DBMS_CLOUD.SEND_REQUEST
  
 1. OAC REST Function and SQL Statement 
 
@@ -267,6 +267,26 @@ We'll show you
     ```
 
 ## Task 4: REST with OCI Services 
+
+1. OAC REST Example
+
+* [REST API Connection](https://docs.oracle.com/en/cloud/paas/analytics-cloud/acsds/create-connection-data-source-rest-endpoints.html)
+
+* [OAC REST APIs](https://docs.oracle.com/en/cloud/paas/analytics-cloud/acapi/quick-start.html)
+
+2. APEX REST Example
+
+* [Managing REST Data Sources](https://docs.oracle.com/en/database/oracle/apex/23.1/htmdb/managing-REST-data-sources.html)
+
+3. ODA REST Example
+
+* [Access Backends Using REST](https://docs.oracle.com/en/cloud/paas/digital-assistant/use-chatbot/access-backends-using-rest-service-component.html)
+
+4. OCI Data Integration
+
+* [Generic REST Data Asset](https://docs.oracle.com/en-us/iaas/data-integration/using/createda-rest.htm#createda-rest)
+
+* [Working with REST Tasks](https://docs.oracle.com/en-us/iaas/data-integration/using/rest-tasks.htm)
 
 ## Acknowledgements
   * **Authors:** Steven Nichols and Derrick Cameron, Master Principal Cloud Architects
