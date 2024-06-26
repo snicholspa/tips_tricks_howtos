@@ -82,7 +82,7 @@ We'll show you
     </copy>
     ```
 
-## Task 3: REST in Autonomous Database using DBMS_CLOUD.SEND_REQUEST
+## Task 3: REST in Autonomous Database using DBMS CLOUD
  
 1. OAC REST Function and SQL Statement 
 
