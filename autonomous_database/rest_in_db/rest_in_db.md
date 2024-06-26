@@ -270,23 +270,23 @@ We'll show you
 
 1. OAC REST Example
 
-* [REST API Connection](https://docs.oracle.com/en/cloud/paas/analytics-cloud/acsds/create-connection-data-source-rest-endpoints.html)
+	* [REST API Connection](https://docs.oracle.com/en/cloud/paas/analytics-cloud/acsds/create-connection-data-source-rest-endpoints.html)
 
-* [OAC REST APIs](https://docs.oracle.com/en/cloud/paas/analytics-cloud/acapi/quick-start.html)
+	* [OAC REST APIs](https://docs.oracle.com/en/cloud/paas/analytics-cloud/acapi/quick-start.html)
 
 2. APEX REST Example
 
-* [Managing REST Data Sources](https://docs.oracle.com/en/database/oracle/apex/23.1/htmdb/managing-REST-data-sources.html)
+	* [Managing REST Data Sources](https://docs.oracle.com/en/database/oracle/apex/23.1/htmdb/managing-REST-data-sources.html)
 
 3. ODA REST Example
 
-* [Access Backends Using REST](https://docs.oracle.com/en/cloud/paas/digital-assistant/use-chatbot/access-backends-using-rest-service-component.html)
+	* [Access Backends Using REST](https://docs.oracle.com/en/cloud/paas/digital-assistant/use-chatbot/access-backends-using-rest-service-component.html)
 
 4. OCI Data Integration
 
-* [Generic REST Data Asset](https://docs.oracle.com/en-us/iaas/data-integration/using/createda-rest.htm#createda-rest)
+	* [Generic REST Data Asset](https://docs.oracle.com/en-us/iaas/data-integration/using/createda-rest.htm#createda-rest)
 
-* [Working with REST Tasks](https://docs.oracle.com/en-us/iaas/data-integration/using/rest-tasks.htm)
+	* [Working with REST Tasks](https://docs.oracle.com/en-us/iaas/data-integration/using/rest-tasks.htm)
 
 ## Acknowledgements
   * **Authors:** Steven Nichols and Derrick Cameron, Master Principal Cloud Architects
