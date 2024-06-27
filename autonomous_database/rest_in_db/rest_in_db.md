@@ -14,9 +14,37 @@ We'll show you
 * Command Line Execution of REST using curl
 * Autonomous Database support for REST via utl_http and DBMS\_CLOUD.SEND\_REQUEST
 * Leveraging REST for OCI Generative AI Services with LLMs
-* REST Data Sources in OAC, Data Integration – An Example
+* REST Data Sources in OAC, APEX, ODA, OCI-DI – An Example
 
-[Mastering REST APIs](youtube:19Ms3I7TaAU)
+[Mastering REST APIs](youtube:Ukm8LwYdMnQ)
+
+## Cloud Coaching Webinar Playlist and Notable Past Webinars
+
+1. Cloud Coaching YouTube Playlist
+
+	* [Code Innovate Cloud Coaching Playlist](https://www.youtube.com/playlist?list=PLPIzp-E1msrZMCfSHbKgLK3KWsNM9JB9a)
+
+2. JSON Data Manipulation using JSON_TABLE
+
+	* [Extracting value and managing the lifecycle of JSON data with Oracle Cloud Infrastructure](https://youtu.be/BHNz2lEq2IA?si=TEK1UeHONj_XFI0z)
+	
+3. APEX and Gen AI
+
+	* [Unlocking Oracle APEX Potential: Integrating Generative AI and Streamlining Workflows](https://youtu.be/ZJ491y7oils?si=jH4h5VHZ9WfC_o-U)
+
+4. Digital Assistant and Gen AI
+
+	* [Integrating Large Language Models with Oracle Digital Assistant](https://youtu.be/JO4BDWdW6OE?si=rW8sMTLreU5jgmhL)
+
+	* [Conversational AI: Harnessing Generative AI with Oracle Digital Assistant](https://youtu.be/LvL-Omki8xo?si=lQEwoTtrJrI6QC54)
+
+5. Introduction to Select AI
+
+	* [Introducing Select AI - A new way to talk to and converse with your Oracle Autonomous Database](https://youtu.be/19Ms3I7TaAU?si=iIQ8kFxgm-IBX5kJ)
+
+6. PL//SQL SDK for OCI
+
+	* [Connecting Cloud and Database: Unleashing Possibilities with PL/SQL SDK](https://youtu.be/1mye241dtUo?si=WtzGpo9hoMhdBkKQ)
 
 ## Documentation Links
 
@@ -81,6 +109,147 @@ We'll show you
 		json_table(get_oac_item_types_http('{oac_instance_name}','{oac_username}','{oac_password}'), '$[*]' columns (type varchar)) j;
     </copy>
     ```
+
+2. OAC REST Package, Package Body and SQL Statement
+
+    ```
+    <copy>
+	create or replace PACKAGE cr_oacactions AS
+	  g_request 	utl_http.req;
+	  g_response 	utl_http.resp;
+	  g_buffer 	long;
+	  g_json_string clob;
+	PROCEDURE requesttype;
+	PROCEDURE get_workbooks;
+	FUNCTION get_workbooks_fn return varchar2 deterministic;
+	PROCEDURE cr_folder(p_string in varchar2);
+	PROCEDURE get_workbook_acl;
+	PROCEDURE cr_snapshot;
+	PROCEDURE get_job_status(p_string in varchar2);
+	FUNCTION encode_string(p_string in varchar2) return varchar2 deterministic ;
+	FUNCTION decode_string(p_string in varchar2) return varchar2 deterministic ;
+	END cr_oacactions;
+    </copy>
+    ```
+
+    ```
+    <copy>
+	create or replace PACKAGE BODY cr_oacactions AS
+	------------------------------------------------------
+	PROCEDURE requesttype as
+	BEGIN
+	-- set up headers
+	  utl_http.set_header(g_request,'Content-Type','application/json');
+	  utl_http.set_header(g_request,'Accept','application/json');
+	-- authentication
+	  utl_http.set_authentication(g_request,get_secret('IDCS User'),get_secret('IDCS Password'));
+	-- send request
+	  utl_http.write_text(g_request,g_json_string);
+	  g_response := utl_http.get_response(g_request);
+	-- read response
+	  utl_http.read_text(g_response,g_buffer);
+	--output response
+	  dbms_output.put_line ('g_json_string: '||g_json_string);
+	  dbms_output.put_line ('g_buffer: '||g_buffer);
+	-- close http request
+	  utl_http.end_response(g_response);
+
+	END requesttype;
+	------------------------------------------------------
+	PROCEDURE cr_snapshot as -- note g_json_string length set to pass data, others set to 0
+	BEGIN
+	  g_json_string := get_secret('Snapshot String');
+	  g_request := utl_http.begin_request('https://{oac_instance_name}.analytics.ocp.oraclecloud.com/api/20210901/snapshots','POST','HTTP/1.1');
+	  utl_http.set_header(g_request,'Content-Length', length(g_json_string));
+	  requesttype;
+	  insert into oac_api values(sysdate, 'cr_snapshot', g_json_string, g_buffer);
+	  commit;
+	END;
+	------------------------------------------------------
+	PROCEDURE get_job_status  (p_string in varchar2) as
+	BEGIN
+	  g_request := utl_http.begin_request('https://{oac_instance_name}.analytics.ocp.oraclecloud.com/api/20210901/workRequests/'||p_string,'GET','HTTP/1.1');
+	  utl_http.set_header(g_request,'Content-Length',0);
+	  requesttype;
+	  insert into oac_api values(sysdate, 'get_job_status', g_json_string, g_buffer);
+	  commit;
+	END;
+	------------------------------------------------------
+	PROCEDURE get_workbooks as
+	BEGIN
+	  g_request := utl_http.begin_request('https://{oac_instance_name}.analytics.ocp.oraclecloud.com/api/20210901/catalog/workbooks?search=*','GET','HTTP/1.1');
+	  utl_http.set_header(g_request,'Content-Length',0);
+	  requesttype;
+	  insert into oac_api values(sysdate, 'get_workbooks', g_json_string, g_buffer);
+	  commit;
+	END;
+	------------------------------------------------------
+	PROCEDURE cr_folder (p_string in varchar2) as
+	v_encode varchar2(4000);
+	BEGIN
+	  select encode_string(p_string) into v_encode from dual;
+	  g_request := utl_http.begin_request('https://{oac_instance_name}.analytics.ocp.oraclecloud.com/api/20210901/catalog/folders/'||v_encode,'PUT','HTTP/1.1');
+	  utl_http.set_header(g_request,'Content-Length',0);
+	  requesttype;
+	  insert into oac_api values(sysdate, 'cr_folder', g_json_string, g_buffer);
+	  commit;
+	END;
+	------------------------------------------------------
+	PROCEDURE get_workbook_acl as
+	BEGIN
+	  g_request := utl_http.begin_request('https://{oac_instance_name}.analytics.ocp.oraclecloud.com/api/20210901/catalog/workbooks/{workbook_id}/actions/getACL','POST','HTTP/1.1');
+	  requesttype;
+	  insert into oac_api values(sysdate, 'get_workbook', g_json_string, g_buffer);
+	  commit;
+	END;
+	------------------------------------------------------
+	FUNCTION get_workbooks_fn return varchar2 deterministic IS
+	BEGIN
+	  g_request := utl_http.begin_request('https://{oac_instance_name}.analytics.ocp.oraclecloud.com/api/20210901/catalog/workbooks?search=*','GET','HTTP/1.1');
+	  utl_http.set_header(g_request,'Content-Length',0);
+	  requesttype;
+	  RETURN g_buffer;
+	END;
+	------------------------------------------------------
+	FUNCTION encode_string(p_string in varchar2) return varchar2 deterministic IS
+	BEGIN
+	RETURN utl_encode.text_encode(p_string,'WE8ISO8859P1',UTL_ENCODE.BASE64);
+	END;
+	------------------------------------------------------
+	FUNCTION decode_string(p_string in varchar2) return varchar2 deterministic IS
+	BEGIN
+	RETURN utl_encode.text_decode(p_string,'WE8ISO8859P1',UTL_ENCODE.BASE64);
+	END;
+	------------------------------------------------------
+	end cr_oacactions;
+    </copy>
+    ```
+
+    ```
+    <copy>
+	select
+	jt.owner
+	, jt.name
+	, jt.description
+	, jt.id
+	, jt.lastmodified
+	, jt.type
+	, jt.parentid
+	, cr_oacactions.decode_string(JT.id) workbook_path
+	FROM (select cr_oacactions.get_workbooks_fn g_buffer from dual) RT, 
+	JSON_TABLE("G_BUFFER" FORMAT JSON, '$' 
+	COLUMNS 
+	NESTED PATH '$[*]' COLUMNS (
+		owner       varchar2(100) path '$.owner',
+		name        varchar2(100) path '$.name',
+		description varchar2(100) path '$.description',
+		id          varchar2(100) path '$.id',
+		lastmodified varchar2(100) path '$.lastModified',
+		type        varchar2(100) path '$.type',
+		parentid    varchar2(100) path '$.parentId')
+	) JT;
+    </copy>
+    ```	
 
 ## Task 3: REST in Autonomous Database using DBMS CLOUD
  
@@ -231,7 +400,7 @@ We'll show you
 	select object_name, bytes, DBMS_CLOUD.GET_OBJECT(
 		 credential_name => '{aws_cred}',
 		 object_uri => 'https://{aws_bucket_name}.s3.{aws_region}.amazonaws.com/' || object_name) as image
-	from dbms_cloud.list_objects('AWSCRED', 'https://{aws_bucket_name}.s3.{aws_region}.amazonaws.com/');	
+	from dbms_cloud.list_objects('{aws_cred}', 'https://{aws_bucket_name}.s3.{aws_region}.amazonaws.com/');	
     </copy>
     ```	
 
@@ -271,8 +440,24 @@ We'll show you
 1. OAC REST Example
 
 	* [REST API Connection](https://docs.oracle.com/en/cloud/paas/analytics-cloud/acsds/create-connection-data-source-rest-endpoints.html)
-
 	* [OAC REST APIs](https://docs.oracle.com/en/cloud/paas/analytics-cloud/acapi/quick-start.html)
+	
+    ```
+    <copy>
+	{
+		"name": "OAC API Connection",
+		"description": "OAC API Connection",
+		"baseURL": "https://{oac_instance_name}.analytics.ocp.oraclecloud.com",
+		"endpoints":{
+			"Workbooks": "/api/20210901/catalog/workbooks?search=*",
+			"Datasets": "/api/20210901/catalog/datasets?search=*"
+		},
+		"authentication": {
+			"type": "BasicAuth"
+		}
+	}
+    </copy>
+    ```
 
 2. APEX REST Example
 
@@ -285,12 +470,11 @@ We'll show you
 4. OCI Data Integration
 
 	* [Generic REST Data Asset](https://docs.oracle.com/en-us/iaas/data-integration/using/createda-rest.htm#createda-rest)
-
 	* [Working with REST Tasks](https://docs.oracle.com/en-us/iaas/data-integration/using/rest-tasks.htm)
 
 ## Acknowledgements
   * **Authors:** Steven Nichols and Derrick Cameron, Master Principal Cloud Architects
-  * **Last Updated By/Date:** Steven Nichols, June 25, 2024
+  * **Last Updated By/Date:** Steven Nichols, June 27, 2024
 
 Copyright (C)  Oracle Corporation.
 
