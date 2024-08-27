@@ -5,6 +5,7 @@
 1.  [PL/SQL SDK for OCI](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/pl_sql_sdk/)
 2.  [Select AI for ADB-S](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai/)
 3.  [REST in ADB-S](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/rest_in_db/)
+4.  [23ai Vector Search](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/vector_search/)
 
 ## Analytics
 
