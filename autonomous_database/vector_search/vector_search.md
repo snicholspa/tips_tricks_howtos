@@ -741,9 +741,9 @@ As the user **VECTOR**, issue the below SQL Code.
 
 The APEX Application and Plugin Files are available from the below links.  You can import them into an existing APEX Workspace based off of the **vector** schema/user.
 
-* [APEX Application]()
+* [APEX Application](https://github.com/snicholspa/tips_tricks_howtos/blob/main/autonomous_database/vector_search/files/f101_legislation.zip)
 
-* [APEX Plugin Files]()
+* [APEX Plugin Files](https://github.com/snicholspa/tips_tricks_howtos/blob/main/autonomous_database/vector_search/files/plugin_files.zip)
 
 Below are a couple links covering the new AI Powered APEX Assistant.
 
