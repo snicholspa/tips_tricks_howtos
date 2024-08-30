@@ -739,6 +739,14 @@ As the user **VECTOR**, issue the below SQL Code.
 
 ## Task 10: Demonstrate OCI Gen AI with APEX
 
+The APEX Application and Plugin Files are available from the below links.  You can import them into an existing APEX Workspace based off of the **vector** schema/user.
+
+* [APEX Application]()
+
+* [APEX Plugin Files]()
+
+Below are a couple links covering the new AI Powered APEX Assistant.
+
 * [Using APEX Assistant](https://docs.oracle.com/en/database/oracle/apex/24.1/htmdb/using-apex-assistant.html)
 
 * [Coding with the AI Powered APEX Assistant](https://blogs.oracle.com/apex/post/coding-with-the-ai-powered-apex-assistant-on-oracle-apex)
