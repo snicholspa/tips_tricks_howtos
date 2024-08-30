@@ -120,7 +120,7 @@ As the user **VECTOR**, issue the below PL/SQL Code.
     <copy>
 	BEGIN
 	   DBMS_CLOUD.CREATE_CREDENTIAL (
-		   credential_name => {enter_credential_name}',
+		   credential_name => '{enter_credential_name}',
 		   user_ocid       => 'ocid1.user.oc1......',
 		   tenancy_ocid    => 'ocid1.tenancy.oc1......',
 		   private_key     => '-----BEGIN PRIVATE KEY-----
@@ -242,6 +242,10 @@ As the user **VECTOR**, issue the below SQL Code.
     ```
 
 ## Task 5: Load Documents
+
+You can load your own PDFs into Object Storage if you like.  If you would like to leveage the PDFs leveraged in this demonstration, below is the link to the **HB 9** PSFs from Texas Legislature.
+
+[HB 9 PDFs](https://www.legis.texas.gov/BillLookup/Text.aspx?LegSess=872&Bill=HB9)
 
 1. Load PDF Files from OCI Object Storage
 
