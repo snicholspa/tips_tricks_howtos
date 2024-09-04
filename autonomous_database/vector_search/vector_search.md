@@ -577,7 +577,7 @@ You can load your own PDFs into Object Storage if you like.  If you would like t
     </copy>
     ```
 
-5. Create Function for use in APEX Application
+5. Create Function for use in SQL Developer or SQLPLUS Client
 
     ```
     <copy>
@@ -703,7 +703,7 @@ You can load your own PDFs into Object Storage if you like.  If you would like t
     </copy>
     ```
 
-6. Create Function for use in SQL Developer (SQLPLUS) Client 
+6. Create Function for use in the APEX Application
 
     ```
     <copy>
