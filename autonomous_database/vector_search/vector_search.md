@@ -16,7 +16,7 @@ We'll show you
 * End to End Walk through of a Generative AI Pipeline Using SQL
 * Building a Vector Search Application with APEX
 
-[Vector Search and Generative AI](youtube:xxxxxxx)
+[Vector Search and Generative AI](youtube:2fmoNZzqLOk)
 
 ## Documentation Links
 
