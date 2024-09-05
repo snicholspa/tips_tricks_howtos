@@ -861,11 +861,9 @@ You can load your own PDFs into Object Storage if you like.  If you would like t
 
 ## Task 10: Demonstrate OCI Gen AI with APEX
 
-The APEX Application and Plugin Files are available from the below links.  You can import them into an existing APEX Workspace based off of the **vector** schema/user.
+The APEX Application is available from the below links.  You can import the app into an existing APEX Workspace based off of the **vector** schema/user.
 
-* [APEX Application](https://github.com/snicholspa/tips_tricks_howtos/blob/main/autonomous_database/vector_search/files/f101_legislation.zip)
-
-* [APEX Plugin Files](https://github.com/snicholspa/tips_tricks_howtos/blob/main/autonomous_database/vector_search/files/plugin_files.zip)
+* [APEX Application](https://github.com/snicholspa/tips_tricks_howtos/blob/main/autonomous_database/vector_search/files/apex_application.zip)
 
 Below are a couple links covering the new AI Powered APEX Assistant.
 
