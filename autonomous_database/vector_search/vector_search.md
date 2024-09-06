@@ -62,12 +62,14 @@ We'll show you
 
 As the user **ADMIN**, issue the below SQL Statements
 
-1.  Create Database User
+1.  Create Database User and Initial Grants
 
     ```
     <copy>
 	create user vector identified by "{password}";
 	grant dwrole to vector;
+	grant unlimited tablespace to vector;
+	grant create job to vector;
     </copy>
     ```
 
