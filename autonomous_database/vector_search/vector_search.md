@@ -656,7 +656,7 @@ You can load your own PDFs into Object Storage if you like.  If you would like t
 	end;
 
 	v_resp := dbms_cloud.send_request(
-	credential_name => v_ociapi_credential,
+	credential_name => v_vector_credential,
 	uri => v_gen_ai_endpoint || v_chat_endpoint,
 	method => dbms_cloud.method_post,
 	body => utl_raw.cast_to_raw(json_object(
