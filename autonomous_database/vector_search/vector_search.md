@@ -18,6 +18,19 @@ We'll show you
 
 [Vector Search and Generative AI](youtube:2fmoNZzqLOk)
 
+## New to the OCI Generative AI Service
+
+Please reference the below links for more information on Oracle's Artificial Intelligence (AI) and Generative AI Offerings.
+
+* [Artificial Intelligence (AI)](https://www.oracle.com/artificial-intelligence/)
+
+* [Generative AI capabilities](https://www.oracle.com/artificial-intelligence/generative-ai/)
+
+* [Generative AI Service](https://www.oracle.com/artificial-intelligence/generative-ai/generative-ai-service/)
+
+* [Pretrained Foundational Models](https://docs.oracle.com/en-us/iaas/Content/generative-ai/pretrained-models.htm)
+
+
 ## Documentation Links
 
 * [Oracle AI Vector Search User's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/23/vecse/index.html)
@@ -58,11 +71,34 @@ We'll show you
 
 	* [Master REST APIs: The Universal Integration Tool in AI and Beyond](https://youtu.be/Ukm8LwYdMnQ?si=Dj2Ak1WrtAlI15Ko)
 
+## Task 0: Verify Access to OCI Gen AI Service *** PLEASE READ ***
+
+The OCI Gen AI Service is currenly available in specific OCI Regions.  If you currently are **NOT** subscribed to one of those regions, you must do so to access the OCI Gen AI Service and leverage the pretrained models hosted by the service.  You must also ensure the identity domain is being replicated to the region where you plan to access the OCI Gen AI Services.  Lastly, you will also need to setup IAM Policies so the users can access the OCI Gen AI Service.  Please see the links below for all those details.
+
+1. OCI Gen AI Service availabilty
+
+	* [Regions with Generative AI](https://docs.oracle.com/en-us/iaas/Content/generative-ai/overview.htm#regions)
+
+2. Managing and Subscribing to a Region (optional)
+
+	* [Managing Regions](https://docs.oracle.com/en-us/iaas/Content/Identity/regions/managingregions.htm)
+
+	* [Subscribing to an Infrastructure Region](https://docs.oracle.com/en-us/iaas/Content/Identity/regions/To_subscribe_to_an_infrastructure_region.htm#subscribe)
+	
+3. Enable Replicating an Identity Domain to Multiple Regions (optional based on step 2)
+
+	* [Replicating an Identity Domain to Multiple Regions](https://docs.oracle.com/en-us/iaas/Content/Identity/domains/to-manage-regions-for-domains.htm)
+
+4. Setup IAM Policies to Access the OCI Gen AI resources
+
+	* [Getting Access to Generative AI](https://docs.oracle.com/en-us/iaas/Content/generative-ai/iam-policies.htm)
+
+
 ## Task 1: Create Database User with Grants
 
 As the user **ADMIN**, issue the below SQL Statements
 
-1.  Create Database User and Initial Grants
+1. Create Database User and Initial Grants
 
     ```
     <copy>
@@ -73,7 +109,7 @@ As the user **ADMIN**, issue the below SQL Statements
     </copy>
     ```
 
-2.  Grant Database User Access to DBMS Packages
+2. Grant Database User Access to DBMS Packages
 
     ```
     <copy>
@@ -273,19 +309,20 @@ You can load your own PDFs into Object Storage if you like.  If you would like t
 	
 ## Task 6: Load ONXX Models (optional)
 
+More details on how-to leverage ONXX Models can be found below.
+
+* [Import Pretrained Models in ONNX Format for Vector Generation Within the Database](https://docs.oracle.com/en/database/oracle/oracle-database/23/vecse/import-pretrained-models-onnx-format-vector-generation-database.html)
+
+Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, available to download directly to the database using DBMS_VECTOR.LOAD_ONNX_MODEL.  Please reference the below link to download the **all-MiniLM-L12-v2** model.
+
+* [Convert Pretrained Models to ONNX Format](https://docs.oracle.com/en/database/oracle/oracle-database/23/vecse/convert-trained-models-onnx-format.html
+)
+
+
 1. Copy ONXX Models from OCI Object Storage to Oracle Database Directory
 
     ```
     <copy>
-	begin
-	dbms_cloud.get_object(
-		credential_name => '{oci_cred_from_Task_3_1}',
-		object_uri => 'https://objectstorage.{region}.oraclecloud.com/n/{namespace}/b/{bucket_name}/o/tinybert.onnx',
-		directory_name => 'data_pump_dir'
-		);
-	end;
-	/
-
 	begin
 	dbms_cloud.get_object(
 		credential_name => '{oci_cred_from_Task_3_1}',
@@ -301,14 +338,21 @@ You can load your own PDFs into Object Storage if you like.  If you would like t
 
     ```
     <copy>
-	exec DBMS_VECTOR.LOAD_ONNX_MODEL('data_pump_dir','tinybert.onnx','TINYBERT_MODEL',json('{"function":"embedding","embeddingOutput":"embedding",'||'"input":{"input":["DATA"]}}'));
-	
 	exec DBMS_VECTOR.LOAD_ONNX_MODEL('data_pump_dir','all-MiniLM-L6-v2.onnx','All_MINILM_L6V2MODEL',JSON('{"function" : "embedding",'||'"input":{"input":["DATA"]}}'));	
     </copy>
     ```
 
+3. Chunks to Vectors (embeddings) using an ONXX Model 
+
     ```
     <copy>
+	-- embedding query using ONXX model
+	select chunk_txt, dbms_vector_chain.utl_to_embedding(l.chunk_txt, json('{
+	  "provider": "database",
+      "model": "All_MINILM_L6V2MODEL"
+	}')) embed_vector
+	from legislation_vector l
+	where rownum < 11;	
     </copy>
     ```
 
@@ -388,6 +432,8 @@ You can load your own PDFs into Object Storage if you like.  If you would like t
 
 3. Chunks to Vectors (embeddings)
 
+	This example leverages the **OCIGenAI** provider and the **Cohere** embedding model
+
     ```
     <copy>
 	-- embedding query
@@ -397,6 +443,20 @@ You can load your own PDFs into Object Storage if you like.  If you would like t
 	  "url": "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/20231130/actions/embedText",
 	  "model": "cohere.embed-english-v3.0",
 	  "batch_size":10
+	}')) embed_vector
+	from legislation_vector l
+	where rownum < 11;
+    </copy>
+    ```
+
+	This example leverages the **database** provider and the ONXX **All_MINILM_L6V2MODEL** embedding model loaded in the **Task 6**
+
+    ```
+    <copy>
+	-- embedding query using ONXX model
+	select chunk_txt, dbms_vector_chain.utl_to_embedding(l.chunk_txt, json('{
+	  "provider": "database",
+      "model": "All_MINILM_L6V2MODEL"
 	}')) embed_vector
 	from legislation_vector l
 	where rownum < 11;
@@ -866,6 +926,10 @@ You can load your own PDFs into Object Storage if you like.  If you would like t
 The APEX Application is available from the below links.  You can import the app into an existing APEX Workspace based off of the **vector** schema/user.
 
 * [APEX Application](https://github.com/snicholspa/tips_tricks_howtos/blob/main/autonomous_database/vector_search/files/apex_application.zip)
+
+Refer to the following YouTube Recording to re-configure (ORDS Setup and Change ORDS URL) the PDF Viewer option on page 16 in the APEX Application hosted in your environment.
+
+[PDF Viewer in Oracle APEX](youtube:PoAl_TA0TxA)
 
 Below are a couple links covering the new AI Powered APEX Assistant.
 
