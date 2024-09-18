@@ -71,7 +71,7 @@ Please reference the below links for more information on Oracle's Artificial Int
 
 	* [Master REST APIs: The Universal Integration Tool in AI and Beyond](https://youtu.be/Ukm8LwYdMnQ?si=Dj2Ak1WrtAlI15Ko)
 
-## Task 0: Verify Access to OCI Gen AI Service *** PLEASE READ ***
+## Task 0: PLEASE READ - Verify Access to OCI Gen AI Service
 
 The OCI Gen AI Service is currenly available in specific OCI Regions.  If you currently are **NOT** subscribed to one of those regions, you must do so to access the OCI Gen AI Service and leverage the pretrained models hosted by the service.  You must also ensure the identity domain is being replicated to the region where you plan to access the OCI Gen AI Services.  Lastly, you will also need to setup IAM Policies so the users can access the OCI Gen AI Service.  Please see the links below for all those details.
 
@@ -313,7 +313,7 @@ More details on how-to leverage ONXX Models can be found below.
 
 * [Import Pretrained Models in ONNX Format for Vector Generation Within the Database](https://docs.oracle.com/en/database/oracle/oracle-database/23/vecse/import-pretrained-models-onnx-format-vector-generation-database.html)
 
-Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, available to download directly to the database using DBMS_VECTOR.LOAD_ONNX_MODEL.  Please reference the below link to download the **all-MiniLM-L12-v2** model.
+Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, available to download directly to the database using DBMS\_VECTOR.LOAD\_ONNX\_MODEL.  Please reference the below link to download the **all-MiniLM-L12-v2** model.
 
 * [Convert Pretrained Models to ONNX Format](https://docs.oracle.com/en/database/oracle/oracle-database/23/vecse/convert-trained-models-onnx-format.html
 )
@@ -449,7 +449,7 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
     </copy>
     ```
 
-	This example leverages the **database** provider and the ONXX **All_MINILM_L6V2MODEL** embedding model loaded in the **Task 6**
+	This example leverages the **database** provider and the ONXX **All\_MINILM\_L6V2MODEL** embedding model loaded in the **Task 6**
 
     ```
     <copy>
