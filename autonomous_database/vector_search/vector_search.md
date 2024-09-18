@@ -148,7 +148,7 @@ As the user **ADMIN**, issue the following PL/SQL Code
     </copy>
     ```
 
-## Task 3: Create Credentials
+## Task 3: Create and Test Credentials
 
 As the user **VECTOR**, issue the below PL/SQL Code.
 
@@ -180,9 +180,65 @@ As the user **VECTOR**, issue the below PL/SQL Code.
     </copy>
     ```
 
-2. Create Credential to Perform Vector Tasks
+2. Test OCI API Credential
+
+	This test connectivity to OCI Object Storage.
+
+    ```
+    <copy>
+	SELECT * FROM DBMS_CLOUD.LIST_OBJECTS('{oci_cred_from_Task_3_1}','https://objectstorage.{region}.oraclecloud.com/n/{namespace}/b/{bucket_name}/o/');
+    </copy>
+    ```
+
+	This test connectivity to OCI Gen AI Service.
+
+    ```
+    <copy>
+	set serveroutput on;
+	DECLARE
+		gen_ai_endpoint varchar2(500) := 'https://inference.generativeai.us-chicago-1.oci.oraclecloud.com';
+		v_compartment_id    varchar2(4000)  := 'ocid1.compartment.oc1......';
+		v_vector_credential varchar2(100)   := '{oci_cred_from_Task_3_1}';
+		v_ai_prompt varchar2(4000) := 'who is Babe Ruth?';
+		resp dbms_cloud_types.RESP;
+	BEGIN
+		resp := dbms_cloud.send_request(
+			credential_name => v_vector_credential,
+			uri => gen_ai_endpoint || '/20231130/actions/generateText',
+			method => dbms_cloud.METHOD_POST,
+			body => UTL_RAW.cast_to_raw(JSON_OBJECT(
+										'compartmentId' value v_compartment_id,
+										'servingMode' value
+											(JSON_OBJECT(
+												'modelId'         value 'cohere.command',
+												'servingType'    value 'ON_DEMAND'
+											)),
+										'inferenceRequest' value 
+											(JSON_OBJECT(
+												'prompt'             value v_ai_prompt,
+												'maxTokens'         value 600,
+												'temperature'        value 1,
+												'frequencyPenalty'    value 0,
+												'presencePenalty'    value 0,
+												'topP'                value 0.75,
+												'topK'                value 0,
+												'returnLikelihoods'    value 'NONE',
+												'isStream'            value false,
+												'runtimeType'        value 'COHERE'
+											))
+									))
+		);
+		dbms_output.put_line(dbms_cloud.get_response_text(resp)); 
+	END;
+	/    
+	</copy>
+    ```
+
+3. Create Credential to Perform Vector Tasks
 
 	For more details, see the [`DBMS_VECTOR.CREATE_CREDENTIAL` Procedure](https://docs.oracle.com/en/database//oracle/oracle-database/23/arpls/dbms_vector1.html#GUID-4BBCBF46-3903-4EBB-8BE8-A7690151CF25) documentation.
+
+	**Note** - You pass the <private key string> value (excluding the BEGIN and END lines), either as a single line or as multiple lines.
 
     ```
     <copy>
@@ -201,6 +257,21 @@ As the user **VECTOR**, issue the below PL/SQL Code.
 		params            => json(jo.to_string));
 	end;
 	/	
+    </copy>
+    ```
+
+4. Test Vector Credential
+
+    ```
+    <copy>
+	select dbms_vector_chain.utl_to_embedding('embed some text', json('{
+	  "provider": "OCIGenAI",
+	  "credential_name": "{oci_cred_from_Task_3_3}",
+	  "url": "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/20231130/actions/embedText",
+	  "model": "cohere.embed-english-v3.0",
+	  "batch_size":10
+	}')) embed_vector
+	from dual;	
     </copy>
     ```
 
@@ -439,7 +510,7 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 	-- embedding query
 	select chunk_txt, dbms_vector_chain.utl_to_embedding(l.chunk_txt, json('{
 	  "provider": "OCIGenAI",
-	  "credential_name": "{oci_cred_from_Task_3_2}",
+	  "credential_name": "{oci_cred_from_Task_3_3}",
 	  "url": "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/20231130/actions/embedText",
 	  "model": "cohere.embed-english-v3.0",
 	  "batch_size":10
@@ -473,7 +544,7 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 	update legislation_vector
 	set embed_vector = dbms_vector.utl_to_embedding(chunk_txt, json('{
 	  "provider": "OCIGenAI",
-	  "credential_name": "{oci_cred_from_Task_3_2}",
+	  "credential_name": "{oci_cred_from_Task_3_3}",
 	  "url": "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/20231130/actions/embedText",
 	  "model": "cohere.embed-english-v3.0",
 	  "batch_size":10
@@ -502,7 +573,7 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 			, replace(json_value(c.column_value, '$.chunk_data'),chr(10),'') as chunk_txt
 			, dbms_vector_chain.utl_to_embedding(json_value(c.column_value, '$.chunk_data'), json('{
 				"provider": "OCIGenAI",
-				"credential_name": "{oci_cred_from_Task_3_2}",
+				"credential_name": "{oci_cred_from_Task_3_3}",
 				"url": "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/20231130/actions/embedText",
 				"model": "cohere.embed-english-v3.0",
 				"batch_size":50
@@ -603,7 +674,7 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 			, replace(json_value(c.column_value, '$.chunk_data'),chr(10),'') as chunk_txt
 			, dbms_vector_chain.utl_to_embedding(json_value(c.column_value, '$.chunk_data'), json('{
 				"provider": "OCIGenAI",
-				"credential_name": "{oci_cred_from_Task_3_2}",
+				"credential_name": "{oci_cred_from_Task_3_3}",
 				"url": "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/20231130/actions/embedText",
 				"model": "cohere.embed-english-v3.0",
 				"batch_size":10
@@ -647,7 +718,7 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 	create or replace function gen_ai_chat_legislation_db (p_ai_message in varchar2) return clob as
 		v_gen_ai_endpoint   varchar2(500)   := 'https://inference.generativeai.us-chicago-1.oci.oraclecloud.com';
 		v_compartment_id    varchar2(4000)  := '{compartment_OCID}';
-		v_vector_credential varchar2(100)   := '{oci_cred_from_Task_3_2}';
+		v_vector_credential varchar2(100)   := '{oci_cred_from_Task_3_3}';
 		v_ociapi_credential varchar2(100)   := '{oci_cred_from_Task_3_1}';
 		v_provider          varchar2(100)   := 'OCIGenAI';
 		v_text_endpoint     varchar2(100)   := '/20231130/actions/embedText';
@@ -772,7 +843,7 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 	create or replace function gen_ai_chat_legislation (p_ai_message in varchar2) return clob as
 		v_gen_ai_endpoint   varchar2(500)   := 'https://inference.generativeai.us-chicago-1.oci.oraclecloud.com';
 		v_compartment_id    varchar2(4000)  := '{compartment_OCID}';
-		v_vector_credential varchar2(100)   := '{oci_cred_from_Task_3_2}';
+		v_vector_credential varchar2(100)   := '{oci_cred_from_Task_3_3}';
 		v_ociapi_credential varchar2(100)   := '{oci_cred_from_Task_3_1}';
 		v_provider          varchar2(100)   := 'OCIGenAI';
 		v_text_endpoint     varchar2(100)   := '/20231130/actions/embedText';
