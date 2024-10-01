@@ -252,6 +252,8 @@ For more details on creating a Profile and the associated attributes, see the fo
 
 As the user **sairag**, issue the below PL/SQL Code.
 
+1. Create Select AI for RAG Profile
+
     ```
     <copy>
 	BEGIN
@@ -274,7 +276,7 @@ As the user **sairag**, issue the below PL/SQL Code.
     </copy>
     ```
 
-If you would like to see what Profiles exist and their attributes, execute the following SQL Statement
+2.  To view the Profiles and their attributes, execute the following SQL Statement
 
     ```
     <copy>
@@ -293,6 +295,8 @@ For more details on creating a Select AI with RAG Vector Index, see the followin
 [Vector Index Attributes](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/dbms-cloud-ai-package.html#ADBSB-GUID-F6A65B2A-AE6D-4751-BDD7-137D49248160)
 
 As the user **sairag**, issue the below PL/SQL Code.
+
+1.  Create Vector Index
 
     ```
     <copy>
