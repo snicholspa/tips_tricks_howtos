@@ -288,11 +288,11 @@ If you would like to see what Profiles exist and their attributes, execute the f
 
 For more details on creating a Select AI with RAG Vector Index, see the following documentation
 
-[CREATE_VECTOR_INDEX Procedure](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/dbms-cloud-ai-package.html#ADBSB-GUID-CB37AB86-B625-4798-A3F4-8DD6DBA8B491)
+[`CREATE_VECTOR_INDEX` Procedure](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/dbms-cloud-ai-package.html#ADBSB-GUID-CB37AB86-B625-4798-A3F4-8DD6DBA8B491)
 
 [Vector Index Attributes](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/dbms-cloud-ai-package.html#ADBSB-GUID-F6A65B2A-AE6D-4751-BDD7-137D49248160)
 
-	As the user **sairag**, issue the below PL/SQL Code.
+As the user **sairag**, issue the below PL/SQL Code.
 
     ```
     <copy>
@@ -388,8 +388,6 @@ More details on using the **AI** Keyword with a corresponding **ACTION** can be 
 ## Acknowledgements
   * **Authors:** Steven Nichols, Master Principal Cloud Architects
   * **Last Updated By/Date:** Steven Nichols, October6, 2024
-
-Data about movies in this workshop were sourced from **Wikipedia**.
 
 Copyright (C)  Oracle Corporation.
 
