@@ -10,7 +10,7 @@ RAG uses AI vector search on a vector index to find semantically similar data fo
 
 Select AI integrates with AI vector search available in Oracle Autonomous Database 23ai for similarity search using vector embeddings.
 
-**Note:**  The above introduction was sourced from [here](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/select-ai-retrieval-augmented-generation-rag.html)
+The above introduction was sourced from [here](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/select-ai-retrieval-augmented-generation-rag.html)
 
 ## New to the OCI Generative AI Service
 
