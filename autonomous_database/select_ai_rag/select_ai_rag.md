@@ -10,7 +10,7 @@ RAG uses AI vector search on a vector index to find semantically similar data fo
 
 Select AI integrates with AI vector search available in Oracle Autonomous Database 23ai for similarity search using vector embeddings.
 
-**Note:**  The above introduction was sourced from [here]{https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/select-ai-retrieval-augmented-generation-rag.html}
+**Note:**  The above introduction was sourced from [here](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/select-ai-retrieval-augmented-generation-rag.html)
 
 ## New to the OCI Generative AI Service
 
@@ -26,11 +26,11 @@ Please reference the below links for more information on Oracle's Artificial Int
 
 ## Documentation Links
 
-* [Select AI with Retrieval Augmented Generation (RAG)]{https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/select-ai-retrieval-augmented-generation-rag.html}
+* [Select AI with Retrieval Augmented Generation (RAG)](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/select-ai-retrieval-augmented-generation-rag.html)
 
-* [Examples of Using Select AI]{https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/examples-using-select-ai.html}
+* [Examples of Using Select AI](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/examples-using-select-ai.html)
 
-* [Example: Set Up and Use Select AI with RAG]{https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/examples-using-select-ai.html#ADBSB-GUID-2FBD7DDB-CAC3-47AF-AB66-17F44C2ADAA4}
+* [Example: Set Up and Use Select AI with RAG](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/examples-using-select-ai.html#ADBSB-GUID-2FBD7DDB-CAC3-47AF-AB66-17F44C2ADAA4)
 
 * [Use Select AI for Natural Language Interaction with your Database](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/sql-generation-ai-autonomous.html)
 
@@ -44,35 +44,35 @@ Please reference the below links for more information on Oracle's Artificial Int
 
 	* [Code Innovate Cloud Coaching Playlist](https://www.youtube.com/playlist?list=PLPIzp-E1msrZMCfSHbKgLK3KWsNM9JB9a)
 
-2. JSON Data Manipulation using JSON_TABLE
+2. Introduction to Select AI for NL2SQL (Natural Language to SQL)
+
+	* [Introducing Select AI - A new way to talk to and converse with your Oracle Autonomous Database](https://youtu.be/19Ms3I7TaAU?si=iIQ8kFxgm-IBX5kJ)
+
+3. Vector Search and RAG
+
+	* [Vector Search and Generative AI for Oracle Database Developers](https://youtu.be/2fmoNZzqLOk?si=SgGM283oaf8KL3Jf)
+
+4. JSON Data Manipulation using JSON_TABLE
 
 	* [Extracting value and managing the lifecycle of JSON data with Oracle Cloud Infrastructure](https://youtu.be/BHNz2lEq2IA?si=TEK1UeHONj_XFI0z)
 	
-3. APEX and Gen AI
+5. APEX and Gen AI
 
 	* [Unlocking Oracle APEX Potential: Integrating Generative AI and Streamlining Workflows](https://youtu.be/ZJ491y7oils?si=jH4h5VHZ9WfC_o-U)
 
-4. Digital Assistant and Gen AI
+6. Digital Assistant and Gen AI
 
 	* [Integrating Large Language Models with Oracle Digital Assistant](https://youtu.be/JO4BDWdW6OE?si=rW8sMTLreU5jgmhL)
 
 	* [Conversational AI: Harnessing Generative AI with Oracle Digital Assistant](https://youtu.be/LvL-Omki8xo?si=lQEwoTtrJrI6QC54)
 
-5. Introduction to Select AI
-
-	* [Introducing Select AI - A new way to talk to and converse with your Oracle Autonomous Database](https://youtu.be/19Ms3I7TaAU?si=iIQ8kFxgm-IBX5kJ)
-
-6. PL/SQL SDK for OCI
+7. PL/SQL SDK for OCI
 
 	* [Connecting Cloud and Database: Unleashing Possibilities with PL/SQL SDK](https://youtu.be/1mye241dtUo?si=WtzGpo9hoMhdBkKQ)
 
-7. REST in the Autonomous Database
+8. REST in the Autonomous Database
 
 	* [Master REST APIs: The Universal Integration Tool in AI and Beyond](https://youtu.be/Ukm8LwYdMnQ?si=Dj2Ak1WrtAlI15Ko)
-
-8. Vector Search and RAG
-
-	* [Vector Search and Generative AI for Oracle Database Developers](https://youtu.be/2fmoNZzqLOk?si=SgGM283oaf8KL3Jf)
 
 ## Task 0: PLEASE READ - Verify Access to OCI Gen AI Service
 
@@ -124,6 +124,8 @@ As the user **ADMIN**, issue the below SQL Statements
 
 This is only required if you plan to leverage an LLM Provider **OTHER** than OCI.
 
+For more details, see the [`DBMS_NETWORK_ACL_ADMIN.APPEND_HOST_ACE` Procedure](https://docs.oracle.com/en/database/oracle/oracle-database/23/arpls/DBMS_NETWORK_ACL_ADMIN.html#GUID-254AE700-B355-4EBC-84B2-8EE32011E692) documentation.
+
 As the user **ADMIN**, issue the following PL/SQL Code
 
 1. Grant Non-Admin User Permission to Access AI Provider
@@ -154,6 +156,8 @@ As the user **ADMIN**, issue the following PL/SQL Code
 
 ## Task 3: Create and Test Credentials
 
+For more details, see the [`DBMS_CLOUD.CREATE_CREDENTIAL` Procedure](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-subprograms.html#GUID-742FC365-AA09-48A8-922C-1987795CF36A) documentation.
+
 As the user **sairag**, issue the below PL/SQL Code.
 
 1. Create Credential to Access the OCI Gen AI Service and Object Storage
@@ -173,8 +177,6 @@ As the user **sairag**, issue the below PL/SQL Code.
 	/
     </copy>
     ```
-
-    For more details, see the [`DBMS_CLOUD.CREATE_CREDENTIAL` Procedure](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-subprograms.html#GUID-742FC365-AA09-48A8-922C-1987795CF36A) documentation.
 
     If you would like to see what existing credentials exist, execute the following SQL Statement
 
@@ -240,7 +242,15 @@ As the user **sairag**, issue the below PL/SQL Code.
 
 ## Task 4: Create Select AI RAG Profile
 
-	As the user **sairag**, issue the below PL/SQL Code.
+For more details on creating a Profile and the associated attributes, see the following documentation
+
+[`DBMS_CLOUD_AI` Package](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-ai-package.html#GUID-000CBBD4-202B-4E9B-9FC2-B9F2FF20F246)
+
+[Create and Set an AI Profile](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/sql-generation-ai-autonomous.html#GUID-7B6A819E-AF51-445B-949D-E8E16A936CFE)
+
+[Profile Attributes](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-ai-package.html#GUID-12D91681-B51C-48E0-93FD-9ABC67B0F375)
+
+As the user **sairag**, issue the below PL/SQL Code.
 
     ```
     <copy>
@@ -264,15 +274,7 @@ As the user **sairag**, issue the below PL/SQL Code.
     </copy>
     ```
 
-    For more details on creating a Profile and the associated attributes, see the following documentation
-
-    [`DBMS_CLOUD_AI` Package](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-ai-package.html#GUID-000CBBD4-202B-4E9B-9FC2-B9F2FF20F246)
-
-    [Create and Set an AI Profile](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/sql-generation-ai-autonomous.html#GUID-7B6A819E-AF51-445B-949D-E8E16A936CFE)
-
-    [Profile Attributes](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-ai-package.html#GUID-12D91681-B51C-48E0-93FD-9ABC67B0F375)
-
-    If you would like to see what Profiles exist and their attributes, execute the following SQL Statement
+If you would like to see what Profiles exist and their attributes, execute the following SQL Statement
 
     ```
     <copy>
@@ -283,6 +285,12 @@ As the user **sairag**, issue the below PL/SQL Code.
     ```	
 
 ## Task 5: Create Select AI RAG Vector Index
+
+For more details on creating a Select AI with RAG Vector Index, see the following documentation
+
+[CREATE_VECTOR_INDEX Procedure](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/dbms-cloud-ai-package.html#ADBSB-GUID-CB37AB86-B625-4798-A3F4-8DD6DBA8B491)
+
+[Vector Index Attributes](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/dbms-cloud-ai-package.html#ADBSB-GUID-F6A65B2A-AE6D-4751-BDD7-137D49248160)
 
 	As the user **sairag**, issue the below PL/SQL Code.
 
@@ -307,14 +315,11 @@ As the user **sairag**, issue the below PL/SQL Code.
     </copy>
     ```	
 
-    For more details on creating a Select AI with RAG Vector Index, see the following documentation
-
-    [CREATE_VECTOR_INDEX Procedure](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/dbms-cloud-ai-package.html#ADBSB-GUID-CB37AB86-B625-4798-A3F4-8DD6DBA8B491)
-
-    [Vector Index Attributes](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/dbms-cloud-ai-package.html#ADBSB-GUID-F6A65B2A-AE6D-4751-BDD7-137D49248160)
-
-
 ## Task 6: Set Select AI RAG Profile
+
+For more details on Setting the Profile, see the following documentation
+
+[Create and Set an AI Profile](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/sql-generation-ai-autonomous.html#ADBSB-GUID-9CE75F94-7455-4C09-A3F3-118C08E82B7E)
 
 1.  Set Select AI Profile for Current Session
 
@@ -335,11 +340,6 @@ As the user **sairag**, issue the below PL/SQL Code.
 	SELECT DBMS_CLOUD_AI.GET_PROFILE from DUAL;
     </copy>
     ```
-
-    For more details on Setting the Profile, see the following documentation
-
-    [Create and Set an AI Profile](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/sql-generation-ai-autonomous.html#ADBSB-GUID-9CE75F94-7455-4C09-A3F3-118C08E82B7E)
-
 
 ## Task 7: Test/Use Select AI RAG
 
@@ -375,7 +375,7 @@ More details on using the **AI** Keyword with a corresponding **ACTION** can be 
 
 1. Information on Autonomous Pipelines can be found here 
 
-	[Using Data Pipelines for Continuous Load and Export]{https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/autonomous-pipelines.html}
+	[Using Data Pipelines for Continuous Load and Export](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/autonomous-pipelines.html)
 
     ```
     <copy>
