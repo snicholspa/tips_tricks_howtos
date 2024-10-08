@@ -320,6 +320,17 @@ As the user **sairag**, issue the below PL/SQL Code.
     </copy>
     ```	
 
+2.  To view the Select AI Vector Indexes and their attributes, execute the following SQL Statement
+
+    ```
+    <copy>
+	select a.index_name, a.status, b.attribute_name, b.attribute_value
+	from user_cloud_vector_indexes a, user_cloud_vector_index_attributes b
+	where a.index_id = b.index_id
+	order by a.index_name,b.attribute_name;
+    </copy>
+    ```	
+
 ## Task 6: Set Select AI RAG Profile
 
 For more details on Setting the Profile, see the following documentation
