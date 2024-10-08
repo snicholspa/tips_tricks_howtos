@@ -196,41 +196,42 @@ As the user **VECTOR**, issue the below PL/SQL Code.
     <copy>
 	set serveroutput on;
 	DECLARE
-		gen_ai_endpoint varchar2(500) := 'https://inference.generativeai.us-chicago-1.oci.oraclecloud.com';
-		v_compartment_id    varchar2(4000)  := 'ocid1.compartment.oc1......';
-		v_vector_credential varchar2(100)   := '{oci_cred_from_Task_3_1}';
-		v_ai_prompt varchar2(4000) := 'who is Babe Ruth?';
-		resp dbms_cloud_types.RESP;
+		-- https://docs.oracle.com/en-us/iaas/Content/generative-ai/pretrained-models.htm
+		gen_ai_endpoint 	varchar2(500) := 'https://inference.generativeai.us-chicago-1.oci.oraclecloud.com';
+		gen_ai_model 		varchar2(500) := 'cohere.command-r-16k'; --cohere.command-r-plus
+		compartment_ocid	varchar2(500) := 'ocid1.compartment.oc1..aaa';
+		api_cred_name 		varchar2(500) := '{oci_cred_from_Task_3_1}';
+		ai_prompt 			varchar2(4000) := 'who is Babe Ruth?';
+		resp 				dbms_cloud_types.RESP;
 	BEGIN
 		resp := dbms_cloud.send_request(
-			credential_name => v_vector_credential,
-			uri => gen_ai_endpoint || '/20231130/actions/generateText',
+			credential_name => api_cred_name,
+			uri => gen_ai_endpoint || '/20231130/actions/chat',
 			method => dbms_cloud.METHOD_POST,
-			body => UTL_RAW.cast_to_raw(JSON_OBJECT(
-										'compartmentId' value v_compartment_id,
-										'servingMode' value
-											(JSON_OBJECT(
-												'modelId'         value 'cohere.command',
-												'servingType'    value 'ON_DEMAND'
-											)),
-										'inferenceRequest' value 
-											(JSON_OBJECT(
-												'prompt'             value v_ai_prompt,
-												'maxTokens'         value 600,
-												'temperature'        value 1,
-												'frequencyPenalty'    value 0,
-												'presencePenalty'    value 0,
-												'topP'                value 0.75,
-												'topK'                value 0,
-												'returnLikelihoods'    value 'NONE',
-												'isStream'            value false,
-												'runtimeType'        value 'COHERE'
-											))
-									))
+			body => utl_raw.cast_to_raw(json_object(
+				'compartmentId'     value compartment_ocid,
+				'servingMode'       value
+					(json_object(
+						'modelId'               value gen_ai_model,
+						'servingType'           value 'ON_DEMAND'
+						)),
+						'chatRequest'           value 
+						(json_object(
+							'message'           value ai_prompt,
+							'apiFormat'         value 'COHERE',
+							'maxTokens'         value 2000,
+							'temperature'       value 0.75,
+							'frequencyPenalty'  value 0,
+							'presencePenalty'   value 0,
+							'topP'              value 1.0,
+							'topK'              value 0,
+							'isStream'          value false
+						))
+			))
 		);
 		dbms_output.put_line(dbms_cloud.get_response_text(resp)); 
 	END;
-	/    
+	/
 	</copy>
     ```
 
