@@ -1,0 +1,11 @@
+{
+    "workshoptitle": "OCI Generative AI Agent using an Oracle 23ai Vector Store Knowledge Base",
+    "help": "",
+	"tutorials": [
+        {
+            "title": "OCI Gen AI Agent with 23ai Vector Store Knowledge Base",
+	    "description":"OCI Gen AI Agent with 23ai Vector Store Knowledge Base",
+            "filename":"https://snicholspa.github.io/tips_tricks_howtos/oci_genai_service/genai_agents_vector_kb/genai_agents_vector_kb.md"
+        }
+    ]
+}

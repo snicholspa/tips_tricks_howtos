@@ -1,5 +1,11 @@
 # Steve's Tips, Tricks and How-To's
 
+## OCI Generative AI
+
+### OCI Generative AI Agents
+
+1.  [OCI Generative AI Agent using an Oracle 23ai Vector Store Knowledge Base](https://snicholspa.github.io/tips_tricks_howtos/oci_genai_service/genai_agents_vector_kb/)
+
 ## Autonomous Database
 
 ### AI in the Database
