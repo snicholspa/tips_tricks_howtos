@@ -5,7 +5,7 @@
 ### AI in the Database
 
 1.  [23ai Vector Search with RAG](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/vector_search/)
-2.  [Select AI for NL2SQL Using only OCI on ADB-S](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai_only_oci/)
+2.  [Select AI for NL2SQL Using only OCI on ADB-S](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai_oci_only/)
 3.  [Select AI for NL2SQL on ADB-S](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai/)
 3.  [Select AI for RAG on ADB-S](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai_rag/)
 
