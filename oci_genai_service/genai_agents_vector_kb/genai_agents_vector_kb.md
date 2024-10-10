@@ -117,7 +117,7 @@ The OCI Gen AI Service is currenly available in specific OCI Regions.  If you cu
 
 For more details, see the [Getting Access to Generative AI Agents](https://docs.oracle.com/en-us/iaas/Content/generative-ai-agents/iam-policies.htm) documentation.
 
-1. Create Dynamic Group **oci_genai_agent_dg** with a Matching Rule in Default domain in ROOT compartment
+1. Create Dynamic Group **oci\_genai\_agent\_dg** with a Matching Rule in Default domain in ROOT compartment
 
     ```
     <copy>
@@ -125,7 +125,7 @@ For more details, see the [Getting Access to Generative AI Agents](https://docs.
     </copy>
     ```
 
-2. Add the following Policies to **oci_genai_agents_policies** under your compartment
+2. Add the following Policies to **oci\_genai\_agents\_policies** under your compartment
 
     ```
     <copy>
@@ -216,10 +216,10 @@ This can also create the OCI Gen AI Agent Endpoint as well.  If you select this,
 [Chat generativeAiAgentRuntime](https://docs.public.oneportal.content.oci.oraclecloud.com/en-us/iaas/api/#/EN/generative-ai-agents-client/latest/AgentEndpoint/Chat)
 
 1. Session Endpoint is required if the Endpoint was created with Session Enabled for
-	- oci.generative_ai_agent_runtime.GenerativeAiAgentRuntimeClient
+	- oci.generative\_ai\_agent\_runtime.GenerativeAiAgentRuntimeClient
 
 2. Session Endpint is a required attribute in the CHAT_DETAILS for 
-	- oci.generative_ai_agent_runtime_client.chat
+	- oci.generative\_ai\_agent\_runtime\_client.chat
 
 3. Sample Python Code
 

@@ -411,7 +411,7 @@ More details on using the **AI** Keyword with a corresponding **ACTION** can be 
 
 ## Acknowledgements
   * **Authors:** Steven Nichols, Master Principal Cloud Architects
-  * **Last Updated By/Date:** Steven Nichols, October6, 2024
+  * **Last Updated By/Date:** Steven Nichols, October 6, 2024
 
 Copyright (C)  Oracle Corporation.
 
