@@ -2,11 +2,17 @@
 
 ## Autonomous Database
 
+### AI in the Database
+
+1.  [23ai Vector Search with RAG](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/vector_search/)
+2.  [Select AI for NL2SQL Using only OCI on ADB-S](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai_only_oci/)
+3.  [Select AI for NL2SQL on ADB-S](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai/)
+3.  [Select AI for RAG on ADB-S](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai_rag/)
+
+### PL/SQL SDK and REST in the Database
+
 1.  [PL/SQL SDK for OCI](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/pl_sql_sdk/)
-2.  [Select AI NL2SQL for ADB-S](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai/)
-3.  [Select AI RAG for ADB-S](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai_rag/)
-4.  [REST in ADB-S](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/rest_in_db/)
-5.  [23ai Vector Search](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/vector_search/)
+2.  [REST in ADB-S](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/rest_in_db/)
 
 ## Analytics
 
