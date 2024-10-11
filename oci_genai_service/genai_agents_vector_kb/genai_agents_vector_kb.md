@@ -215,10 +215,10 @@ This can also create the OCI Gen AI Agent Endpoint as well.  If you select this,
 
 [Chat generativeAiAgentRuntime](https://docs.public.oneportal.content.oci.oraclecloud.com/en-us/iaas/api/#/EN/generative-ai-agents-client/latest/AgentEndpoint/Chat)
 
-1. Session Endpoint is required if the Endpoint was created with Session Enabled for
+1. Service Endpoint is required 
 	- oci.generative\_ai\_agent\_runtime.GenerativeAiAgentRuntimeClient
 
-2. Session Endpint is a required attribute in the CHAT_DETAILS for 
+2. Session ID is a required attribute in the CHAT_DETAILS if the Endpoint was created with Session Enabled  
 	- oci.generative\_ai\_agent\_runtime\_client.chat
 
 3. Sample Python Code
