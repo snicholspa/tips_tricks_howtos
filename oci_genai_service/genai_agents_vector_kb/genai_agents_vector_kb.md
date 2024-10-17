@@ -261,7 +261,7 @@ This can also create the OCI Gen AI Agent Endpoint as well.  If you select this,
     </copy>
     ```
 
-## Task 7: Chat with your OCI Gen AI Agent Knowledge Base using PL\/SQL
+## Task 7: Chat with your OCI Gen AI Agent Knowledge Base using PL/SQL
 
 [SEND\_REQUEST Function and Procedure](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-subprograms.html#GUID-B063870D-6C1F-4F33-B354-885B73C81D37)
 
