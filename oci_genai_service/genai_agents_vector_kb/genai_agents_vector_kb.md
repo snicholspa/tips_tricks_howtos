@@ -261,7 +261,64 @@ This can also create the OCI Gen AI Agent Endpoint as well.  If you select this,
     </copy>
     ```
 
-## Task 7: Leverage a Vector Store Managed by Select AI for RAG (optional)
+## Task 7: Chat with your OCI Gen AI Agent Knowledge Base using PL\/SQL
+
+[SEND\_REQUEST Function and Procedure](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-subprograms.html#GUID-B063870D-6C1F-4F33-B354-885B73C81D37)
+
+1. Using a Database Function
+
+ 	```
+    <copy>
+	create or replace FUNCTION gen_ai_agent_chat (ai_prompt IN VARCHAR2) RETURN CLOB AS 
+		gen_ai_agent_endpoint varchar2(500) := 'https://agent-runtime.generativeai.us-chicago-1.oci.oraclecloud.com';
+		gen_ai_agent_endpoint_id varchar2(500) := 'ocid1.genaiagentendpoint.oc1.us-chicago-1.....{change ocid}'; 
+
+		api_cred_name varchar2(500) := 'OCI_API_CRED';
+
+		sess_resp dbms_cloud_types.RESP;
+		sess_resp_json JSON_OBJECT_T;
+		gen_ai_agent_session_id varchar2(500);
+
+		chat_resp dbms_cloud_types.RESP;
+		chat_resp_json JSON_OBJECT_T;
+	BEGIN
+		-- Create GenAI Agent Session
+		sess_resp := dbms_cloud.send_request(
+			credential_name => api_cred_name,
+			uri => gen_ai_agent_endpoint || '/20240531/agentEndpoints/' || gen_ai_agent_endpoint_id || '/sessions',
+			method => dbms_cloud.METHOD_POST,
+			body => utl_raw.cast_to_raw(json_object(
+				'displayName'   value 'PLSQL_AGENT_SESSION',
+				'description'   value 'PLSQL AGENT SESSION'    
+			))
+		);
+		dbms_output.put_line('Session Status Code: ' || dbms_cloud.get_response_status_code(sess_resp));
+		sess_resp_json := JSON_OBJECT_T.parse(dbms_cloud.get_response_text(sess_resp));
+		
+		gen_ai_agent_session_id := sess_resp_json.get_String('id');
+		dbms_output.put_line('Session Id: ' || gen_ai_agent_session_id);
+
+		-- Create GenAI Chat using Session ID
+		chat_resp := dbms_cloud.send_request(
+			credential_name => api_cred_name,
+			uri => gen_ai_agent_endpoint || '/20240531/agentEndpoints/' || gen_ai_agent_endpoint_id || '/actions/chat',
+			method => dbms_cloud.METHOD_POST,
+			body => utl_raw.cast_to_raw(json_object(
+				'sessionId'   value gen_ai_agent_session_id,
+				'userMessage'   value ai_prompt    
+			))
+		);
+		dbms_output.put_line('Chat Status Code: ' || dbms_cloud.get_response_status_code(chat_resp));
+		chat_resp_json := JSON_OBJECT_T.parse(dbms_cloud.get_response_text(chat_resp));
+
+		dbms_output.put_line('Chat Text: ' || chat_resp_json.get_Object('message').get_Object('content').get_String('text'));
+
+		RETURN dbms_cloud.get_response_text(chat_resp);
+	END gen_ai_agent_chat;
+    </copy>
+    ```
+
+## Task 8: Leverage a Vector Store Managed by Select AI for RAG (optional)
 
 If your Oracle 23ai Vector Store is managed by **Select AI for RAG**, you can create an OCI GenAI Agent Knowledge base.  You first have to flatten the Select AI for RAG Vector Store by creating a View then leverage this view in your OCI GenAI Agent Database Function.
 
