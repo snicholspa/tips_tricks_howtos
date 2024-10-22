@@ -324,9 +324,9 @@ As the user **sairag**, issue the below PL/SQL Code.
 
     ```
     <copy>
-	select a.index_name, a.status, b.attribute_name, b.attribute_value
-	from user_cloud_vector_indexes a, user_cloud_vector_index_attributes b
-	where a.index_id = b.index_id
+	select a.index_name, c.index_subtype, a.status, b.attribute_name, b.attribute_value
+	from user_cloud_vector_indexes a, user_cloud_vector_index_attributes b, user_indexes c
+	where a.index_id = b.index_id and a.index_name = c.index_name
 	order by a.index_name,b.attribute_name;
     </copy>
     ```	
