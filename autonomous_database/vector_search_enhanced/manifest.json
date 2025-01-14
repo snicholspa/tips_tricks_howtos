@@ -1,0 +1,11 @@
+{
+    "workshoptitle": "Vector Search and Generative AI for Oracle Database Developers",
+    "help": "",
+	"tutorials": [
+        {
+            "title": "Vector Search and Generative AI for Oracle Database Developers",
+	    "description":"Vector Search and Generative AI for Oracle Database Developers",
+            "filename":"https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/vector_search/vector_search_enhanced.md"
+        }
+    ]
+}
