@@ -12,8 +12,10 @@
 
 - [23ai Vector Search with RAG](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/vector_search/)
 
+- [Select AI for NL2SQL Using only OCI on ADB-S Refined](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai_oci_refined/)
 - [Select AI for NL2SQL Using only OCI on ADB-S](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai_oci_only/)
 - [Select AI for NL2SQL on ADB-S](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai/)
+
 - [Select AI for RAG on ADB-S](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai_rag/)
 
 ### PL/SQL SDK and REST in the Database

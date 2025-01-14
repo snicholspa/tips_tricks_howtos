@@ -1,0 +1,11 @@
+{
+    "workshoptitle": "Select AI for NL2SQL Setup using only OCI Services and Examples",
+    "help": "",
+	"tutorials": [
+        {
+            "title": "Select AI for NL2SQL Setup using only OCI Services and Examples",
+	    "description":"How to configure and use Select AI for NL2SQL using only OCI Servics on ADB",
+            "filename":"https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai_oci_refined/select_ai_oci_refined.md"
+        }
+    ]
+}
