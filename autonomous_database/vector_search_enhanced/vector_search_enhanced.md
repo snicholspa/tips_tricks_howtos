@@ -16,7 +16,7 @@ We'll show you
 * End to End Walk through of a Generative AI Pipeline Using SQL
 * Building a Vector Search Application with APEX
 
-[Vector Search and Generative AI](youtube:2fmoNZzqLOk)
+[Boost Developer Productivity with Oracle Autonomous Database and Generative AI](youtube:i2gOczXYoMo)
 
 ## New to the OCI Generative AI Service
 
@@ -378,7 +378,6 @@ As the user **VECTOR**, issue the below SQL Code.
 		documents varchar2(32767 byte), 
 		documents4rerank varchar2(32767 byte), 
 		documentsreranked varchar2(32767 byte),
-		references varchar2(32767 byte), 
 		constraint prompts_id_pk2 primary key (id),
 		foreign key (conv_id) references vector.conversations (id)
 	   );
@@ -399,7 +398,7 @@ As the user **VECTOR**, issue the below SQL Code.
 	   );
     </copy>
     ```
-6. Create Prompt Instructions Table
+6. Create Prompt Instructions Table and Seed Data
 
     ```
     <copy>
@@ -408,10 +407,13 @@ As the user **VECTOR**, issue the below SQL Code.
 		instruction varchar2(32767), 
 		active char(1),
 		primary key (id));
+		
+	insert into prompt_instructions values(1,'Question: ','Y');
+	commit;		
     </copy>
     ```
 
-6. Create AI Configuration Table
+7. Create AI Configuration Table and Seed Data
 
     ```
     <copy>
@@ -429,10 +431,22 @@ As the user **VECTOR**, issue the below SQL Code.
 		vector_language         varchar2(100),
 		vector_normalize        varchar2(100),
 		top_doc_chunks          number);
+
+	insert into ai_configuration values(1,2000,0.1,0,0,1,0,'words',50,0,'sentence','american','all',5);
+	commit;	
     </copy>
     ```
 
-6. Create Document Vector Trigger
+8. Create Sequences
+
+    ```
+    <copy>
+	create sequence conv_seq;
+	create sequence prompt_seq;
+    </copy>
+    ```
+
+9. Create Document Vector Trigger
 
     ```
     <copy>
@@ -450,7 +464,7 @@ As the user **VECTOR**, issue the below SQL Code.
     </copy>
     ```
 
-7. Create Chat History Package and Package Body
+10. Create Chat History Package and Package Body
 
     ```
     <copy>
@@ -598,7 +612,7 @@ As the user **VECTOR**, issue the below SQL Code.
     </copy>
     ```
 
-7. Create Gen AI Chat With Documents Function
+11. Create Gen AI Chat With Documents Function
 
     ```
     <copy>
@@ -836,7 +850,7 @@ As the user **VECTOR**, issue the below SQL Code.
     </copy>
     ```
 
-7. Create Gen AI Chat With Documents Single Function
+12. Create Gen AI Chat With Documents Single Function
 
     ```
     <copy>
@@ -995,7 +1009,7 @@ As the user **VECTOR**, issue the below SQL Code.
     </copy>
     ```
 
-8. Create Vector CONVERSATION_V View
+13. Create Vector CONVERSATION_V View
 
     ```
     <copy>
@@ -1023,7 +1037,7 @@ As the user **VECTOR**, issue the below SQL Code.
     </copy>
     ```
 
-9. Create Vector DOC_CITATIONS_V View
+14. Create Vector DOC_CITATIONS_V View
 
     ```
     <copy>
@@ -1055,7 +1069,7 @@ As the user **VECTOR**, issue the below SQL Code.
     </copy>
     ```
 
-10. Create Vector DOCUMENT_RANKING_V View
+15. Create Vector DOCUMENT_RANKING_V View
 
     ```
     <copy>
@@ -1335,177 +1349,15 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
     </copy>
     ```
 
-## Task 8: Process New Document and Capture Conversation and Chat History Setup
-
-1. Create Sequences
-
-    ```
-    <copy>
-	create sequence conv_seq;  
-	create sequence prompt_seq;
-    </copy>
-    ```
-
-2. Create Package 
-
-    ```
-    <copy>
-	create or replace package chathistory_pkg is
-	procedure prc_add_conversation(p_username varchar2, p_started_on timestamp, p_app_session number);
-	procedure prc_rebuild_vectors;
-	procedure prc_add_prompt_doc(
-		p_doc_id number
-		, p_conv_id number
-		, p_prompt_id number
-		, p_chunk_id number
-		, p_index_id number
-		, p_chunk varchar2);
-	procedure prc_add_prompt(
-		p_id number
-		, p_conv_id number
-		, p_prompt varchar2
-		, p_response varchar2
-		, p_asked_on timestamp
-		, p_chathistory varchar2
-		, p_references varchar2
-		, p_request varchar2
-		, p_output varchar2
-		, p_citations varchar2
-		, p_documents varchar2
-		, p_documents4rerank varchar2
-		, p_documentsreranked json);
-	procedure prc_cr_doc_vectors;
-	end;
-    </copy>
-    ```
-
-3. Create Package Body
-
-    ```
-    <copy>
-	create or replace package body chathistory_pkg is
-	---------
-	procedure prc_rebuild_vectors is
-	begin
-	update document_vector set embed_vector = null;
-	commit;
-	for c in 1..100 loop
-	for i in (select * from document_vector where rownum<100 and embed_vector is null)
-	loop
-	update document_vector
-	set embed_vector = dbms_vector.utl_to_embedding(chunk_txt, json('{
-	  "provider": "OCIGenAI",
-	  "credential_name": "OCI_VECTOR_CRED",
-	  "url": "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/20231130/actions/embedText",
-	  "model": "cohere.embed-english-v3.0",
-	  "batch_size":10
-	}'))
-	where i.id = id
-	and i.chunk_id = chunk_id;
-	commit;
-	end loop;
-	end loop;
-	end;
-	--------
-	procedure prc_add_conversation(p_username varchar2, p_started_on timestamp, p_app_session number) is
-		pragma autonomous_transaction;
-		begin
-		insert into conversations values(conv_seq.nextval, p_username, p_started_on, p_app_session); 
-		commit;
-		end;
-	---------
-	procedure prc_add_prompt_doc (
-		p_doc_id number
-		, p_conv_id number
-		, p_prompt_id number
-		, p_chunk_id number
-		, p_index_id number
-		, p_chunk varchar2) is
-		pragma autonomous_transaction;
-		begin
-		insert into prompt_docs values(p_doc_id, p_conv_id, p_prompt_id, p_chunk_id, p_index_id, p_chunk);
-		commit;
-		end;
-	---------
-	procedure prc_add_prompt(
-		p_id number
-		, p_conv_id number
-		, p_prompt varchar2
-		, p_response varchar2
-		, p_asked_on timestamp
-		, p_chathistory varchar2
-		, p_references varchar2
-		, p_request varchar2
-		, p_output varchar2
-		, p_citations varchar2
-		, p_documents varchar2
-		, p_documents4rerank varchar2
-		, p_documentsreranked json) is
-		pragma autonomous_transaction;
-		begin
-		insert into prompts (id, conv_id, prompt, response, asked_on, chathistory, references, request, output, citations, documents, documents4rerank, documentsreranked)
-			values(p_id, p_conv_id, p_prompt, p_response, p_asked_on, p_chathistory, p_references, p_request, p_output, p_citations, p_documents, p_documents4rerank, p_documentsreranked);
-		commit;
-		end;
-	---------   
-	procedure prc_cr_doc_vectors is
-		v_vector_by             varchar2(100);
-		v_vector_max            number;
-		v_vector_overlap        number;
-		v_vector_split          varchar2(100);
-		v_vector_language       varchar2(100);
-		v_vector_normalize      varchar2(100);
-		--
-		begin
-		--
-		select vector_by, vector_max, vector_overlap, vector_split, vector_language, vector_normalize
-		into v_vector_by, v_vector_max, v_vector_overlap, v_vector_split, v_vector_language, v_vector_normalize
-		from ai_configuration;
-		--
-		insert into document_vector
-		select l.id
-			, json_value(c.column_value, '$.chunk_id' returning number) as chunk_id
-			, json_value(c.column_value, '$.chunk_offset' returning number) as chunk_pos
-			, json_value(c.column_value, '$.chunk_length' returning number) as chunk_size
-			, replace(json_value(c.column_value, '$.chunk_data'),chr(10),'') as chunk_txt
-			, dbms_vector_chain.utl_to_embedding(json_value(c.column_value, '$.chunk_data'), json('{
-				"provider": "OCIGenAI",
-				"credential_name": "OCI_VECTOR_CRED",
-				"url": "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/20231130/actions/embedText",
-				"model": "cohere.embed-english-v3.0",
-				"batch_size":10
-				}')) embed_vector 
-		from 
-		------- base table ---------
-		(select id from documents where id not in (select id from document_vector)) l,
-		------- doc to text query ---------
-		(select id
-			, dbms_vector_chain.utl_to_text (l.file_content, json('{"plaintext":"true","charset":"utf8"}')) file_text
-		from documents l where id=l.id) t,
-		------- chunking ---------
-		dbms_vector_chain.utl_to_chunks(t.file_text,
-		json('{ "by":"'||v_vector_by||'",
-			   "max":"'||v_vector_max||'",
-			   "overlap":"'||v_vector_overlap||'0",
-			   "split":"'||v_vector_split||'",
-			   "language":"'||v_vector_language||'",
-			   "normalize":"'||v_vector_normalize||'" }')) c
-		where l.id=t.id;
-		commit;
-	 end;
-	end;
-    </copy>
-    ```
-	
-## Task 9: Queries
+## Task 8: Queries
 
 1. SQL Statements
 
     ```
     <copy>
 	set serveroutput on
-	select gen_ai_chat_legislation_db('what is the broadband infraxtetructure fund outlined in house bill 9?','Default');
-	select gen_ai_chat_legislation_db('are there any financial implications if it is passed?','Default');
+	select gen_ai_chat_documents('what is the broadband infraxtetructure fund outlined in house bill 9?','Default');
+	select gen_ai_chat_documents('are there any financial implications if it is passed?','Default');
     </copy>
     ```
 
@@ -1560,6 +1412,22 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 	"A typical menu for the day based on the nutritional guidelines that specify a minimum of 160g of protein could include:\n\n* Breakfast: 3 large eggs (18g protein), 2 cups mixed berries (2g protein), 1 cup Greek yogurt (20g protein), and 1 scoop whey protein powder (30g protein) - Total: 70g protein\n* Snack: 1 cup cottage cheese (28g protein) and 1 cup sliced peaches (2g protein) - Total: 30g protein\n* Lunch: 6 oz grilled chicken breast (42g protein), 1 cup cooked quinoa (8g protein), and 1 cup steamed broccoli (4g protein) - Total: 54g protein\n* Snack: 1 cup Greek yogurt (20g protein) and 1/2 cup mixed nuts (10g protein) - Total: 30g protein\n* Dinner: 6 oz grilled salmon (40g protein), 1 cup cooked brown rice (5g protein), and 1 cup sautéed spinach (3g protein) - Total: 48g protein\n\nTotal daily protein intake: 192g\n\nThis menu provides a balanced mix of protein, healthy fats, and complex carbohydrates, and stays within the recommended daily intake of protein. However, the specific nutritional needs of an individual may vary depending on factors such as age, sex, weight, and activity level. It's always best to consult with a healthcare professional or registered dietitian to determine the best meal plan for your individual needs."
     </copy>
     ```
+
+## Task 9: APEX Application
+
+The APEX Application is available from the below links.  You can import the app into an existing APEX Workspace based off of the **vector** schema/user.
+
+* [APEX Application](https://github.com/snicholspa/tips_tricks_howtos/blob/main/autonomous_database/vector_search_enhanced/files/apex_vectorapp.zip)
+
+Refer to the following YouTube Recording to re-configure (ORDS Setup and Change ORDS URL) the PDF Viewer option in the APEX Application hosted in your environment.
+
+[PDF Viewer in Oracle APEX](youtube:PoAl_TA0TxA)
+
+Below are a couple links covering the new AI Powered APEX Assistant.
+
+* [Using APEX Assistant](https://docs.oracle.com/en/database/oracle/apex/24.1/htmdb/using-apex-assistant.html)
+
+* [Coding with the AI Powered APEX Assistant](https://blogs.oracle.com/apex/post/coding-with-the-ai-powered-apex-assistant-on-oracle-apex)
 
 ## Acknowledgements
   * **Authors:** Derrick Cameron and Steven Nichols, Master Principal Cloud Architects

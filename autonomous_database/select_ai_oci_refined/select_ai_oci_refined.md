@@ -4,6 +4,8 @@
 
 This information is intended to cover how to setup and use Select AI NL2SQL only using OCI Services and OCI hosted Generative AI LLMs.
 
+[Boost Developer Productivity with Oracle Autonomous Database and Generative AI](youtube:i2gOczXYoMo)
+
 ## Documentation Links
 
 * [Select AI for ADB](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/sql-generation-ai-autonomous.html)

@@ -12,6 +12,8 @@ Select AI integrates with AI vector search available in Oracle Autonomous Databa
 
 The above introduction was sourced from [here](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/select-ai-retrieval-augmented-generation-rag.html)
 
+[Boost Developer Productivity with Oracle Autonomous Database and Generative AI](youtube:i2gOczXYoMo)
+
 ## New to the OCI Generative AI Service
 
 Please reference the below links for more information on Oracle's Artificial Intelligence (AI) and Generative AI Offerings.
