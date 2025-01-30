@@ -167,7 +167,7 @@ As the user **moviestream**, issue the below PL/SQL Code.
 	DECLARE
 		-- https://docs.oracle.com/en-us/iaas/Content/generative-ai/pretrained-models.htm
 		gen_ai_endpoint 	varchar2(500) := 'https://inference.generativeai.us-chicago-1.oci.oraclecloud.com';
-		gen_ai_model 		varchar2(500) := 'cohere.command-r-16k'; --cohere.command-r-plus
+		gen_ai_model 		varchar2(500) := 'cohere.command-r-08-2024'; --cohere.command-r-plus-08-2024
 		compartment_ocid 	varchar2(500) := 'ocid1.compartment.oc1..aaa';
 		api_cred_name 		varchar2(500) := '{oci_cred_from_Task_3_1}';
 		ai_prompt 			varchar2(4000) := 'who is Babe Ruth?';
@@ -228,7 +228,7 @@ As the user **moviestream**, issue the below PL/SQL Code.
 				"credential_name": "{oci_cred_from_Task_3_1}",
 				"comments":true,
 				"conversation":true,
-				"model":"meta.llama-3-405b-instruct",
+				"model":"meta.llama-3.1-405b-instruct",
 				"object_list": [{"owner": "MOVIESTREAM", "name": "movies"},
 					{"owner": "MOVIESTREAM", "name": "streams"},
 					{"owner": "MOVIESTREAM", "name": "pizza_shop"},

@@ -213,7 +213,7 @@ The Moviestream data leveraged for this Cloud Coaching event was sourced from th
             attributes =>
                 '{"provider": "cohere",
                 "credential_name": "WEBINAR_COHERE_CRED",
-                "model":"command",
+                "model":"command-r-08-2024", -- Update accordingly based on model availability
                 "object_list": [{"owner": "MOVIESTREAM", "name": "movies"},
                                 {"owner": "MOVIESTREAM", "name": "streams"},
                                 {"owner": "MOVIESTREAM", "name": "customer_extension"},
