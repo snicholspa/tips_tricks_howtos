@@ -218,7 +218,7 @@ As the user **VECTOR**, issue the below PL/SQL Code.
 	DECLARE
 		-- https://docs.oracle.com/en-us/iaas/Content/generative-ai/pretrained-models.htm
 		gen_ai_endpoint 	varchar2(500) := 'https://inference.generativeai.us-chicago-1.oci.oraclecloud.com';
-		gen_ai_model 		varchar2(500) := 'cohere.command-r-16k'; --cohere.command-r-plus
+		gen_ai_model 		varchar2(500) := 'cohere.command-r-08-2024'; --cohere.command-r-plus-08-2024
 		compartment_ocid	varchar2(500) := 'ocid1.compartment.oc1..aaa';
 		api_cred_name 		varchar2(500) := '{oci_cred_from_Task_3_1}';
 		ai_prompt 			varchar2(4000) := 'who is Babe Ruth?';
@@ -326,7 +326,7 @@ As the user **VECTOR**, issue the below SQL Code.
 		file_content blob, 
 		first_page_image blob, 
 		mimetype varchar2(50 byte),
-		domain varchar2(100),
+		domain varchar2(100) default 'Default',
 		file_content_clob clob, 
 		 primary key (id)
 	  );
@@ -379,7 +379,7 @@ As the user **VECTOR**, issue the below SQL Code.
 		documents4rerank varchar2(32767 byte), 
 		documentsreranked varchar2(32767 byte),
 		constraint prompts_id_pk2 primary key (id),
-		foreign key (conv_id) references vector.conversations (id)
+		foreign key (conv_id) references conversations (id)
 	   );
     </copy>
     ```
@@ -418,6 +418,7 @@ As the user **VECTOR**, issue the below SQL Code.
     ```
     <copy>
 	create table ai_configuration(
+		id						number,
 		llm_max_tokens          number,
 		llm_temperature         number,
 		llm_frequencypenalty    number,
@@ -632,7 +633,7 @@ As the user **VECTOR**, issue the below SQL Code.
 		v_text_endpoint     varchar2(100)   := '/20231130/actions/embedText';
 		v_chat_endpoint     varchar2(100)   := '/20231130/actions/chat';
 		v_model_embed       varchar2(100)   := 'cohere.embed-english-v3.0';
-		v_model_query       varchar2(100)   := 'cohere.command-r-plus';
+		v_model_query       varchar2(100)   := 'cohere.command-r-plus-08-2024';
 		----
 		v_resp              dbms_cloud_types.resp;
 		v_messages          varchar2(32767);
@@ -773,12 +774,17 @@ As the user **VECTOR**, issue the below SQL Code.
 	v_cohere_params := '
 	{ "provider": "cohere",
 	  "credential_name": "COHERE_CRED",
-	  "url": "https://api.cohere.com/v1/rerank",
+	  "url": "https://api.cohere.com/v2/rerank",
 	  "model": "rerank-english-v3.0",
 	  "return_documents": true,
 	  "top_n": '||v_top_doc_chunks||'}';
 
-	v_documentsreranked := dbms_vector.rerank(p_ai_message, json(v_documents), json(v_cohere_params));
+	-- v_documentsreranked := dbms_vector.rerank(p_ai_message, json(v_documents), json(v_cohere_params));
+
+	select json_arrayagg(json_object("index" , "score" , "content" ))
+	into v_documentsreranked
+	from json_table (json(dbms_vector.rerank(p_ai_message, json(v_documents), json(v_cohere_params))),
+		'$[*]' columns("index", "score", "content" ));
 
 	--------------------------------
 	-- process response
@@ -939,7 +945,7 @@ As the user **VECTOR**, issue the below SQL Code.
 
 	v_request_json_part1 := to_clob(
 		 '{
-			"compartmentId": "ocid1.compartment.oc1..aaaaaaaaewfbfe7olxisop2tkp57mjpcvsi4m73riixhxwwwcnu2ekjjg4kq",
+			"compartmentId": "ocid1.compartment.oc1..{update accordingly}",
 			"servingMode": 
 				{
 					"modelId": "meta.llama-3.2-90b-vision-instruct",
@@ -1014,7 +1020,7 @@ As the user **VECTOR**, issue the below SQL Code.
     ```
     <copy>
 	-- conversation_v - used in APEX app to view conversation prompts
-	CREATE OR REPLACE FORCE EDITIONABLE VIEW "VECTOR"."CONVERSATION_V" ("CONVERSATION_ID", "USERNAME", "STARTED_ON", "APP_SESSION", "PROMPT_ID", "PROMPT", "RESPONSE", "ASKED_ON", "CHATHISTORY", "REFERENCES", "REQUEST", "OUTPUT", "CITATIONS", "DOCUMENTS", "DOCUMENTS4RERANK", "DOCUMENTSRERANKED") AS 
+	CREATE OR REPLACE FORCE EDITIONABLE VIEW "CONVERSATION_V" ("CONVERSATION_ID", "USERNAME", "STARTED_ON", "APP_SESSION", "PROMPT_ID", "PROMPT", "RESPONSE", "ASKED_ON", "CHATHISTORY", "REFERENCES", "REQUEST", "OUTPUT", "CITATIONS", "DOCUMENTS", "DOCUMENTS4RERANK", "DOCUMENTSRERANKED") AS 
 	  select
 		c.id conversation_id
 		, c.username
@@ -1037,44 +1043,12 @@ As the user **VECTOR**, issue the below SQL Code.
     </copy>
     ```
 
-14. Create Vector DOC_CITATIONS_V View
-
-    ```
-    <copy>
-	-- doc_citations_v - used in APEX to provide flattened JSON view of citiations
-	CREATE OR REPLACE FORCE EDITIONABLE VIEW "VECTOR"."DOC_CITATIONS_V" ("FILE_NAME", "PROMPT_ID", "CONV_ID", "ASKED_ON", "PROMPT", "RESPONSE", "CITATION_STARTPOINT", "CITATION_ENDPOINT", "CITATION_TEXT", "DOCUMENTIDS") AS 
-	  select  d.file_name
-		, p.id prompt_id
-		, p.conv_id
-		, p.asked_on
-		, p.prompt
-		, p.response
-		, jt.citation_startpoint
-		, jt.citation_endpoint
-		, jt.citation_text
-		, jt.documentids
-	from prompts p, document_ranking_v d
-		, json_table(p.output, '$.chatResponse.citations[*]' columns
-			nested path '$[*]' columns (
-				citation_startpoint number path '$.start',
-				citation_endpoint number path '$.end',
-				citation_text varchar2(100) path '$.text',
-				nested path '$.documentIds[*]' columns (
-					documentIds varchar2(100) path '$')
-					)
-			) jt
-	where p.conv_id = d.conv_id
-	and p.id = d.prompt_id
-	and jt.documentids = d.documentid;	
-    </copy>
-    ```
-
-15. Create Vector DOCUMENT_RANKING_V View
+14. Create Vector DOCUMENT_RANKING_V View
 
     ```
     <copy>
 	-- document_ranking_v - used in APEX to provide flattened JSON view of document ranking
-	CREATE OR REPLACE FORCE EDITIONABLE VIEW "VECTOR"."DOCUMENT_RANKING_V" ("FILE_NAME", "PROMPT_ID", "CONV_ID", "PROMPT", "RESPONSE", "DOCUMENTID", "INDEX_ID", "SCORE", "CONTENT") AS 
+	CREATE OR REPLACE FORCE EDITIONABLE VIEW "DOCUMENT_RANKING_V" ("FILE_NAME", "PROMPT_ID", "CONV_ID", "PROMPT", "RESPONSE", "DOCUMENTID", "INDEX_ID", "SCORE", "CONTENT") AS 
 	  select l.file_name
 		, p.id prompt_id
 		, p.conv_id
@@ -1099,6 +1073,38 @@ As the user **VECTOR**, issue the below SQL Code.
 	and p.id = d.prompt_id
 	and jt.index_id = d.index_id
 	and d.document_id = l.id;	
+    </copy>
+    ```
+
+15. Create Vector DOC_CITATIONS_V View
+
+    ```
+    <copy>
+	-- doc_citations_v - used in APEX to provide flattened JSON view of citiations
+	CREATE OR REPLACE FORCE EDITIONABLE VIEW "DOC_CITATIONS_V" ("FILE_NAME", "PROMPT_ID", "CONV_ID", "ASKED_ON", "PROMPT", "RESPONSE", "CITATION_STARTPOINT", "CITATION_ENDPOINT", "CITATION_TEXT", "DOCUMENTIDS") AS 
+	  select  d.file_name
+		, p.id prompt_id
+		, p.conv_id
+		, p.asked_on
+		, p.prompt
+		, p.response
+		, jt.citation_startpoint
+		, jt.citation_endpoint
+		, jt.citation_text
+		, jt.documentids
+	from prompts p, document_ranking_v d
+		, json_table(p.output, '$.chatResponse.citations[*]' columns
+			nested path '$[*]' columns (
+				citation_startpoint number path '$.start',
+				citation_endpoint number path '$.end',
+				citation_text varchar2(100) path '$.text',
+				nested path '$.documentIds[*]' columns (
+					documentIds varchar2(100) path '$')
+					)
+			) jt
+	where p.conv_id = d.conv_id
+	and p.id = d.prompt_id
+	and jt.documentids = d.documentid;	
     </copy>
     ```
 
@@ -1211,7 +1217,7 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 	-- text to chunck
 	dbms_vector_chain.utl_to_chunks(t.file_text,
 	   json('{ "by":"words",
-			   "max":"200",
+			   "max":"50",
 			   "overlap":"0",
 			   "split":"sentence",
 			   "language":"american",
