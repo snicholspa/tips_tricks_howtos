@@ -496,7 +496,7 @@ As the user **VECTOR**, issue the below SQL Code.
 		, p_documentsreranked json);
 	procedure prc_cr_doc_vectors;
 	end;
-	
+	/
 	-- Create Package Body
 	-- replace credential name below with your credential
 	create or replace package body chathistory_pkg is
