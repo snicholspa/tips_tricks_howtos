@@ -71,7 +71,15 @@ Please reference the below links for more information on Oracle's Artificial Int
 
 	* [Master REST APIs: The Universal Integration Tool in AI and Beyond](https://youtu.be/Ukm8LwYdMnQ?si=Dj2Ak1WrtAlI15Ko)
 
-## Task 0: PLEASE READ - Verify Access to OCI Gen AI Service
+## Prerequisites: 
+
+1.  Autonomous Database Version 23ai
+
+2.  Access to the OCI GenAI Services in a Supported Region (see Task 0 for Details)
+
+3.  Access to OCI Object Storage (see Task 0 for Details)
+
+## Task 0: PLEASE READ - Verify Access to OCI Gen AI Service and Object Storage
 
 The OCI Gen AI Service is currenly available in specific OCI Regions.  If you currently are **NOT** subscribed to one of those regions, you must do so to access the OCI Gen AI Service and leverage the pretrained models hosted by the service.  You must also ensure the identity domain is being replicated to the region where you plan to access the OCI Gen AI Services.  Lastly, you will also need to setup IAM Policies so the users can access the OCI Gen AI Service.  Please see the links below for all those details.
 
@@ -93,6 +101,11 @@ The OCI Gen AI Service is currenly available in specific OCI Regions.  If you cu
 
 	* [Getting Access to Generative AI](https://docs.oracle.com/en-us/iaas/Content/generative-ai/iam-policies.htm)
 
+5. Setup IAM Policies to Access the OCI Object Storage
+
+	* [Using Object Storage](https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm#using)
+
+	* [Managing Access to Object Storage](https://docs.oracle.com/en-us/iaas/Content/Identity/policyreference/objectstoragepolicyreference.htm)
 
 ## Task 1: Create Database User with Grants
 
@@ -119,6 +132,24 @@ As the user **ADMIN**, issue the below SQL Statements
     </copy>
     ```
 
+3.  Grant Database User Access to Database Actions - SQL Developer Web 
+
+    ```
+    <copy>
+	BEGIN
+	 ords_admin.enable_schema(
+	 p_enabled => TRUE,
+	 p_schema => 'VECTOR',
+	 p_url_mapping_type => 'BASE_PATH',
+	 p_url_mapping_pattern => 'VECTOR',
+	 p_auto_rest_auth => NULL
+	 );
+	 commit;
+	END;
+	/
+    </copy>
+    ```
+
 ## Task 2: Update Access Control List
 
 As the user **ADMIN**, issue the following PL/SQL Code
@@ -129,7 +160,7 @@ As the user **ADMIN**, issue the following PL/SQL Code
     <copy>
 	BEGIN
 	DBMS_NETWORK_ACL_ADMIN.APPEND_HOST_ACE (
-	  HOST         => 'inference.generativeai.us-chicago-1.oci.oraclecloud.com',
+	  HOST         => 'inference.generativeai.{region}.oci.oraclecloud.com',
 	  ACE          => xs$ace_type(
 		  PRIVILEGE_LIST => xs$name_list('http'),
 		  PRINCIPAL_NAME => 'vector',
@@ -172,7 +203,7 @@ As the user **ADMIN**, issue the following PL/SQL Code
 
 As the user **VECTOR**, issue the below PL/SQL Code.
 
-1. Create Credential to Access OCI Gen AI Service
+1. Create API Credential to Access OCI Gen AI Service
 
     ```
     <copy>
@@ -190,7 +221,9 @@ As the user **VECTOR**, issue the below PL/SQL Code.
     </copy>
     ```
 
-    For more details, see the [`DBMS_CLOUD.CREATE_CREDENTIAL` Procedure](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-subprograms.html#GUID-742FC365-AA09-48A8-922C-1987795CF36A) documentation.
+    For more details, see the [`DBMS_CLOUD.CREATE_CREDENTIAL` Procedure](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-subprograms.html#GUID-742FC365-AA09-48A8-922C-1987795CF36A) documentation.  
+
+	For more details on API Signing Keys, see the [Required Keys and OCIDs](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm) documentation.
 
     If you would like to see what existing credentials exist, execute the following SQL Statement
 
@@ -206,7 +239,7 @@ As the user **VECTOR**, issue the below PL/SQL Code.
 
     ```
     <copy>
-	SELECT * FROM DBMS_CLOUD.LIST_OBJECTS('{oci_cred_from_Task_3_1}','https://objectstorage.{region}.oraclecloud.com/n/{namespace}/b/{bucket_name}/o/');
+	SELECT * FROM DBMS_CLOUD.LIST_OBJECTS('{oci_api_cred_from_Task_3_1}','https://objectstorage.{region}.oraclecloud.com/n/{namespace}/b/{bucket_name}/o/');
     </copy>
     ```
 
@@ -217,10 +250,10 @@ As the user **VECTOR**, issue the below PL/SQL Code.
 	set serveroutput on;
 	DECLARE
 		-- https://docs.oracle.com/en-us/iaas/Content/generative-ai/pretrained-models.htm
-		gen_ai_endpoint 	varchar2(500) := 'https://inference.generativeai.us-chicago-1.oci.oraclecloud.com';
+		gen_ai_endpoint 	varchar2(500) := 'https://inference.generativeai.{region}.oci.oraclecloud.com';
 		gen_ai_model 		varchar2(500) := 'cohere.command-r-08-2024'; --cohere.command-r-plus-08-2024
 		compartment_ocid	varchar2(500) := 'ocid1.compartment.oc1..aaa';
-		api_cred_name 		varchar2(500) := '{oci_cred_from_Task_3_1}';
+		api_cred_name 		varchar2(500) := '{oci_api_cred_from_Task_3_1}';
 		ai_prompt 			varchar2(4000) := 'who is Babe Ruth?';
 		resp 				dbms_cloud_types.RESP;
 	BEGIN
@@ -255,11 +288,11 @@ As the user **VECTOR**, issue the below PL/SQL Code.
 	</copy>
     ```
 
-3. Create Credential to Perform Vector Tasks
+3. Create Vector Credential to Perform Vector Tasks
 
 	For more details, see the [`DBMS_VECTOR.CREATE_CREDENTIAL` Procedure](https://docs.oracle.com/en/database//oracle/oracle-database/23/arpls/dbms_vector1.html#GUID-4BBCBF46-3903-4EBB-8BE8-A7690151CF25) documentation.
 
-	**Note** - You pass the <private key string> value (excluding the BEGIN and END lines), either as a single line or as multiple lines.
+	**Note** - You pass the <private key string> value (excluding the BEGIN and END lines in the key file), either as a single line or as multiple lines.
 
     ```
     <copy>
@@ -287,8 +320,8 @@ As the user **VECTOR**, issue the below PL/SQL Code.
     <copy>
 	select dbms_vector_chain.utl_to_embedding('embed some text', json('{
 	  "provider": "OCIGenAI",
-	  "credential_name": "{oci_cred_from_Task_3_3}",
-	  "url": "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/20231130/actions/embedText",
+	  "credential_name": "{oci_vector_cred_from_Task_3_3}",
+	  "url": "https://inference.generativeai.{region}.oci.oraclecloud.com/20231130/actions/embedText",
 	  "model": "cohere.embed-english-v3.0",
 	  "batch_size":10
 	}')) embed_vector
@@ -296,7 +329,7 @@ As the user **VECTOR**, issue the below PL/SQL Code.
     </copy>
     ```
 
-5. Create Cohere credential (used in re-ranking later on)
+5. Create Cohere Credential (used in re-ranking later on)
 
    ```
     <copy>
@@ -310,9 +343,13 @@ As the user **VECTOR**, issue the below PL/SQL Code.
     </copy>
     ```
 
+	**Note** - The **username** is the email address you used to log into https://cohere.com/.  The **password** represents a trial key accessible from the **API Keys** section.
+
 ## Task 4: Create Database Objects
 
 As the user **VECTOR**, issue the below SQL Code.
+
+**Note** - Be sure to update the SQL Code accordingly where you see **{....}**
 
 1. Create Documents Tables
 
@@ -511,8 +548,8 @@ As the user **VECTOR**, issue the below SQL Code.
 	update document_vector
 	set embed_vector = dbms_vector.utl_to_embedding(chunk_txt, json('{
 	  "provider": "OCIGenAI",
-	  "credential_name": "OCI_VECTOR_CRED",
-	  "url": "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/20231130/actions/embedText",
+	  "credential_name": "{update with oci_vector_cred from Task 3.3}",
+	  "url": "https://inference.generativeai.{region}.oci.oraclecloud.com/20231130/actions/embedText",
 	  "model": "cohere.embed-english-v3.0",
 	  "batch_size":10
 	}'))
@@ -586,8 +623,8 @@ As the user **VECTOR**, issue the below SQL Code.
 			, replace(json_value(c.column_value, '$.chunk_data'),chr(10),'') as chunk_txt
 			, dbms_vector_chain.utl_to_embedding(json_value(c.column_value, '$.chunk_data'), json('{
 				"provider": "OCIGenAI",
-				"credential_name": "SKWN_OCI_VECTOR_CRED",
-				"url": "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/20231130/actions/embedText",
+				"credential_name": "{update with oci_vector_cred from Task 3.3}",
+				"url": "https://inference.generativeai.{region}.oci.oraclecloud.com/20231130/actions/embedText",
 				"model": "cohere.embed-english-v3.0",
 				"batch_size":10
 				}')) embed_vector 
@@ -625,10 +662,10 @@ As the user **VECTOR**, issue the below SQL Code.
 		, p_session_id in number default sys_context('userenv','sessionid')
 		) return clob as
 		----
-		v_gen_ai_endpoint   varchar2(500)   := 'https://inference.generativeai.us-chicago-1.oci.oraclecloud.com';
-		v_compartment_id    varchar2(4000)  := '<your compartment id>';
-		v_vector_credential varchar2(100)   := 'OCI_VECTOR_CRED';
-		v_ociapi_credential varchar2(100)   := 'OCI_KEY_CRED';
+		v_gen_ai_endpoint   varchar2(500)   := 'https://inference.generativeai.{region}.oci.oraclecloud.com';
+		v_compartment_id    varchar2(4000)  := '{update with your compartment ocid}';
+		v_vector_credential varchar2(100)   := '{update with oci_vector_cred from Task 3.3}';
+		v_ociapi_credential varchar2(100)   := '{update with oci_api_cred from Task 3.1}';
 		v_provider          varchar2(100)   := 'OCIGenAI';
 		v_text_endpoint     varchar2(100)   := '/20231130/actions/embedText';
 		v_chat_endpoint     varchar2(100)   := '/20231130/actions/chat';
@@ -773,7 +810,7 @@ As the user **VECTOR**, issue the below SQL Code.
 
 	v_cohere_params := '
 	{ "provider": "cohere",
-	  "credential_name": "COHERE_CRED",
+	  "credential_name": "{update with cohere_cred from Task 3.5}",
 	  "url": "https://api.cohere.com/v2/rerank",
 	  "model": "rerank-english-v3.0",
 	  "return_documents": true,
@@ -867,10 +904,10 @@ As the user **VECTOR**, issue the below SQL Code.
 		, p_session_id in number default sys_context('userenv','sessionid')
 		) return clob as
 		----
-		v_gen_ai_endpoint   varchar2(500)   := 'https://inference.generativeai.us-chicago-1.oci.oraclecloud.com';
-		v_compartment_id    varchar2(4000)  := '<your compartment id>';
-		v_vector_credential varchar2(100)   := 'OCI_VECTOR_CRED';
-		v_ociapi_credential varchar2(100)   := 'OCI_KEY_CRED';
+		v_gen_ai_endpoint   varchar2(500)   := 'https://inference.generativeai.{region}.oci.oraclecloud.com';
+		v_compartment_id    varchar2(4000)  := '{update with your compartment ocid}';
+		v_vector_credential varchar2(100)   := '{update with oci_vector_cred from Task 3.3}';
+		v_ociapi_credential varchar2(100)   := '{update with oci_api_cred from Task 3.1}';
 		v_provider          varchar2(100)   := 'OCIGenAI';
 		v_text_endpoint     varchar2(100)   := '/20231130/actions/embedText';
 		v_chat_endpoint     varchar2(100)   := '/20231130/actions/chat';
@@ -945,7 +982,7 @@ As the user **VECTOR**, issue the below SQL Code.
 
 	v_request_json_part1 := to_clob(
 		 '{
-			"compartmentId": "ocid1.compartment.oc1..{update accordingly}",
+			"compartmentId": "{update with your compartment ocid}",
 			"servingMode": 
 				{
 					"modelId": "meta.llama-3.2-90b-vision-instruct",
@@ -1112,6 +1149,10 @@ As the user **VECTOR**, issue the below SQL Code.
 
 Load your own PDFs into an Object Storage Bucket.  
 
+To access the documents used in this example, you can download them from the following link
+
+* [Sample PDFs](https://github.com/snicholspa/tips_tricks_howtos/blob/main/autonomous_database/vector_search_enhanced/files/sample_pdfs.zip)
+
 1. Load PDF Files from OCI Object Storage
 
     ```
@@ -1120,10 +1161,10 @@ Load your own PDFs into an Object Storage Bucket.
 	   l_blob blob := null;
 	   l_bucket varchar2(4000) := 'https://objectstorage.{region}.oraclecloud.com/n/{namespace}/b/{bucket_name}/o/';
 	begin
-	for i in (select * from dbms_cloud.list_objects('{oci_cred_from Task 3.1}',l_bucket) where object_name like '%.pdf')
+	for i in (select * from dbms_cloud.list_objects('{oci_api_cred_from Task 3.1}',l_bucket) where object_name like '%.pdf')
 	loop
 	   l_blob := dbms_cloud.get_object(
-		 credential_name => '{oci_cred_from Task 3.1}',
+		 credential_name => '{update with oci_api_cred from Task 3.1}',
 		 object_uri => l_bucket||i.object_name);
 	insert into documents (file_name, file_size, file_type, file_content)
 				values(i.object_name, i.bytes, 'mime/pdf',l_blob);
@@ -1152,7 +1193,7 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
     <copy>
 	begin
 	dbms_cloud.get_object(
-		credential_name => '{oci_cred_from_Task_3_1}',
+		credential_name => '{update with oci_api_cred from Task 3.1}',
 		object_uri => 'https://objectstorage.{region}.oraclecloud.com/n/{namespace}/b/{bucket_name}/o/all-MiniLM-L6-v2.onnx',
 		directory_name => 'data_pump_dir'
 		);
@@ -1246,7 +1287,7 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 	------- chunking ---------
 	dbms_vector_chain.utl_to_chunks(t.file_text,
 	   json('{ "by":"words",
-			   "max":"200",
+			   "max":"50",
 			   "overlap":"0",
 			   "split":"sentence",
 			   "language":"american",
@@ -1266,8 +1307,8 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 	-- embedding query
 	select chunk_txt, dbms_vector_chain.utl_to_embedding(l.chunk_txt, json('{
 	  "provider": "OCIGenAI",
-	  "credential_name": "{oci_cred_from_Task_3_3}",
-	  "url": "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/20231130/actions/embedText",
+	  "credential_name": "{update with oci_vector_cred from Task 3.3}",
+	  "url": "https://inference.generativeai.{region}.oci.oraclecloud.com/20231130/actions/embedText",
 	  "model": "cohere.embed-english-v3.0",
 	  "batch_size":10
 	}')) embed_vector
@@ -1300,8 +1341,8 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 	update document_vector
 	set embed_vector = dbms_vector.utl_to_embedding(chunk_txt, json('{
 	  "provider": "OCIGenAI",
-	  "credential_name": "{oci_cred_from_Task_3_3}",
-	  "url": "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/20231130/actions/embedText",
+	  "credential_name": "{update with oci_vector_cred from Task 3.3}",
+	  "url": "https://inference.generativeai.{region}.oci.oraclecloud.com/20231130/actions/embedText",
 	  "model": "cohere.embed-english-v3.0",
 	  "batch_size":10
 	}'))
@@ -1329,8 +1370,8 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 			, replace(json_value(c.column_value, '$.chunk_data'),chr(10),'') as chunk_txt
 			, dbms_vector_chain.utl_to_embedding(json_value(c.column_value, '$.chunk_data'), json('{
 				"provider": "OCIGenAI",
-				"credential_name": "{oci_cred_from_Task_3_3}",
-				"url": "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/20231130/actions/embedText",
+				"credential_name": "{update with oci_vector_cred from Task 3.3}",
+				"url": "https://inference.generativeai.{region}.oci.oraclecloud.com/20231130/actions/embedText",
 				"model": "cohere.embed-english-v3.0",
 				"batch_size":50
 				}')) embed_vector
@@ -1357,13 +1398,32 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 
 ## Task 8: Queries
 
-1. SQL Statements
+1. SQL Statements Using Database Function Created in Task 4, Step 11
 
     ```
     <copy>
 	set serveroutput on
 	select gen_ai_chat_documents('what is the broadband infraxtetructure fund outlined in house bill 9?','Default');
 	select gen_ai_chat_documents('are there any financial implications if it is passed?','Default');
+    </copy>
+    ```
+	
+2. SQL Statements Using Vector Distance 
+
+    ```
+    <copy>
+	select  l.id, l.file_name, lv.chunk_id, 
+			vector_distance(lv.embed_vector, (select dbms_vector.utl_to_embedding('what is the broadband infrastructure fund outlined in house bill 9?', json('{
+				  "provider": "OCIGenAI",
+				  "credential_name": "{update with oci_vector_cred from Task 3.3}",
+				  "url": "https://inference.generativeai.{region}.oci.oraclecloud.com/20231130/actions/embedText",
+				  "model": "cohere.embed-english-v3.0",
+				  "batch_size":10}')) from dual),cosine) as score,
+			lv.chunk_txt 
+	from    document_vector lv, documents l
+	where   l.id = lv.id and l.domain = 'Default'
+			order by score
+	fetch first 5 rows only;
     </copy>
     ```
 
@@ -1421,23 +1481,58 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 
 ## Task 9: APEX Application
 
-The APEX Application is available from the below links.  You can import the app into an existing APEX Workspace based off of the **vector** schema/user.
+1.  Create New APEX Workspace
 
-* [APEX Application](https://github.com/snicholspa/tips_tricks_howtos/blob/main/autonomous_database/vector_search_enhanced/files/apex_vectorapp.zip)
+2.  Import Application into APEX Workspace
 
-Refer to the following YouTube Recording to re-configure (ORDS Setup and Change ORDS URL) the PDF Viewer option in the APEX Application hosted in your environment.
+	The APEX Application is available from the below links.  You can import the app into an existing APEX Workspace based off of the **vector** schema/user.
 
-[PDF Viewer in Oracle APEX](youtube:PoAl_TA0TxA)
+	* [APEX Application](https://github.com/snicholspa/tips_tricks_howtos/blob/main/autonomous_database/vector_search_enhanced/files/apex_vectorapp.zip)
 
-Below are a couple links covering the new AI Powered APEX Assistant.
+3.  Access and Log Into APEX Application
 
-* [Using APEX Assistant](https://docs.oracle.com/en/database/oracle/apex/24.1/htmdb/using-apex-assistant.html)
+4.  Update APEX Application to View PDFs
 
-* [Coding with the AI Powered APEX Assistant](https://blogs.oracle.com/apex/post/coding-with-the-ai-powered-apex-assistant-on-oracle-apex)
+	Refer to the following YouTube Recording to re-configure (ORDS Setup and Change ORDS URL) the PDF Viewer option in the APEX Application hosted in your environment.
+
+	[PDF Viewer in Oracle APEX](youtube:PoAl_TA0TxA)
+
+    ```
+    <copy>
+	--- pdf viewer code snippets
+
+	<div id="pdfViewer" style="width: 100%; height: 500px">
+		<iframe src="" style="border: none;" type="application/pdf"
+		width="100%" height="100%"></iframe>
+	</div>
+
+
+	let id = this.data.id;async function getData(){
+	let afetch = await fetch('PLACEHOLDER' + id );
+	let blob = await afetch.blob();
+	let blobUrl = URL.createObjectURL(blob);
+	let pdfContainer = document.getElementById('pdfViewer');
+
+	pdfContainer.getElementsByTagName('iframe')[0].src = blobUrl;}
+
+	getData();
+
+	javascript:apex.event.trigger(document, 'PDFViewer',[{id:'#ID#'}]);
+	void(0);
+    </copy>
+    ```
+
+5.  General APEX Links
+
+	Below are a couple links covering the new AI Powered APEX Assistant.
+
+	* [Using APEX Assistant](https://docs.oracle.com/en/database/oracle/apex/24.1/htmdb/using-apex-assistant.html)
+
+	* [Coding with the AI Powered APEX Assistant](https://blogs.oracle.com/apex/post/coding-with-the-ai-powered-apex-assistant-on-oracle-apex)
 
 ## Acknowledgements
   * **Authors:** Derrick Cameron and Steven Nichols, Master Principal Cloud Architects
-  * **Last Updated By/Date:** Steven Nichols, January 14, 2025
+  * **Last Updated By/Date:** Steven Nichols, March 31, 2025
 
 Copyright (C)  Oracle Corporation.
 
