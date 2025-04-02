@@ -252,7 +252,7 @@ As the user **VECTOR**, issue the below PL/SQL Code.
 		-- https://docs.oracle.com/en-us/iaas/Content/generative-ai/pretrained-models.htm
 		gen_ai_endpoint 	varchar2(500) := 'https://inference.generativeai.{region}.oci.oraclecloud.com';
 		gen_ai_model 		varchar2(500) := 'cohere.command-r-08-2024'; --cohere.command-r-plus-08-2024
-		compartment_ocid	varchar2(500) := 'ocid1.compartment.oc1..aaa';
+		compartment_ocid	varchar2(500) := '{update with your compartment ocid};
 		api_cred_name 		varchar2(500) := '{oci_api_cred_from_Task_3_1}';
 		ai_prompt 			varchar2(4000) := 'who is Babe Ruth?';
 		resp 				dbms_cloud_types.RESP;
@@ -1167,7 +1167,7 @@ To access the documents used in this example, you can download them from the fol
 		 credential_name => '{update with oci_api_cred from Task 3.1}',
 		 object_uri => l_bucket||i.object_name);
 	insert into documents (file_name, file_size, file_type, file_content)
-				values(i.object_name, i.bytes, 'mime/pdf',l_blob);
+				values(i.object_name, i.bytes, 'application/pdf',l_blob);
 	commit;
 	end loop;
 	end;
@@ -1483,15 +1483,25 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 
 1.  Create New APEX Workspace
 
-2.  Import Application into APEX Workspace
+	Access Oracle APEX Administration Services from the below link 
+	
+	* [Access Oracle APEX Administration Services](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/apex-access-admin-services.html)
 
-	The APEX Application is available from the below links.  You can import the app into an existing APEX Workspace based off of the **vector** schema/user.
+	Log into the **internal** Workspace as the user **admin** and corresponding password.
+	
+	Create a new Workspace using an existing Schema 
 
-	* [APEX Application](https://github.com/snicholspa/tips_tricks_howtos/blob/main/autonomous_database/vector_search_enhanced/files/apex_vectorapp.zip)
+	* [Creating a Workspace Manually](https://docs.oracle.com/en/database/oracle/apex/24.2/htmig/creating-workspace-and-adding-apex-users.htm)
 
-3.  Access and Log Into APEX Application
+2.  Log into the new Workspace and Import the APEX Application
 
-4.  Update APEX Application to View PDFs
+	The APEX Application is available from the below link.  You can import the app into an existing APEX Workspace based off of the **vector** schema/user.
+
+	* [Download APEX Application](https://github.com/snicholspa/tips_tricks_howtos/blob/main/autonomous_database/vector_search_enhanced/files/apex_vectorapp.zip)
+
+	* [Importing an Application Export](https://docs.oracle.com/en/database/oracle/apex/24.2/htmdb/importing-export-files.htm)
+
+3.  Update APEX Application to View PDFs
 
 	Refer to the following YouTube Recording to re-configure (ORDS Setup and Change ORDS URL) the PDF Viewer option in the APEX Application hosted in your environment.
 
@@ -1522,17 +1532,9 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
     </copy>
     ```
 
-5.  General APEX Links
-
-	Below are a couple links covering the new AI Powered APEX Assistant.
-
-	* [Using APEX Assistant](https://docs.oracle.com/en/database/oracle/apex/24.1/htmdb/using-apex-assistant.html)
-
-	* [Coding with the AI Powered APEX Assistant](https://blogs.oracle.com/apex/post/coding-with-the-ai-powered-apex-assistant-on-oracle-apex)
-
 ## Acknowledgements
   * **Authors:** Derrick Cameron and Steven Nichols, Master Principal Cloud Architects
-  * **Last Updated By/Date:** Steven Nichols, March 31, 2025
+  * **Last Updated By/Date:** Steven Nichols, April 2, 2025
 
 Copyright (C)  Oracle Corporation.
 
