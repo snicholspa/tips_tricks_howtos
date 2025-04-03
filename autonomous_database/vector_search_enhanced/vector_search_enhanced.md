@@ -1174,6 +1174,11 @@ To access the documents used in this example, you can download them from the fol
 	/	
     </copy>
     ```
+
+	**STOP and PLEASE Read the following step**
+
+2.  At this point, you should have a populated **documents** and **document_vector** tables and the PDFs were chunked and vectorized (embeddings generated) and ready for searching.  To verify this, proceed to **Task 7**.
+
 	
 ## Task 6: Load ONXX Models (optional)
 
@@ -1224,7 +1229,37 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
     </copy>
     ```
 
-## Task 7: Vector Text, Chunking, Embedding Steps
+## Task 7: Vector Text, Chunking, Embedding Manual Steps and Validation
+
+Performing Tasks 1-5 should have loaded the PDF files stored in OCI Object Storage into the **documents** table and there's a **trigger (Task 4, Step 9)** on the **documents** table which will perform the following
+
+* Populates the **documents.file_content_clob** column with the text from the PDF stored in the **documents.file_content** column
+* Performs the Vector chunking based on the settings in the **ai_configuration** table and populates the **document_vector** table
+* Performs the Vector embeddings on the Vector chunks and populates the **document_vector.embed_vector** column.
+
+To validate all the above steps were execute, you can execute the first SQL statement to list the chunk count by file name.  You should have a row for each file you loaded from Object Storage.  The second SQL statement will identify any chunks without a corresponding calculated Vector Embedding.  If you see chunks and or embeddings missing, please refer to the below steps to create the chunks and embeddings manually.
+
+    ```
+    <copy>
+	-- list chunk count by file name
+	select d.file_name, count(*)
+	from documents d, document_vector dv
+	where d.id = dv.id
+	group by d.file_name
+	order by d.file_name;
+    </copy>
+    ```
+
+    ```
+    <copy>
+	-- list chunks without vectors count by file name
+	select d.file_name, count(*)
+	from documents d, document_vector dv
+	where d.id = dv.id and dv.embed_vector is null
+	group by d.file_name
+	order by d.file_name;
+    </copy>
+    ```
 
 1. Document to text
 
@@ -1427,7 +1462,7 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
     </copy>
     ```
 
-2. Sample Response from above SQL Statements
+3. Sample Response from above SQL Statement from Step 1
 
 	```
 	<copy>
@@ -1462,7 +1497,7 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 	</copy>
 	```
 
-3. Perform Search or instruction of specific document
+4. Perform Search or instruction of specific document
 
 *** NOTE CHANGE THE DOCUMENT NAME TO MATCH ONE THAT IS IN YOUR DOCUMENTS TABLE ***
 
@@ -1534,7 +1569,7 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 
 ## Acknowledgements
   * **Authors:** Derrick Cameron and Steven Nichols, Master Principal Cloud Architects
-  * **Last Updated By/Date:** Steven Nichols, April 2, 2025
+  * **Last Updated By/Date:** Steven Nichols, April 3, 2025
 
 Copyright (C)  Oracle Corporation.
 
