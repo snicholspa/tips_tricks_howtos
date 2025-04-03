@@ -614,6 +614,8 @@ As the user **VECTOR**, issue the below SQL Code.
 		into v_vector_by, v_vector_max, v_vector_overlap, v_vector_split, v_vector_language, v_vector_normalize
 		from ai_configuration;
 		--
+		for i in (select id from documents where id not in (select id from document_vector)) loop
+		--
 		insert into document_vector
 		select l.id
 			, json_value(c.column_value, '$.chunk_id' returning number) as chunk_id
@@ -629,7 +631,7 @@ As the user **VECTOR**, issue the below SQL Code.
 				}')) embed_vector 
 		from 
 		------- base table ---------
-		(select id from documents where id not in (select id from document_vector)) l,
+        (select id from documents where id =i.id) l,
 		------- doc to text query ---------
 		(select id
 			, dbms_vector_chain.utl_to_text (l.file_content, json('{"plaintext":"true","charset":"utf8"}')) file_text
@@ -644,6 +646,7 @@ As the user **VECTOR**, issue the below SQL Code.
 			   "normalize":"'||v_vector_normalize||'" }')) c
 		where l.id=t.id;
 		commit;
+		end loop;
 	 end;
 	end;	
     </copy>
@@ -1229,6 +1232,8 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
     ```
 
 ## Task 7: Vector Text, Chunking, Embedding Manual Steps and Validation
+
+**STOP and PLEASE Read the following**
 
 Performing Tasks 1-5 should have loaded the PDF files stored in OCI Object Storage into the **documents** table and there's a **trigger (Task 4, Step 9)** on the **documents** table which will perform the following
 
