@@ -1051,7 +1051,7 @@ As the user **VECTOR**, issue the below SQL Code.
     </copy>
     ```
 
-13. Create Vector CONVERSATION_V View
+13. Create Vector CONVERSATION\_V View
 
     ```
     <copy>
@@ -1079,7 +1079,7 @@ As the user **VECTOR**, issue the below SQL Code.
     </copy>
     ```
 
-14. Create Vector DOCUMENT_RANKING_V View
+14. Create Vector DOCUMENT\_RANKING\_V View
 
     ```
     <copy>
@@ -1112,7 +1112,7 @@ As the user **VECTOR**, issue the below SQL Code.
     </copy>
     ```
 
-15. Create Vector DOC_CITATIONS_V View
+15. Create Vector DOC\_CITATIONS\_V View
 
     ```
     <copy>
@@ -1232,33 +1232,33 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 
 Performing Tasks 1-5 should have loaded the PDF files stored in OCI Object Storage into the **documents** table and there's a **trigger (Task 4, Step 9)** on the **documents** table which will perform the following
 
-* Populates the **documents.file_content_clob** column with the text from the PDF stored in the **documents.file_content** column
-* Performs the Vector chunking based on the settings in the **ai_configuration** table and populates the **document_vector** table
-* Performs the Vector embeddings on the Vector chunks and populates the **document_vector.embed_vector** column.
+* Populates the **documents.file\_content\_clob** column with the text from the PDF stored in the **documents.file\_content** column
+* Performs the Vector chunking based on the settings in the **ai\_configuration** table and populates the **document\_vector** table
+* Performs the Vector embeddings on the Vector chunks and populates the **document\_vector.embed\_vector** column.
 
 To validate all the above steps were execute, you can execute the first SQL statement to list the chunk count by file name.  You should have a row for each file you loaded from Object Storage.  The second SQL statement will identify any chunks without a corresponding calculated Vector Embedding.  If you see chunks and or embeddings missing, please refer to the below steps to create the chunks and embeddings manually.
 
-    ```
-    <copy>
-	-- list chunk count by file name
-	select d.file_name, count(*)
-	from documents d, document_vector dv
-	where d.id = dv.id
-	group by d.file_name
-	order by d.file_name;
-    </copy>
-    ```
+```
+<copy>
+-- list chunk count by file name
+select d.file_name, count(*)
+from documents d, document_vector dv
+where d.id = dv.id
+group by d.file_name
+order by d.file_name;
+</copy>
+```
 
-    ```
-    <copy>
-	-- list chunks without vectors count by file name
-	select d.file_name, count(*)
-	from documents d, document_vector dv
-	where d.id = dv.id and dv.embed_vector is null
-	group by d.file_name
-	order by d.file_name;
-    </copy>
-    ```
+```
+<copy>
+-- list chunks without vectors count by file name
+select d.file_name, count(*)
+from documents d, document_vector dv
+where d.id = dv.id and dv.embed_vector is null
+group by d.file_name
+order by d.file_name;
+</copy>
+```
 
 1. Document to text
 
@@ -1498,7 +1498,7 @@ To validate all the above steps were execute, you can execute the first SQL stat
 
 4. Perform Search or instruction of specific document
 
-*** NOTE CHANGE THE DOCUMENT NAME TO MATCH ONE THAT IS IN YOUR DOCUMENTS TABLE ***
+	*** NOTE CHANGE THE DOCUMENT NAME TO MATCH ONE THAT IS IN YOUR DOCUMENTS TABLE ***
 
     ```
     <copy>
