@@ -414,6 +414,8 @@ As the user **VECTOR**, issue the below SQL Code.
 		documents varchar2(32767 byte), 
 		documents4rerank varchar2(32767 byte), 
 		documentsreranked varchar2(32767 byte),
+		ai_service varchar2(100 byte),
+		domain varchar2(100 byte),
 		constraint prompts_id_pk2 primary key (id),
 		foreign key (conv_id) references conversations (id)
 	   );
@@ -529,8 +531,11 @@ As the user **VECTOR**, issue the below SQL Code.
 		, p_citations varchar2
 		, p_documents varchar2
 		, p_documents4rerank varchar2
-		, p_documentsreranked json);
-	procedure prc_cr_doc_vectors;
+		, p_documentsreranked json
+		, p_ai_service varchar2
+		, p_domain varchar2);
+	procedure prc_cr_doc_vectors(p_id number);
+	procedure prc_cr_all_doc_vectors;
 	end;
 	/
 	-- Create Package Body
@@ -592,15 +597,61 @@ As the user **VECTOR**, issue the below SQL Code.
 		, p_citations varchar2
 		, p_documents varchar2
 		, p_documents4rerank varchar2
-		, p_documentsreranked json) is
+		, p_documentsreranked json
+		, p_ai_service varchar2
+		, p_domain varchar2) is
 		pragma autonomous_transaction;
 		begin
-		insert into prompts (id, conv_id, prompt, response, asked_on, chathistory, references, request, output, citations, documents, documents4rerank, documentsreranked)
-			values(p_id, p_conv_id, p_prompt, p_response, p_asked_on, p_chathistory, p_references, p_request, p_output, p_citations, p_documents, p_documents4rerank, p_documentsreranked);
+		insert into prompts (id, conv_id, prompt, response, asked_on, chathistory, references, request, output, citations, documents, documents4rerank, documentsreranked, ai_service, domain)
+			values(p_id, p_conv_id, p_prompt, p_response, p_asked_on, p_chathistory, p_references, p_request, p_output, p_citations, p_documents, p_documents4rerank, p_documentsreranked, p_ai_service, p_domain);
 		commit;
 		end;
 	---------   
-	procedure prc_cr_doc_vectors is
+	procedure prc_cr_doc_vectors (p_id number) is
+		v_vector_by             varchar2(100);
+		v_vector_max            number;
+		v_vector_overlap        number;
+		v_vector_split          varchar2(100);
+		v_vector_language       varchar2(100);
+		v_vector_normalize      varchar2(100);
+		--
+		begin
+		--
+		select vector_by, vector_max, vector_overlap, vector_split, vector_language, vector_normalize
+		into v_vector_by, v_vector_max, v_vector_overlap, v_vector_split, v_vector_language, v_vector_normalize
+		from ai_configuration;
+		--
+		insert into document_vector
+		select p_id
+			, json_value(c.column_value, '$.chunk_id' returning number) as chunk_id
+			, json_value(c.column_value, '$.chunk_offset' returning number) as chunk_pos
+			, json_value(c.column_value, '$.chunk_length' returning number) as chunk_size
+			, replace(json_value(c.column_value, '$.chunk_data'),chr(10),'') as chunk_txt
+			, dbms_vector_chain.utl_to_embedding(json_value(c.column_value, '$.chunk_data'), json('{
+				"provider": "OCIGenAI",
+				"credential_name": "{update with oci_vector_cred from Task 3.3}",
+				"url": "https://inference.generativeai.{region}.oci.oraclecloud.com/20231130/actions/embedText",
+				"model": "cohere.embed-english-v3.0",
+				"batch_size":10
+				}')) embed_vector 
+		from 
+		------- doc to text query ---------
+		(select id
+			, dbms_vector_chain.utl_to_text (l.file_content, json('{"plaintext":"true","charset":"utf8"}')) file_text
+		from documents l where id = p_id) t,
+		------- chunking ---------
+		dbms_vector_chain.utl_to_chunks(t.file_text,
+		json('{ "by":"'||v_vector_by||'",
+			   "max":"'||v_vector_max||'",
+			   "overlap":"'||v_vector_overlap||'0",
+			   "split":"'||v_vector_split||'",
+			   "language":"'||v_vector_language||'",
+			   "normalize":"'||v_vector_normalize||'" }')) c
+		where t.id = p_id;
+		commit;
+	 end;
+	--------
+	procedure prc_cr_all_doc_vectors is
 		v_vector_by             varchar2(100);
 		v_vector_max            number;
 		v_vector_overlap        number;
@@ -615,7 +666,7 @@ As the user **VECTOR**, issue the below SQL Code.
 		from ai_configuration;
 		--
 		for i in (select id from documents where id not in (select id from document_vector)) loop
-		--
+		--    
 		insert into document_vector
 		select l.id
 			, json_value(c.column_value, '$.chunk_id' returning number) as chunk_id
@@ -631,7 +682,7 @@ As the user **VECTOR**, issue the below SQL Code.
 				}')) embed_vector 
 		from 
 		------- base table ---------
-        (select id from documents where id =i.id) l,
+		(select id from documents where id =i.id) l,
 		------- doc to text query ---------
 		(select id
 			, dbms_vector_chain.utl_to_text (l.file_content, json('{"plaintext":"true","charset":"utf8"}')) file_text
@@ -886,7 +937,9 @@ As the user **VECTOR**, issue the below SQL Code.
 		, v_citations
 		, v_documents
 		, v_documents4rerank
-		, v_documentsreranked);
+		, v_documentsreranked
+		, null
+		, p_domain);
 
 	-- show me what you got
 	return v_response;
@@ -901,8 +954,8 @@ As the user **VECTOR**, issue the below SQL Code.
     <copy>
 	-- document search - (replace credentials and compartement ID below)
 	create or replace function gen_ai_chat_documents_single (
-		p_file_name in varchar2
-		, p_ai_message in varchar2
+		p_ai_message in varchar2
+		, p_file_name in varchar2
 		, p_session_id in number default sys_context('userenv','sessionid')
 		) return clob as
 		----
@@ -923,6 +976,7 @@ As the user **VECTOR**, issue the below SQL Code.
 		v_conv_id           number;
 		v_prompt_id         number;
 		v_next_prompt_id    number;
+		v_domain            varchar2(100);    		
 		----
 		v_ai_prompt_document_contents clob;
 		v_prompt_instruction varchar2(32767);
@@ -982,6 +1036,15 @@ As the user **VECTOR**, issue the below SQL Code.
 	select instruction into v_prompt_instruction from prompt_instructions
 	where active = 'Y';
 
+	--------------------------------
+	-- retrieve domain
+	--------------------------------
+
+	select domain into v_domain from documents where file_name = p_file_name;
+
+	--------------------------------
+	-- build request
+	--------------------------------
 	v_request_json_part1 := to_clob(
 		 '{
 			"compartmentId": "{update with your compartment ocid}",
@@ -1045,7 +1108,9 @@ As the user **VECTOR**, issue the below SQL Code.
 		, null
 		, p_file_name
 		, null
-		, null);
+		, null
+		, 'Document Search'
+		, v_domain);
 		
 	-- show me what you got
 	return v_response;
