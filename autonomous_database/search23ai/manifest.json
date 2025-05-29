@@ -1,0 +1,11 @@
+{
+    "workshoptitle": "Integrated Approaches to Searching and Analyzing Data in Oracle Database 23ai",
+    "help": "",
+	"tutorials": [
+        {
+            "title": "Integrated Approaches to Searching and Analyzing Data in Oracle Database 23ai",
+	    "description":"Integrated Approaches to Searching and Analyzing Data in Oracle Database 23ai",
+            "filename":"https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/search23ai/search23ai.md"
+        }
+    ]
+}
