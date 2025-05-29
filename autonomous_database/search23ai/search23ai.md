@@ -208,7 +208,7 @@ As the user **ADMIN**, issue the below PL/SQL Code.
 
 ## Task 4: Create and Test Credentials
 
-As the user **SERACH23AI**, issue the below PL/SQL Code.
+As the user **SEARCH23AI**, issue the below PL/SQL Code.
 
 1. Create API Credential to Access OCI Gen AI Service
 
@@ -335,10 +335,10 @@ As the user **SERACH23AI**, issue the below PL/SQL Code.
 	from dual;	
     </copy>
     ```
-
-5. Create Cohere Credential (used in re-ranking later on)
-
-   ```
+    
+5. Create Cohere Credential - used for re-ranking
+    
+    ```
     <copy>
 	BEGIN
 	  DBMS_CLOUD.CREATE_CREDENTIAL(
@@ -953,6 +953,8 @@ As the user **SEARCH23AI**, issue the below SQL Code.
 
 ## Task 6: Load ONXX Models
 
+As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
+
 More details on how-to leverage ONXX Models can be found below.
 
 * [Import Pretrained Models in ONNX Format for Vector Generation Within the Database](https://docs.oracle.com/en/database/oracle/oracle-database/23/vecse/import-pretrained-models-onnx-format-vector-generation-database.html)
@@ -1001,6 +1003,8 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 
 
 ## Task 7: Load Data into Database
+
+As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
 
 1. Load Moviestream Data (takes approximatley 3 minutes)
 
@@ -1071,6 +1075,8 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
     * [High Schools Data ](https://github.com/snicholspa/tips_tricks_howtos/blob/main/autonomous_database/search23ai/files/insert_highschools_data.sql)
 
 ## Task 8: Load Documents into Database
+
+As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
 
 Load your own PDFs into an Object Storage Bucket.  
 
@@ -1933,9 +1939,177 @@ As the user **SEARCH23AI**, issue the below SQL Code.
     </copy>
     ```
 
+9. Create Chat with Image Function 
+
+    ```
+    <copy>
+    create or replace FUNCTION gen_ai_chat_documents_image (
+        p_ai_prompt IN VARCHAR2
+        , p_image_name in VARCHAR2
+        , p_session_id in number default sys_context('userenv','sessionid')
+        ) RETURN CLOB AS
+        ----
+        v_gen_ai_endpoint       varchar2(500) := 'https://inference.generativeai.{region}.oci.oraclecloud.com';
+        v_gen_ai_model          varchar2(500) := 'meta.llama-3.2-90b-vision-instruct';
+        v_compartment_ocid      varchar2(500) := 'ocid1.compartment.oc1..{change me}';
+        v_resp                  dbms_cloud_types.RESP;
+        v_base64_image          CLOB;
+        v_request_json_part1    CLOB;
+        v_request_json_part2    CLOB;
+        v_request_body          BLOB;
+        v_blob_image            BLOB;
+        v_output                clob;
+        v_response              clob;
+        v_session           number;
+        v_conv_id           number;
+        v_prompt_id         number;
+        v_next_prompt_id    number;
+        v_domain            varchar2(100);
+    ----
+    BEGIN
+    --------------------------
+    -- Set conv_id and prompt_id
+    --------------------------
+    select count(*) into v_session from conversations where app_session = p_session_id;
+    if v_session = 0 then
+    chathistory_pkg.prc_add_conversation(user, systimestamp, p_session_id);
+    end if;
+    select prompt_seq.nextval into v_next_prompt_id;
+    -- locate latest chat and prompt sessions and set current chat history
+    select max(id) into v_conv_id from conversations where app_session = p_session_id;
+    --
+    begin
+    select max(id) into v_prompt_id from prompts where conv_id = v_conv_id;
+    exception
+    when others then null;
+    end;
+    --------------------------------
+    -- retrieve domain
+    --------------------------------
+    select domain into v_domain from documents where file_name = p_image_name;
+    --------------------------------
+    -- create temp blobs
+    --------------------------------
+    dbms_lob.createtemporary(v_request_body, FALSE);
+    --------------------------------
+    -- get image blob from table
+    --------------------------------
+    select file_content into v_blob_image from documents where file_name = p_image_name;
+    v_base64_image := APEX_WEB_SERVICE.BLOB2CLOBBASE64(v_blob_image,'N','N');
+    --------------------------------
+    -- build request
+    --------------------------------
+        v_request_json_part1 := to_clob(
+         '{
+            "compartmentId": "'||v_compartment_ocid||'",
+            "servingMode":
+                {
+                    "modelId": "'||v_gen_ai_model||'",
+                    "servingType": "ON_DEMAND"
+                }
+            ,
+            "chatRequest": {
+                "apiFormat": "GENERIC",	
+                "messages": [
+                    {
+                        "role": "USER",				
+                        "content": [
+                            {
+                                "type": "TEXT",
+                                "text": "'||p_ai_prompt||'"
+                            },
+                            {
+                                "type": "IMAGE",
+                                "imageUrl": {
+                                    "url": "data:image/png;base64,');
+        v_request_json_part2 := to_clob('"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "maxTokens":         4000,
+                "temperature":       0.75,
+                "numGenerations":    1,
+                "topK":              -1,
+                "isStream":          false			
+            }
+        }');
+    -- update request body for model and prompt
+    v_request_json_part1 := replace(v_request_json_part1,v_gen_ai_model,v_gen_ai_model);
+    v_request_json_part1 := replace(v_request_json_part1,p_ai_prompt,p_ai_prompt);
+    -- append part1 json to request blob
+    dbms_lob.append(v_request_body, apex_util.clob_to_blob(p_clob => v_request_json_part1, p_charset => 'AL32UTF8'));
+    -- append base64 image to request blob
+    dbms_lob.append(v_request_body, apex_util.clob_to_blob(p_clob => v_base64_image, p_charset => 'AL32UTF8'));
+    -- append part2 json to request blob
+    dbms_lob.append(v_request_body, apex_util.clob_to_blob(p_clob => v_request_json_part2, p_charset => 'AL32UTF8'));
+    -- call Gen AI Chat
+    v_resp := dbms_cloud.send_request(
+        credential_name => 'oci_key_cred',
+        uri => v_gen_ai_endpoint || '/20231130/actions/chat',
+        method => dbms_cloud.METHOD_POST,
+        body => v_request_body
+    );
+    v_output            := dbms_cloud.get_response_text(v_resp);
+    v_response          := json_value(v_output, '$.chatResponse.choices.message.content.text' returning clob);
+    -- free temp blobs
+    dbms_lob.freetemporary(v_request_body);
+    -- save prompt
+    chathistory_pkg.prc_add_prompt(
+        v_next_prompt_id
+        , v_conv_id
+        , p_ai_prompt
+        , v_response
+        , systimestamp
+        , null
+        , null
+        , null
+        , v_output
+        , null
+        , p_image_name
+        , null
+        , null
+        , null
+        , 'Image Search'
+        , v_domain);
+    -- show me what you got
+    return v_response;
+    END gen_ai_chat_documents_image;
+    </copy>
+    ```
+
+10. Create Document Search Function
+
+    ```
+    <copy>
+    create or replace function document_search (
+          p_ai_prompt  in varchar2
+        , p_file_name  in varchar2 default 'Default'
+        , p_session_id in number default sys_context('userenv','sessionid')
+        ) return clob as
+        v_response         varchar2(32767);
+        v_file_type        varchar2(100);
+    ---------------------------------------
+    begin
+        begin
+            select file_type into v_file_type from documents where file_name = p_file_name;
+        exception when others then null;
+        end;
+        if v_file_type = 'application/pdf' then
+            select gen_ai_chat_documents_single(p_ai_prompt, p_file_name, p_session_id) into v_response;
+        else
+            select gen_ai_chat_documents_image(p_ai_prompt, p_file_name, p_session_id) into v_response;
+        end if;
+        return v_response;
+        ---------------------------------------------
+    end;
+    </copy>
+    ```
+
 ## Task 10: Create Hybrid Search Index
 
-As the user **SEARCH23AI**, issue the below SQL Code.
+As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
 
 1. Create Vector Preference 
 
@@ -2068,6 +2242,8 @@ where h.rowid = v.id
 order by v.text_score desc, v.vector_score desc;
 </copy>
 ```
+
+Below are informational and demonstrates how to convert to text, chunk and vectorize a document.
 
 1. Document to text
 
@@ -2250,8 +2426,61 @@ order by v.text_score desc, v.vector_score desc;
 	select gen_ai_chat_documents('are there any financial implications if it is passed?','Default');
     </copy>
     ```
+
+2. This performs a Hybrid Search.
+
+    ```
+    <copy>
+    select h.id
+        , h.file_name
+        , v.vector_score
+        , v.text_score
+    from documents_hybrid_search h
+        , (select d.id
+            , d.vector_score
+            , d.text_score
+            from
+            (select dbms_hybrid_vector.search(
+        json(
+          '{
+             "hybrid_index_name" : "documents_hybrid_search_idx",
+             "search_scorer"     : "rsf",
+             "search_fusion"     : "UNION",
+             "vector":
+              {
+                 "search_text"   : "what legal documents address public safety",
+                 "search_mode"   : "DOCUMENT",
+                 "aggregator"    : "MAX",
+                 "score_weight"  : 1,
+                 "rank_penalty"  : 5
+              },
+             "text":
+              {
+                 "contains"      : "invasion",
+                 "score_weight"  : 10,
+                 "rank_penalty"  : 1
+              },
+             "return":
+              {
+                 "values"        : [ "rowid", "score", "vector_score", "text_score" ],
+                 "topN"          : 3
+                    }
+                }'
+                )) data) j,
+            json_table ( j.data, '$[*]'
+                columns (
+                    id varchar2(100) path '$."rowid"',
+                    vector_score number path '$."vector_score"',
+                    text_score number path '$."text_score"'
+                            )
+                        )
+                    d) v
+    where h.rowid = v.id
+    order by v.text_score desc, v.vector_score desc;
+    </copy>
+    ```
 	
-2. SQL Statements Using Vector Distance 
+3. SQL Statements Using Vector Distance 
 
     ```
     <copy>
@@ -2270,7 +2499,7 @@ order by v.text_score desc, v.vector_score desc;
     </copy>
     ```
 
-3. Sample Response from above SQL Statement from Step 1
+4. Sample Response from above SQL Statement from Step 1
 
 	```
 	<copy>
@@ -2305,7 +2534,7 @@ order by v.text_score desc, v.vector_score desc;
 	</copy>
 	```
 
-4. Perform Search or instruction of specific document
+5. Perform Search or instruction of specific document
 
 	*** NOTE CHANGE THE DOCUMENT NAME TO MATCH ONE THAT IS IN YOUR DOCUMENTS TABLE ***
 
@@ -2332,13 +2561,13 @@ order by v.text_score desc, v.vector_score desc;
 
 	Log into the **internal** Workspace as the user **admin** and corresponding password.
 	
-	Create a new Workspace using an existing Schema 
+	Create a new Workspace using an existing Schema **SEARCH23AI**
 
 	* [Creating a Workspace Manually](https://docs.oracle.com/en/database/oracle/apex/24.2/htmig/creating-workspace-and-adding-apex-users.htm)
 
 2.  Log into the new Workspace and Import the APEX Application
 
-	The APEX Application is available from the below link.  You can import the app into an existing APEX Workspace based off of the **vector** schema/user.
+	The APEX Application is available from the below link.  You can import the app into an existing APEX Workspace based off of the **SEARCH23AI** schema/user.
 
 	* [Download APEX Application](https://github.com/snicholspa/tips_tricks_howtos/blob/main/autonomous_database/search23ai/files/apex_search23ai_app.sql)
 
@@ -2346,7 +2575,7 @@ order by v.text_score desc, v.vector_score desc;
 
 ## Acknowledgements
   * **Authors:** Derrick Cameron and Steven Nichols, Master Principal Cloud Architects
-  * **Last Updated By/Date:** Steven Nichols, May 27, 2025
+  * **Last Updated By/Date:** Steven Nichols, May 29, 2025
 
 Copyright (C)  Oracle Corporation.
 

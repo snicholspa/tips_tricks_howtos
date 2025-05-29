@@ -1,14 +1,10 @@
 # Steve's How-Tos
 
-<h2 style="text-align: center;">OCI Generative AI</h2>
-
-### OCI Generative AI Agents
-
-- [OCI Generative AI Agent using an Oracle 23ai Vector Store Knowledge Base](https://snicholspa.github.io/tips_tricks_howtos/oci_genai_service/genai_agents_vector_kb/)
-
 <h2 style="text-align: center;">Autonomous Database</h2>
 
 ### AI in the Database
+
+- [23ai Search in ADB-S](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/search23ai/)
 
 - [23ai Vector Search with RAG](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/vector_search/)
 - [23ai Vector Search with RAG Enhanced](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/vector_search_enhanced/)
@@ -25,6 +21,12 @@
 
 - [PL/SQL SDK for OCI](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/pl_sql_sdk/)
 - [REST in ADB-S](https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/rest_in_db/)
+
+<h2 style="text-align: center;">OCI Generative AI</h2>
+
+### OCI Generative AI Agents
+
+- [OCI Generative AI Agent using an Oracle 23ai Vector Store Knowledge Base](https://snicholspa.github.io/tips_tricks_howtos/oci_genai_service/genai_agents_vector_kb/)
 
 <h2 style="text-align: center;">Analytics</h2>
 
