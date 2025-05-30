@@ -971,7 +971,7 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 	begin
 	dbms_cloud.get_object(
 		credential_name => '{update with oci_api_cred from Task 4.1}',
-		object_uri => 'https://objectstorage.{region}.oraclecloud.com/n/{namespace}/b/{bucket_name}/o/all-MiniLM-L6-v2.onnx',
+		object_uri => 'https://objectstorage.{region}.oraclecloud.com/n/{namespace}/b/{bucket_name}/o/all_MiniLM_L12_v2.onnx',
 		directory_name => 'data_pump_dir'
 		);
 	end;
@@ -994,7 +994,7 @@ Oracle is providing a Hugging Face **all-MiniLM-L12-v2** model in ONNX format, a
 	-- embedding query using ONXX model
 	select chunk_txt, dbms_vector_chain.utl_to_embedding(l.chunk_txt, json('{
 	  "provider": "database",
-      "model": "All_MINILM_L6V2MODEL"
+      "model": "All_MINILM_L12V2MODEL"
 	}')) embed_vector
 	from document_vector l
 	where rownum < 11;	
@@ -2422,8 +2422,8 @@ Below are informational and demonstrates how to convert to text, chunk and vecto
     ```
     <copy>
 	set serveroutput on
-	select gen_ai_chat_documents('what is the broadband infraxtetructure fund outlined in house bill 9?','Default');
-	select gen_ai_chat_documents('are there any financial implications if it is passed?','Default');
+	select ai_search('what is the broadband infraxtetructure fund outlined in house bill 9?','Default');
+	select ai_search('are there any financial implications if it is passed?','Default');
     </copy>
     ```
 
