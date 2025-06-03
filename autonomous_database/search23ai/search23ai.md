@@ -2245,6 +2245,8 @@ order by v.text_score desc, v.vector_score desc;
 
 Below are informational and demonstrates how to convert to text, chunk and vectorize a document.
 
+As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
+
 1. Document to text
 
     ```
@@ -2417,6 +2419,8 @@ Below are informational and demonstrates how to convert to text, chunk and vecto
 
 ## Task 12: Queries
 
+As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
+
 1. SQL Statements Using Database Function Created in Task 9, Step 5
 
     ```
@@ -2565,17 +2569,150 @@ Below are informational and demonstrates how to convert to text, chunk and vecto
 
 	* [Creating a Workspace Manually](https://docs.oracle.com/en/database/oracle/apex/24.2/htmig/creating-workspace-and-adding-apex-users.htm)
 
-2.  Log into the new Workspace and Import the APEX Application
-
+2. Log into the new Workspace and Import the APEX Application
+    
 	The APEX Application is available from the below link.  You can import the app into an existing APEX Workspace based off of the **SEARCH23AI** schema/user.
 
 	* [Download APEX Application](https://github.com/snicholspa/tips_tricks_howtos/blob/main/autonomous_database/search23ai/files/apex_search23ai_app.sql)
 
 	* [Importing an Application Export](https://docs.oracle.com/en/database/oracle/apex/24.2/htmdb/importing-export-files.htm)
 
+3. Setup and Enable ORDS REST access to AI Search (optional)
+
+    As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
+
+    REST Enable List Files
+
+    ```
+    <copy>
+    BEGIN
+      ORDS.ENABLE_SCHEMA(
+          p_enabled             => TRUE,
+          p_schema              => 'SEARCH23AI',
+          p_url_mapping_type    => 'BASE_PATH',
+          p_url_mapping_pattern => 'search23ai',
+          p_auto_rest_auth      => FALSE);
+        
+      ORDS.DEFINE_MODULE(
+          p_module_name    => 'search',
+          p_base_path      => '/search/',
+          p_items_per_page => 25,
+          p_status         => 'PUBLISHED',
+          p_comments       => NULL);
+
+      ORDS.DEFINE_TEMPLATE(
+          p_module_name    => 'search',
+          p_pattern        => 'listfiles',
+          p_priority       => 0,
+          p_etag_type      => 'HASH',
+          p_etag_query     => NULL,
+          p_comments       => NULL);
+
+      ORDS.DEFINE_HANDLER(
+          p_module_name    => 'search',
+          p_pattern        => 'listfiles',
+          p_method         => 'GET',
+          p_source_type    => 'json/collection',
+          p_items_per_page => 25,
+          p_mimes_allowed  => NULL,
+          p_comments       => NULL,
+          p_source         => 'select file_name from documents');
+    
+    COMMIT;
+
+    END;
+    /
+    </copy>
+    ```
+
+    REST Enable AI Search Function
+    
+    ```
+    <copy>
+    BEGIN
+      ORDS.DEFINE_TEMPLATE(
+          p_module_name    => 'search',
+          p_pattern        => 'searchai/:prompt/:domain',
+          p_priority       => 0,
+          p_etag_type      => 'HASH',
+          p_etag_query     => NULL,
+          p_comments       => NULL);
+          
+      ORDS.DEFINE_HANDLER(
+          p_module_name    => 'search',
+          p_pattern        => 'searchai/:prompt/:domain',
+          p_method         => 'GET',
+          p_source_type    => 'json/item',
+          p_items_per_page =>  25,
+          p_mimes_allowed  => '',
+          p_comments       => NULL,
+          p_source         => 'select ai_search(:prompt,:domain)');
+
+    COMMIT;
+
+    END;
+    /
+    </copy>
+    ```
+
+    REST Enable Single Document Search
+    
+    ```
+    <copy>
+    BEGIN   
+      ORDS.DEFINE_TEMPLATE(
+          p_module_name    => 'search',
+          p_pattern        => 'searchai2/:filename/:prompt',
+          p_priority       => 0,
+          p_etag_type      => 'HASH',
+          p_etag_query     => NULL,
+          p_comments       => NULL);
+
+      ORDS.DEFINE_HANDLER(
+          p_module_name    => 'search',
+          p_pattern        => 'searchai2/:filename/:prompt',
+          p_method         => 'GET',
+          p_source_type    => 'json/item',
+          p_items_per_page =>  25,
+          p_mimes_allowed  => '',
+          p_comments       => NULL,
+          p_source         => 'select document_search(:prompt,:filename)');
+
+    COMMIT;
+          
+    END;
+    /
+    </copy>
+    ```
+
+3. Test ORDS REST access to AI Search (optional)
+
+    Enter the following URLs into a browser.
+    
+    List files in the documents table
+    ```
+    <copy>
+    https://{database_name}.adb.{region}.oraclecloudapps.com/ords/search23ai/search/listfiles
+    </copy>
+    ```
+
+    List files in the documents table
+    ```
+    <copy>
+    https://{database_name}.adb.{region}.oraclecloudapps.com/ords/search23ai/search/searchai/what+is+the+broadband+infraxtetructure+fund+outlined+in+house+bill+9/Default
+    </copy>
+    ```
+
+    List files in the documents table
+    ```
+    <copy>
+    https://https://{database_name}.adb.{region}.oraclecloudapps.com/ords/search23ai/search/listfiles
+    </copy>
+    ```
+
 ## Acknowledgements
   * **Authors:** Derrick Cameron and Steven Nichols, Master Principal Cloud Architects
-  * **Last Updated By/Date:** Steven Nichols, May 29, 2025
+  * **Last Updated By/Date:** Steven Nichols, June 3, 2025
 
 Copyright (C)  Oracle Corporation.
 
