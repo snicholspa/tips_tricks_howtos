@@ -15,7 +15,7 @@ Oracle Database 23ai introduces groundbreaking capabilities that make searching 
 
 You’ll learn when to use each method, see each one in action, and discover how they can be combined to solve real-world data challenges—whether you're building intelligent apps, working with unstructured data, or enabling natural language interactions.
 
-[Integrated Approaches to Searching and Analyzing Data in Oracle Database 23ai](youtube:i2gOczXYoMo)
+[Integrated Approaches to Searching and Analyzing Data in Oracle Database 23ai](youtube:VudVfg8sXwY)
 
 ## New to the OCI Generative AI Service
 
@@ -2417,24 +2417,57 @@ As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
     </copy>
     ```
 
-## Task 12: Queries
+## Task 12: Sampling of Search Queries
 
 As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
 
-1. SQL Statements Using Database Function Created in Task 9, Step 5
+1. Select AI Natural Language to SQL
+
+    ```
+    <copy>
+    SELECT DBMS_CLOUD_AI.GENERATE(
+        prompt       => 'What movies are tom hanks in',
+        profile_name => 'OCI_LLAMA_INSTRUCT_NL2SQL',
+        action       => 'narrate');
+    </copy>
+    ```
+
+2. SQL Statements Using Database Function AI_SEARCH Created in Task 9, Step 5
 
     ```
     <copy>
 	set serveroutput on
-	select ai_search('what is the broadband infraxtetructure fund outlined in house bill 9?','Default');
-	select ai_search('are there any financial implications if it is passed?','Default');
+    select ai_search('What movies are tom hanks in','Movies');
+    select ai_search('what is the broadband infraxtetructure fund outlined in house bill 9?','Default');	
     </copy>
     ```
 
-2. This performs a Hybrid Search.
+3. SQL Statements Using Database Function AI_SEARCH Created in Task 9, Step 10
 
     ```
     <copy>
+	set serveroutput on
+    -- Image Search
+    select document_search('This image shows winners of the Canadian Squash Championships for both open and 40+.  Who won the open in 2008?','Squash.png');
+    -- Document Search
+    select document_search('summarize this document','constitution.pdf');
+    </copy>
+    ```
+
+4. This performs a Ubiquitous Search.
+
+    ```
+    <copy>
+    -- dbms_search (ubiquitous search)
+    select s.source,d.file_name,  s.score, v.chunk_txt
+    from documents d, document_vector v,
+    (SELECT a.source, SCORE(1) score, json_value(a.key,'$.ID' returning number) key
+    from global_idx a WHERE CONTAINS(a.data, 'invasion', 1) > 0 and a.source='DOCUMENTS') s
+    where d.id = s.key
+    and d.id = v.id
+    and instr(lower(v.chunk_txt),lower('invasion'))>0
+    order by s.score desc;
+    -- Hybrid Search
     select h.id
         , h.file_name
         , v.vector_score
@@ -2452,7 +2485,7 @@ As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
              "search_fusion"     : "UNION",
              "vector":
               {
-                 "search_text"   : "what legal documents address public safety",
+                 "search_text"   : "invasion",
                  "search_mode"   : "DOCUMENT",
                  "aggregator"    : "MAX",
                  "score_weight"  : 1,
@@ -2484,7 +2517,7 @@ As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
     </copy>
     ```
 	
-3. SQL Statements Using Vector Distance 
+5. SQL Statement Using Vector Distance 
 
     ```
     <copy>
@@ -2503,7 +2536,7 @@ As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
     </copy>
     ```
 
-4. Sample Response from above SQL Statement from Step 1
+6. Sample Response from above SQL Statement from Step 1
 
 	```
 	<copy>
@@ -2538,7 +2571,7 @@ As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
 	</copy>
 	```
 
-5. Perform Search or instruction of specific document
+7. Perform Search or instruction of specific document
 
 	*** NOTE CHANGE THE DOCUMENT NAME TO MATCH ONE THAT IS IN YOUR DOCUMENTS TABLE ***
 
@@ -2712,7 +2745,7 @@ As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
 
 ## Acknowledgements
   * **Authors:** Derrick Cameron and Steven Nichols, Master Principal Cloud Architects
-  * **Last Updated By/Date:** Steven Nichols, June 3, 2025
+  * **Last Updated By/Date:** Steven Nichols, June 5, 2025
 
 Copyright (C)  Oracle Corporation.
 
