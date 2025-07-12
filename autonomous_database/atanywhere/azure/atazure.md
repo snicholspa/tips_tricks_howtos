@@ -98,7 +98,7 @@ In this Workshop, we’ll explore the following:
 
     ![Wallet Password](images/azure/wallet_password.png)
     
-17. Copy Wallet Zip File to Desired Location and Unzip it (e.g., C:\\adbs_at_azure\\adb_wallets\\)
+17. Copy Wallet Zip File to Desired Location and Unzip it (e.g., C:\\adbs\_at\_azure\\adb_wallets\\)
 
     ![Wallet Unzipped](images/azure/wallet_unzip.png)
 
@@ -136,9 +136,9 @@ In this Workshop, we’ll explore the following:
 
     <https://www.oracle.com/database/technologies/instant-client/downloads.html>
 
-2. Unzip the download to the desired location (e.g., C:\\Oracle\\instantclient_23_8)    
+2. Unzip the download to the desired location (e.g., C:\\Oracle\\instantclient\_23\_8)    
 
-3. Copy the **tnsnames.ora**, **cwallet.sso** and **sqlnet.ora** files from the downloaded wallet into the directory **C:\\Oracle\\instantclient_23_8\\network\\admin**
+3. Copy the **tnsnames.ora**, **cwallet.sso** and **sqlnet.ora** files from the downloaded wallet into the directory **C:\\Oracle\\instantclient\_23\_8\\network\\admin**
 
 4. Test Connection Using SQL\*Plus 
 
@@ -326,7 +326,7 @@ As the user **adbsatazure**, issue the below SQL Statements
     
     ![](images/dotnet/list_package.png)
 
-6. Create .NET Application File **dotnet_crud_adbs.cs**
+6. Create .NET Application File **dotnet\_crud\_adbs.cs**
 
     **Note:** Update/Verify Database Username, Password, DSN and TnsAdmin Path
 
@@ -902,7 +902,7 @@ As the user **adbsatazure**, issue the below SQL Statements
     </copy>
     ```
 
-4. Create Python File Named **python_crud_adbs.py**
+4. Create Python File Named **python\_crud\_adbs.py**
 
     **Note:** Update/Verify Database Username, Password, DSN and Instant Client Path
 
@@ -1115,7 +1115,7 @@ As the user **adbsatazure**, issue the below SQL Statements
 
     <https://winlibs.com/>
 
-    Extract the downloaded zip archive. Add the bin directory (e.g., C:\\mingw\\bin) to your system\'s PATH environment variable.
+    Extract the downloaded zip archive. Add the bin directory (e.g., C:\\mingw\\bin) to your system's PATH environment variable.
 
 3. Create Working Folder
 
@@ -1154,7 +1154,7 @@ As the user **adbsatazure**, issue the below SQL Statements
 
     ![List godror](images/go/godror_list.png)
 
-6. Create GO Application File **go_crud_adbs.go**
+6. Create GO Application File **go\_crud\_adbs.go**
 
     **Note:** Update/Verify Database Username, Password, connectString, timezone and Instant Client Path (libDir).  You can detemine the database timezone by using the following SQL Statement 
 
