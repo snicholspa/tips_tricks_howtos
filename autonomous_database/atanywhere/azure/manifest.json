@@ -1,0 +1,11 @@
+{
+    "workshoptitle": "Oracle Autonomous Database at Azure",
+    "help": "",
+	"tutorials": [
+        {
+            "title": "Oracle Autonomous Database at Azure",
+	    "description":"Oracle Autonomous Database at Azure",
+            "filename":"https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/atanywhere/azure/atazure.md"
+        }
+    ]
+}
