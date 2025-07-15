@@ -19,6 +19,7 @@ In this Workshop, we’ll explore the following:
     * Node.js
     * Python
     * GO
+    * Rust
 
 ## Documentation 
 
@@ -1328,9 +1329,173 @@ As the user **adbsatazure**, issue the below SQL Statements
 
     ![Update Delete Employee](images/go/update_delete_employee.png)
 
+## Task 10: Rust Setup and Sample Application
+
+1. Download, Install and Configure GO
+
+    <https://www.rust-lang.org/tools/install>
+
+    ```
+    <copy>
+    rustc --version
+    cargo --version
+    </copy>
+    ```
+    ![Rust Version](images/rust/rust_version.png)
+    
+2. Create Working Folder
+
+    ```
+    <copy>
+    mkdir c:\adbs_at_azure\oracle_crud_rust_app
+    cd c:\adbs_at_azure\oracle_crud_rust_app
+    </copy>
+    ```
+
+3. Create New Rust Environment
+
+    ```
+    <copy>
+    cargo new oracle_crud
+    cd oracle_crud
+    </copy>
+    ```
+
+    ![New Rust Environment](images/rust/new_environment.png)
+
+4. Add Oracle Dependency to **Cargo.toml**
+
+    <https://docs.rs/oracle/latest/oracle/>
+
+    ```
+    <copy>
+    oracle = "0.6.3"
+    </copy>
+    ```
+
+    ![Add Oracle Dependency](images/rust/add_oracle.png)
+
+5. Edit Rust Application File **main.rs**
+
+    **Note:** Update/Verify Database Username, Password, connectString.  Also, feel free to update the create, update and delete values.
+
+    ```
+    <copy>
+    use oracle::{Connection, Row};
+
+    fn main() -> Result<(), oracle::Error> {
+        // Replace with your actual Oracle Autonomous Database connection details
+        let conn = Connection::connect("adbsatazure", "password", "adbsatazure_high")?;
+
+        // Read
+        read_employees(&conn)?;
+
+        // Create
+        create_employee(&conn, "John", "Rust", "john.rust@example.com", 50000)?;
+
+        // Update
+        update_employee(&conn, 25, 62000)?;
+
+        // Delete
+        delete_employee(&conn, 15)?;
+
+        // Read Again after CRUD
+        read_employees(&conn)?;
+
+        Ok(())
+    }
+
+    fn create_employee(conn: &Connection, first_name: &str, last_name: &str, email: &str, salary: i32) -> Result<(), oracle::Error> {
+        let sql = "INSERT INTO employees (first_name, last_name, email, salary) VALUES (:1, :2, :3, :4)";
+        let mut stmt = conn.statement(sql).build()?;
+        stmt.execute(&[&first_name, &last_name, &email, &salary])?;
+        conn.commit()?;
+        println!("Created employee: {} {}", first_name, last_name);
+        Ok(())
+    }
+
+    fn read_employees(conn: &Connection) -> Result<(), oracle::Error> {
+        let sql = "SELECT id, first_name, last_name, email, salary FROM employees";
+        let mut stmt = conn.statement(sql).build()?;
+        let rows = stmt.query(&[])?;
+
+        // Iterate over the rows and display the results
+        println!("{:<10} {:<15} {:<15} {:<30} {:<10}", "ID", "First Name", "Last Name", "Email", "Salary");
+        println!("{:-<10} {:-<15} {:-<15} {:-<30} {:-<10}", "", "", "", "", "");
+
+        for row_result in rows {
+            let row: Row = row_result?;
+            let id: i32 = row.get(0)?;
+            let first_name: String = row.get(1)?;
+            let last_name: String = row.get(2)?;
+            let email: String = row.get(3)?;
+            let salary: f64 = row.get(4)?;
+
+            println!("{:<10} {:<15} {:<15} {:<30} {:<10.2}", id, first_name, last_name, email, salary);
+        }
+        Ok(())
+    }
+
+    fn update_employee(conn: &Connection, id: i32, salary: i32) -> Result<(), oracle::Error> {
+        let sql = "UPDATE employees SET salary = :1 WHERE id = :2";
+        let mut stmt = conn.statement(sql).build()?;
+        stmt.execute(&[&salary, &id])?;
+        conn.commit()?;
+        println!("Updated employee ID {}", id);
+        Ok(())
+    }
+
+    fn delete_employee(conn: &Connection, id: i32) -> Result<(), oracle::Error> {
+        let sql = "DELETE FROM employees WHERE id = :1";
+        let mut stmt = conn.statement(sql).build()?;
+        stmt.execute(&[&id])?;
+        conn.commit()?;
+        println!("Deleted employee ID {}", id);
+        Ok(())
+    }
+    </copy>
+    ```
+
+6. Build, Run and Test Rust Application
+
+    Add the path to the Oracle Instant Client to the Environment Path 
+
+    ```
+    <copy>
+    SET PATH=C:\oracle\instantclient_23_8;%PATH%
+    </copy>
+    ```
+
+    ![Set Path](images/rust/set_path.png)
+
+    Build and Run the Rust Application
+
+    ```
+    <copy>
+    cargo build
+    cargo run
+    </copy>
+    ```
+
+    ![Rust Build](images/rust/rust_build.png)
+
+    ![Rust Run](images/rust/rust_run.png)
+
+    View All Employees
+
+    ![List All Employees](images/rust/list_all_employees.png)
+
+    Create, Update and Delete Employee
+
+    ![Create Update Delete Employee](images/rust/create_update_delete_employee.png)
+
+    View All Employees after CRUD
+
+    ![List All Employees after CRUD](images/rust/list_all_employees_after_crud.png)
+
 ## Acknowledgements
   * **Authors:** Steven Nichols, Master Principal Cloud Architect
-  * **Last Updated By/Date:** Steven Nichols, July 12, 2025
+  * **Last Updated By/Date:** Steven Nichols, July 15, 2025
 
 Copyright (C)  Oracle Corporation.
 
