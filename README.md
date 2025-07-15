@@ -8,15 +8,21 @@ Welcome to **Steve's How-Tos**, a collection of guides and tutorials for Oracle 
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; background-color: #F8F8F8; padding: 20px; border-radius: 8px; border-left: 5px solid #E30613;">
   <div style="background-color: #FFFFFF; padding: 15px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <h3 style="color: #E30613; margin-top: 0;">Oracle Database@Anywhere</h3>
+    <ul style="list-style-type: none; padding: 0;">
+      <li><a href="https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/atanywhere/azure/" style="color: #333; text-decoration: none;">Oracle Database@Azure</a></li>
+    </ul>
+  </div>
+  <div style="background-color: #FFFFFF; padding: 15px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
     <h3 style="color: #E30613; margin-top: 0;">AI in the Database</h3>
     <ul style="list-style-type: none; padding: 0;">
-      <li><a href="https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/search23ai/" style="color: #333; text-decoration: none;">23ai Search in ADB-S</a></li>
+      <li><a href="https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/search23ai/" style="color: #333; text-decoration: none;">23ai Search in ADB-S (new)</a></li>
+      <li><a href="https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/vector_search_enhanced/" style="color: #333; text-decoration: none;">23ai Vector Search with RAG Enhanced (latest)</a></li>      
       <li><a href="https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/vector_search/" style="color: #333; text-decoration: none;">23ai Vector Search with RAG</a></li>
-      <li><a href="https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/vector_search_enhanced/" style="color: #333; text-decoration: none;">23ai Vector Search with RAG Enhanced</a></li>
-      <li><a href="https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai_oci_refined/" style="color: #333; text-decoration: none;">Select AI for NL2SQL Using only OCI on ADB-S Refined</a></li>
+      <li><a href="https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai_oci_refined/" style="color: #333; text-decoration: none;">Select AI for NL2SQL Using only OCI on ADB-S Refined (latest)</a></li>
+      <li><a href="https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai_rag/" style="color: #333; text-decoration: none;">Select AI for RAG on ADB-S</a></li>
       <li><a href="https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai_oci_only/" style="color: #333; text-decoration: none;">Select AI for NL2SQL Using only OCI on ADB-S</a></li>
       <li><a href="https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai/" style="color: #333; text-decoration: none;">Select AI for NL2SQL on ADB-S</a></li>
-      <li><a href="https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai_rag/" style="color: #333; text-decoration: none;">Select AI for RAG on ADB-S</a></li>
     </ul>
   </div>
   <div style="background-color: #FFFFFF; padding: 15px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
