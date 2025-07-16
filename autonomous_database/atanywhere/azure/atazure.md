@@ -20,6 +20,7 @@ In this Workshop, we’ll explore the following:
     * Python
     * GO
     * Rust
+    * Ruby
 
 ## Documentation 
 
@@ -855,7 +856,7 @@ As the user **adbsatazure**, issue the below SQL Statements
 
     Get a Specific Employee using Browser
 
-    http://localhost:3000/employees/25
+    <http://localhost:3000/employees/25>
 
     ![Get Specific Employee](images/nodejs/get_specific_employee.png)
 
@@ -1493,9 +1494,338 @@ As the user **adbsatazure**, issue the below SQL Statements
 
     ![List All Employees after CRUD](images/rust/list_all_employees_after_crud.png)
 
+## Task 11: Ruby Setup and Sample Application
+
+1. Download, Install and Configure Ruby
+
+    <https://www.ruby-lang.org/en/documentation/installation/>
+
+    <https://rubyinstaller.org/>
+    
+    <https://www.rubydoc.info/github/kubo/ruby-oci8>
+
+    ```
+    <copy>
+    gem --version
+    </copy>
+    ```
+
+    ![Ruby Version](images/ruby/ruby_version.png)
+
+2. Download and Install Oracle Instant Client SDK
+
+    Unzip the SDK Download into the same directory you installed the Oracle Instant Client in Task 3.
+
+    <https://download.oracle.com/otn_software/nt/instantclient/2380000/instantclient-sdk-windows.x64-23.8.0.25.04.zip>
+
+3. Install Ruby gem **ruby-oci8**
+
+
+    Add Oracle Instant Client to PATH and Set TNS_ADMIN 
+
+    ```
+    <copy>
+    SET PATH=C:\oracle\instantclient_23_8;%PATH%
+    set TNS_ADMIN=C:\adbs_at_azure\adb_wallets\Wallet_adbsatazure
+    </copy>
+    ```
+
+    Install Ruby gem ruby-oci8
+
+    ```
+    <copy>
+    gem install ruby-oci8
+    </copy>
+    ```
+
+    ![Ruby Version](images/ruby/install_ruby_oci8.png)    
+    
+    List the installed Gems
+
+    ```
+    <copy>
+    gem list
+    gem list ruby-oci8
+    </copy>
+    ```
+
+    ![Ruby Version](images/ruby/gem_list_oci8.png)    
+
+4. Create Working Folder
+
+    ```
+    <copy>
+    mkdir c:\adbs_at_azure\oracle_crud_ruby_app
+    cd c:\adbs_at_azure\oracle_crud_ruby_app
+    </copy>
+    ```
+
+5. Create Ruby Application File **manage_employees.rb**
+
+    **Note:** Update/Verify Database Username, Password, connectString.
+
+    ```
+    <copy>
+    require 'oci8'
+
+    class EmployeeManager
+      def initialize
+        # Connection details for Oracle Autonomous Database
+        # Replace with your credentials and connection string
+        @username = 'adbsatazure'
+        @password = 'password'
+        @connection_string = 'adbsatazure_high' # e.g., 'yourdb_high' from tnsnames.ora
+
+        # Establish connection
+        begin
+          @conn = OCI8.new(@username, @password, @connection_string)
+          puts "Successfully connected to Oracle Autonomous Database!"
+        rescue OCI8::Exception => e
+          puts "Connection failed: #{e.message}"
+          exit
+        end
+      end
+
+      # Create: Insert a new employee
+      def create_employee(first_name, last_name, email, salary)
+        begin
+          # Use a PL/SQL block to insert and return the ID
+          plsql = @conn.parse(<<-SQL)
+            BEGIN
+              INSERT INTO employees (first_name, last_name, email, salary)
+              VALUES (:1, :2, :3, :4)
+              RETURNING id INTO :5;
+            END;
+          SQL
+
+          # Bind input parameters
+          plsql.bind_param(1, first_name)
+          plsql.bind_param(2, last_name)
+          plsql.bind_param(3, email)
+          plsql.bind_param(4, salary)
+
+          # Bind output parameter for ID (type: Fixnum for NUMBER)
+          new_id = nil
+          plsql.bind_param(5, new_id, Integer)      
+
+          # Execute the PL/SQL block
+          plsql.exec
+
+          # Get the returned ID from the bind variable
+          new_id = plsql[5]
+          @conn.commit
+
+          puts "Employee created with ID: #{new_id}"
+          #return new_id
+        rescue OCI8::Exception => e
+          puts "Error creating employee: #{e.message}"
+        end
+      end
+
+      # Read: Retrieve all employees or by ID
+      def read_employees(id = nil)
+        begin
+          if id
+            cursor = @conn.exec('SELECT * FROM employees WHERE id = :1', id)
+          else
+            cursor = @conn.exec('SELECT * FROM employees')
+          end
+
+          puts "\nEmployee List:"
+          puts "ID | First Name | Last Name | Email | Salary"
+          puts "-" * 50
+          while row = cursor.fetch
+            #puts "#{row[0]} | #{row[1]} | #{row[2]} | #{row[3]} | #{row[4]}"
+            puts format("%d | %s | %s | %s | %.2f", row[0], row[1], row[2], row[3], row[4])
+          end
+        rescue OCI8::Exception => e
+          puts "Error reading employees: #{e.message}"
+        ensure
+          cursor.close if cursor
+        end
+      end
+
+      # Update: Modify an existing employee's details
+      def update_employee(id, first_name, last_name, email, salary)
+        begin
+          cursor = @conn.exec(
+            'UPDATE employees SET first_name = :1, last_name = :2, email = :3, salary = :4 WHERE id = :5',
+            first_name, last_name, email, salary, id
+          )
+          @conn.commit
+          puts "Employee with ID #{id} updated successfully."
+        rescue OCI8::Exception => e
+          puts "Error updating employee: #{e.message}"
+        end
+      end
+
+      # Delete: Remove an employee by ID
+      def delete_employee(id)
+        begin
+          cursor = @conn.exec('DELETE FROM employees WHERE id = :1', id)
+          @conn.commit
+          puts "Employee with ID #{id} deleted successfully."
+        rescue OCI8::Exception => e
+          puts "Error deleting employee: #{e.message}"
+        end
+      end
+
+      # Close the database connection
+      def close_connection
+        @conn.logoff if @conn
+        puts "Database connection closed."
+      end
+    end
+
+    # Example usage with a simple command-line interface
+    def main
+      emp_mgr = EmployeeManager.new
+
+      loop do
+        puts "\nEmployee Management System"
+        puts "1. Create Employee"
+        puts "2. Read All Employees"
+        puts "3. Read Employee by ID"
+        puts "4. Update Employee"
+        puts "5. Delete Employee"
+        puts "6. Exit"
+        print "Choose an option: "
+
+        choice = gets.chomp.to_i
+
+        case choice
+        when 1
+          print "Enter First Name: "
+          first_name = gets.chomp
+          print "Enter Last Name: "
+          last_name = gets.chomp
+          print "Enter Email: "
+          email = gets.chomp
+          print "Enter Salary: "
+          salary = gets.chomp.to_f
+          emp_mgr.create_employee(first_name, last_name, email, salary)
+
+        when 2
+          emp_mgr.read_employees
+
+        when 3
+          print "Enter Employee ID: "
+          id = gets.chomp.to_i
+          emp_mgr.read_employees(id)
+
+        when 4
+          print "Enter Employee ID to update: "
+          id = gets.chomp.to_i
+          print "Enter new First Name: "
+          first_name = gets.chomp
+          print "Enter new Last Name: "
+          last_name = gets.chomp
+          print "Enter new Email: "
+          email = gets.chomp
+          print "Enter new Salary: "
+          salary = gets.chomp.to_f
+          emp_mgr.update_employee(id, first_name, last_name, email, salary)
+
+        when 5
+          print "Enter Employee ID to delete: "
+          id = gets.chomp.to_i
+          emp_mgr.delete_employee(id)
+
+        when 6
+          emp_mgr.close_connection
+          puts "Exiting application."
+          break
+
+        else
+          puts "Invalid option. Please try again."
+        end
+      end
+    end
+
+    # Run the application
+    if __FILE__ == $PROGRAM_NAME
+      main
+    end
+    </copy>
+    ```
+
+6. Run the Ruby Application
+
+    Add the path to the Oracle Instant Client to the Environment Path and Set TNS_ADMIN 
+
+    ```
+    <copy>
+    SET PATH=C:\oracle\instantclient_23_8;%PATH%
+    set TNS_ADMIN=C:\adbs_at_azure\adb_wallets\Wallet_adbsatazure    
+    </copy>
+    ```
+
+    Set the **NLS_LANG** Environment Variable.  Use the below SQL to determine your Autonomous Database NLS Settings
+
+    ```
+    <copy>
+    SELECT LISTAGG(value, '.') WITHIN GROUP (ORDER BY DECODE(parameter, 'NLS_LANGUAGE', 1, 'NLS_TERRITORY', 2, 'NLS_CHARACTERSET', 3)) 
+      AS nls_lang
+    FROM nls_database_parameters 
+    WHERE parameter IN ('NLS_LANGUAGE', 'NLS_TERRITORY', 'NLS_CHARACTERSET');
+    </copy>
+    ```    
+
+    ![Get NLS_LANG](images/ruby/get_nls_lang.png)
+
+    ```
+    <copy>
+    set NLS_LANG=AMERICAN_AMERICA.AL32UTF8
+    </copy>
+    ```
+
+    Verify Environment is Ready
+    
+    ```
+    <copy>
+    echo %PATH%
+    echo %TNS_ADMIN%
+    echo %NLS_LANG%
+    </copy>
+    ```    
+
+    ![Verify Environment](images/ruby/verify_environment.png)
+
+    Run the Ruby Application
+
+    ```
+    <copy>
+    ruby manage_employees.rb
+    </copy>
+    ```
+
+    ![Run Ruby Application](images/ruby/run_ruby_app.png)
+
+7. Test Ruby Application
+
+    View All Employees
+
+    ![List All Employees](images/ruby/list_all_employees.png)
+
+    View Employee by ID
+
+    ![View Employee](images/ruby/list_employee.png)
+
+    Create Employee
+
+    ![Create Employee](images/ruby/create_employee.png)
+
+    Update Employee
+
+    ![Update Employee](images/ruby/update_employee.png)
+
+    Delete Employee
+
+    ![Delete Employee](images/ruby/delete_employee.png)
+
 ## Acknowledgements
   * **Authors:** Steven Nichols, Master Principal Cloud Architect
-  * **Last Updated By/Date:** Steven Nichols, July 15, 2025
+  * **Last Updated By/Date:** Steven Nichols, July 16, 2025
 
 Copyright (C)  Oracle Corporation.
 
