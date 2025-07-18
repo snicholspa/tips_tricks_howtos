@@ -2111,7 +2111,7 @@ As the user **SEARCH23AI**, issue the below SQL Code.
 
 As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
 
-1. Create **documents_hybrid_search** table
+1. Create **documents\_hybrid\_search** table
 
     ```
     <copy>
