@@ -2111,7 +2111,16 @@ As the user **SEARCH23AI**, issue the below SQL Code.
 
 As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
 
-1. Create Vector Preference 
+1. Create **documents_hybrid_search** table
+
+    ```
+    <copy>
+    create table documents_hybrid_search as select * from documents;
+    alter table documents_hybrid_search add constraint documents_hybrid_search_pk primary key(id);
+    </copy>
+    ```
+    
+2. Create Vector Preference 
 
     ```
     <copy>
@@ -2133,7 +2142,7 @@ As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
     </copy>
     ```
 
-2. Create Hybrid Vector Index
+3. Create Hybrid Vector Index
 
     **Note:**  This steps takes approximately **75 - 90** minutes to complete
 
@@ -2745,7 +2754,7 @@ As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
 
 ## Acknowledgements
   * **Authors:** Derrick Cameron and Steven Nichols, Master Principal Cloud Architects
-  * **Last Updated By/Date:** Steven Nichols, June 5, 2025
+  * **Last Updated By/Date:** Steven Nichols, July 18, 2025
 
 Copyright (C)  Oracle Corporation.
 
