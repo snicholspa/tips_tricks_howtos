@@ -64,6 +64,8 @@ In this Workshop, we’ll explore the following:
 
     ![Maintenance](images/azure/maintenance.png)
 
+    **Note:** Accept **Regular** as the default.  If you would like **Early**, be sure to verify this option is available in the region you selected earlier.
+
 8. Accept Defaults for Consent
 
     ![Consent](images/azure/consent.png)
