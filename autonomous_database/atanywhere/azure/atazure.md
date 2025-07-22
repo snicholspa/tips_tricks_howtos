@@ -24,11 +24,23 @@ In this Workshop, we’ll explore the following:
 
 ## Documentation 
 
-<https://www.oracle.com/cloud/azure/oracle-database-at-azure/>
+<https://learn.microsoft.com/en-us/azure/oracle/>
 
 <https://azuremarketplace.microsoft.com/en-us/marketplace/apps/oracle.oracle_database_at_azure?tab=Overview>
 
+<https://www.oracle.com/cloud/azure/oracle-database-at-azure/>
+
 <https://docs.oracle.com/en-us/iaas/Content/database-at-azure/oaa.htm>
+
+## Prerequisites
+
+Please reference the below links to complete all the Onboarding Steps.  Once the onboarding steps are complete, you can begin provisioning and using Oracle database resources in your Azure environment.
+
+<https://learn.microsoft.com/en-us/azure/oracle/oracle-db/onboard-oracle-database>
+
+<https://learn.microsoft.com/en-us/azure/oracle/oracle-azure-overview>
+
+<https://docs.oracle.com/en-us/iaas/Content/database-at-azure/oaaprerequisites.htm>
 
 ## Task 1: Provision ADB-S via Azure Portal and Download Wallet
 
