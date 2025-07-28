@@ -342,7 +342,7 @@ As the user **adbsatazure**, issue the below SQL Statements
     
     ![](images/dotnet/list_package.png)
 
-6. Create .NET Application File **dotnet\_crud\_adbs.cs**
+6. Rename the **Program.cs** file to **dotnet\_crud\_adbs.cs** and replace the code with the below code.
 
     **Note:** Update/Verify Database Username, Password, DSN and TnsAdmin Path
 
