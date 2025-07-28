@@ -480,7 +480,7 @@ As the user **adbsatazure**, issue the below SQL Statements
                         string lastName = Console.ReadLine()!;
                         Console.Write("Enter new Email: ");
                         string email = Console.ReadLine()!;
-                       cls Console.Write("Enter new Salary: ");
+                        Console.Write("Enter new Salary: ");
                         decimal salary = Convert.ToDecimal(Console.ReadLine());
 
                         string sql = "UPDATE employees SET first_name = :firstName, last_name = :lastName, email = :email, salary = :salary WHERE id = :id";
