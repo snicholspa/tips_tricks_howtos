@@ -2,11 +2,9 @@
 
 ## Introduction
 
-Learn about using Oracle Database@Azure to run Oracle Databases in your existing Azure environment.
+Are you interested in how Oracle 23ai, running natively on Azure can enhance and accelerate your next development project?I this half day developer experience will coach you through getting your first Autonomous Database up and running in Azure, how to load data and configure Visual Studio Code for rapid Application Development in five modern programming languaes. 
 
 Oracle Database@Azure is an Oracle Cloud Database service that runs Oracle Database workloads in your Azure environment. All hardware for Oracle Database@Azure is colocated in Azure's data centers and uses Azure networking. The service benefits from the simplicity, security, and low latency of a single operating environment within Azure. Federated identity and access management for Oracle Database@Azure is provided by Microsoft Entra ID.
-
-The above introduction was sourced from [here](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/oaa.htm)
 
 In this Workshop, we’ll explore the following:
 
@@ -34,7 +32,9 @@ In this Workshop, we’ll explore the following:
 
 ## Prerequisites
 
-Please reference the below links to complete all the Onboarding Steps.  Once the onboarding steps are complete, you can begin provisioning and using Oracle database resources in your Azure environment.
+To perform this lab you must first enable Oracle Database@Azure in your tenancy. This simple process begins by contacting your Oracle's sales team. The Oracle team can then create an Azure Private Offer inside the Azure Marketplace for your organization, once accepted you simply complete the purchase inside the Azure portal's Marketplace service and are able to begin your development journey. 
+
+Please reference the below links to complete all the Onboarding Steps.  
 
 <https://learn.microsoft.com/en-us/azure/oracle/oracle-db/onboard-oracle-database>
 
@@ -44,15 +44,15 @@ Please reference the below links to complete all the Onboarding Steps.  Once the
 
 ## Task 1: Provision ADB-S via Azure Portal and Download Wallet
 
-<https://learn.microsoft.com/en-us/azure/oracle/oracle-db/oracle-database-provision-autonomous-database>
-
-<https://docs.oracle.com/en-us/iaas/Content/database-at-azure-autonomous/odadb-provisioning-autonomous-database-azure.html>
-
 1. Log Into Azure Portal
 
     <https://portal.azure.com/>
     
-2. Click on All Services, Databases, Oracle Database@Azure
+2. Click on All Services
+
+    ![All Services](images/azure/all_services0.png)
+
+    then Databases, Oracle Database@Azure
 
     ![All Services](images/azure/all_services.png)
 
@@ -60,13 +60,19 @@ Please reference the below links to complete all the Onboarding Steps.  Once the
 
     ![Oracle Databases](images/azure/oracle_database.png)
 
-4. Select Subscription and Resource Group, Enter a Name and Select a Region
+4. Select Subscription and either create a new or select a Resource Group, 
+    ![Name and Region](images/azure/resource-group.png)
+
+    Then enter a Name and Select a Region
 
     ![Name and Region](images/azure/name_region.png)
 
-5. Select Workload Type, Database Version and Enter Admin Password
+5. Select Workload Type, Database Version and Enter Admin Password.
 
     ![Workload Version and Password](images/azure/workload_version.png)
+
+    Leave the default for License included. 
+    ![License Included](images/azure/license_included.png)
 
 6. Accept the Defaults for Networking
 
@@ -102,7 +108,7 @@ Please reference the below links to complete all the Onboarding Steps.  Once the
 
     ![Select Resource](images/azure/select_adb.png)
 
-14. Here you can click on **Connections** to Download the Wallet and **Go to OCI** 
+14. Here you can click on **Connections** to Download the Wallet. If you need to navigate to the Oracle Cloud Infrastructure console you can click **Go to OCI**. 
 
     ![Connections](images/azure/click_connections.png)
 
@@ -118,23 +124,35 @@ Please reference the below links to complete all the Onboarding Steps.  Once the
 
     ![Wallet Unzipped](images/azure/wallet_unzip.png)
 
+18. Reference links for the steps in Task 1. 
+<https://learn.microsoft.com/en-us/azure/oracle/oracle-db/oracle-database-provision-autonomous-database>
+
+<https://docs.oracle.com/en-us/iaas/Content/database-at-azure-autonomous/odadb-provisioning-autonomous-database-azure.html>
+
 ## Task 2: Install VSCode, Oracle SQL Developer Extension for VSCode, Define and Test ADB-S Connection
 
-1. Install Visual Studio Code
+1. Download and Install Visual Studio Code
 
     <https://code.visualstudio.com/download>
+    ![Download Visual Studio](images/vscode/download.png)
 
 2. Install Oracle SQL Developer Extension for VSCode
 
     <https://docs.oracle.com/en/database/oracle/sql-developer-vscode/23.4/sqdnx/installing-oracle-sql-developer-vs-code.html>
 
-3. Setup ADB-S Connection in Oracle SQL Developer Extension for VSCode
+3. Click Create Connection
 
-    <https://docs.oracle.com/en/database/oracle/sql-developer-vscode/23.4/sqdnx/connecting-your-database.html>
+    ![New Connection](images/vscode/create_connection.png)
+
+    Enter the **ADMIN** username and **PASSWORD** then select the WALLET.zip file downloaded in Task 1 as the configuration file. Click **TEST** and if successful **SAVE** to complete the setup. 
 
     ![Admin Connection](images/vscode/admin_connection.png)    
 
-4. Retrieve Session Timezone from Autonomous Database
+4. Open SQL Worksheet. 
+
+    ![SQL Worksheet](images/vscode/sql_worksheet.png)
+
+    Execute the SQL Statement Below to Retrieve Session Timezone from Autonomous Database
 
     ```
     <copy>
@@ -146,22 +164,44 @@ Please reference the below links to complete all the Onboarding Steps.  Once the
 
     **Note:** Make note of the value returned, you will enter it in the sample **GO** application below
 
+5. When prompted select **NO** for the SQL LLM prompt. 
+
+    ![Session Timezone](images/vscode/LLM_prompt.png)
+
+6. Below are reference links for the actions above.
+
+    <https://docs.oracle.com/en/database/oracle/sql-developer-vscode/23.4/sqdnx/connecting-your-database.html>
+
 ## Task 3: Download and Install Oracle Instant Client
 
-1. Download Oracle Instant Client - Basic Package and SQL\*Plus Package
+1. Download Oracle Instant Client and Basic Package and SQL\*Plus Package
 
     <https://www.oracle.com/database/technologies/instant-client/downloads.html>
 
-2. Unzip the download to the desired location (e.g., C:\\Oracle\\instantclient\_23\_8)    
+    ![Insta Client Downloads](images/instantclient/insta_downloads.png)
+
+2. Unzip the downloaded files to the desired location (e.g., C:\\Oracle\\instantclient\_23\_8)    
+
+    ![Extract Instaclient](images/instantclient/extract.png)
+
+    When extracting if you are prompted for file duplication select to skip the files. 
+
+    ![Skip Files](images/instantclient/skip_files.png)
 
 3. Copy the **tnsnames.ora**, **cwallet.sso** and **sqlnet.ora** files from the downloaded wallet into the directory **C:\\Oracle\\instantclient\_23\_8\\network\\admin**
 
-4. Test Connection Using SQL\*Plus 
+    ![Copy Files](images/instantclient/copy_files.png)
+
+4. Open the **tnsnames.ora** file you copied over in a text editor. Copy your connection name. (e.g. **adbsatazure_high**)
+
+    ![Copy Files](images/instantclient/connection.png)
+
+5. Test Connection Using SQL\*Plus 
 
     ```
     <copy>
     cd C:\Oracle\instantclient_23_8
-    sqlplus username/password@dsn
+    sqlplus admin/<your password>@<your connection name>
     </copy>
     ```
 
@@ -169,13 +209,13 @@ Please reference the below links to complete all the Onboarding Steps.  Once the
 
 ## Task 4: Create ADB-S User with Grants
 
-As the user **ADMIN**, issue the below SQL Statements
+Navigate back to SQL Developer in Visual Studio Code. As the user **ADMIN**, issue the below SQL Statements
 
 1. Create Database User and Initial Grants
 
     ```
     <copy>
-    create user adbsatazure identified by {password};
+    create user adbsatazure identified by "{password}";
     grant dwrole to adbsatazure;
     grant unlimited tablespace to adbsatazure;
     </copy>
@@ -183,7 +223,11 @@ As the user **ADMIN**, issue the below SQL Statements
 
     ![Create User](images/dbsetup/create_user.png)
 
-2. Create a New SQL Developer Connection in VSCode for database user **adbsatazure**
+2. Click the plus sign to create a new connection. 
+
+   ![add Connection](images/vscode/addconnection.png)
+
+    Create a New SQL Developer Connection in VSCode for database user **adbsatazure**
 
     ![adbsatazure Connection](images/vscode/adbsatazure_connection.png)    
 
@@ -208,7 +252,7 @@ As the user **adbsatazure**, issue the below SQL Statements
 
     ![Create Table](images/dbsetup/create_table.png)    
 
-2. Load Data into Employees Table
+2. Paste into SQL*Worksheet the Insert Statements below Load Data into Employees Table.
 
     ```
     <copy>
@@ -265,6 +309,7 @@ As the user **adbsatazure**, issue the below SQL Statements
     commit;
     </copy>
     ```
+    You will need to click the **Run Script** button to execute all the statements at one time. 
 
     ![Load Data](images/dbsetup/load_data.png)    
     
@@ -276,9 +321,12 @@ As the user **adbsatazure**, issue the below SQL Statements
     
 ## Task 6: .NET Setup and Sample Application
 
-1. Download and Install .NET SDK
+1. Download and Install .NET SDK the Latest Version of .NET
+    Go to:
 
     <https://dotnet.microsoft.com/download>
+
+    After Download Open the file.
 
     ![](images/dotnet/install1.png)
 
@@ -288,7 +336,11 @@ As the user **adbsatazure**, issue the below SQL Statements
 
     Click Close
 
-2. Verify .NET Environment in VSCode Terminal
+2. Open a New Terminal in VSCode. Please note you may have to close and open the program the first time you install the .Net framework.
+
+    ![Open Terminal](images/dotnet/openterminal.png)
+
+    Verify .NET Environment in VSCode Terminal
 
     ```
     <copy>
@@ -322,9 +374,7 @@ As the user **adbsatazure**, issue the below SQL Statements
     
     ![Run Hello World Application](images/dotnet/run_helloworld_app.png)
 
-5. Install Oracle Data Provider for .NET
-
-    <https://www.oracle.com/database/technologies/appdev/dotnet/odp.html>
+5. Install Oracle Data Provider for .NET by running the command below. 
 
     ```
     <copy>
@@ -340,11 +390,26 @@ As the user **adbsatazure**, issue the below SQL Statements
     </copy>
     ```
     
-    ![](images/dotnet/list_package.png)
+    ![List packages](images/dotnet/list_package.png)
 
-6. Rename the **Program.cs** file to **dotnet\_crud\_adbs.cs** and replace the code with the below code.
+    For more information please visit. 
+    
+    <https://www.oracle.com/database/technologies/appdev/dotnet/odp.html>
 
-    **Note:** Update/Verify Database Username, Password, DSN and TnsAdmin Path
+6. Create a new file for your first CRUD application. Name your file **dotnet\_crud\_adbs.cs**
+
+    List the project name then create a new file:
+    ```
+    <copy>
+    New-Item -Name "dotnet_crud_adbs.cs" -ItemType File
+    </copy>
+    ```
+
+    ![Create CRUD File](images/dotnet/createcrudfile.png)
+
+    Open the file in VS Code and paste in the following. **Note:** Please update and verify your Database Username, Password, DSN and TnsAdmin Path on line 9 & 14 in the program code. 
+
+    ![Update Connection Info](images/dotnet/updateconnection_info.png)
 
     ```
     <copy>
@@ -541,9 +606,11 @@ As the user **adbsatazure**, issue the below SQL Statements
 
 7. Test .NET Application
 
+    Remove or change the extension of the program.cs file created earlier. Then run your new program. 
+
     ```
     <copy>
-    dotnet run
+    dotnet run dotnet_crud_adbs.cs
     </copy>
     ```
     
@@ -1836,6 +1903,9 @@ As the user **adbsatazure**, issue the below SQL Statements
     Delete Employee
 
     ![Delete Employee](images/ruby/delete_employee.png)
+
+## Sourced Material
+Portions of the introduction were sourced from [here](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/oaa.htm)
 
 ## Acknowledgements
   * **Authors:** Steven Nichols, Master Principal Cloud Architect
