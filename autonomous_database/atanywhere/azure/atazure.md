@@ -174,23 +174,23 @@ Please reference the below links to complete all the Onboarding Steps.
 
 ## Task 2a: Install and Setup SQLcl MCP Server included with Oracle SQL Developer Extension for VSCode (Optional)
 
-The Oracle SQLcl Model Context Protocol (MCP) Server transforms how you interact with the Oracle Database by enabling seamless communication with Artificial Intelligence (AI) applications.
-
-It enables you to perform operations, create reports, and run queries on Oracle Database using natural language through AI-powered interactions. Discover the capabilities of the Oracle SQLcl MCP Server, and learn how to use it with popular MCP clients.
+The steps in this task are optional and not required to complete the other core tasks below. This task leverages the Oracle SQLcl Model Context Protocol (MCP) Server to transform how you interact with the Oracle Database by enabling seamless communication with Artificial Intelligence (AI) applications. The plugin's MCP server enables you to perform operations, create reports, and run queries on Oracle Database using natural language through AI-powered interactions. 
 
 **Caution** When you grant a large language model (LLM) access to your database, it introduces significant security risks. Because LLMs use the data you input to generate responses, you might inadvertently expose unintended tables or sensitive details.  Please refere to the below link for additional details and **Warnings**.
 
 [Using the Oracle SQLcl MCP Server] (https://docs.oracle.com/en/database/oracle/sql-developer-vscode/25.2/sqdnx/using-oracle-sqlcl-mcp-server.html)
 
-Refer to the following documentation for **Preparing Your Environment**
+1. Watch the video below to see the required steps for configuring the MCP server, logging in to github copilot and connecting to your DB@Azure in your environment before performing any actions. If you would like to proceed, replicate the steps in your development environment. 
 
-[Preparing Your Environment] (https://docs.oracle.com/en/database/oracle/sql-developer-vscode/25.2/sqdnx/preparing-your-environment.html)
+    [Zero to Vibe Coding on Autonmous Database in 5 Minutes](youtube:TvQb7H11zYM)
 
-In addition, please reference the below YouTube recordings on how to setup and leverage the **SQLcl MCP Server** included with the **Oracle SQL Developer Extension** for VSCode.
+2. Refer to the following Oracle documentation for **Preparing Your Environment** for more information or advanced configurations. 
 
-[Zero to Vibe Coding on Autonmous Database in 5 Minutes](youtube:TvQb7H11zYM)
+    [Preparing Your Environment] (https://docs.oracle.com/en/database/oracle/sql-developer-vscode/25.2/sqdnx/preparing-your-environment.html)
 
-[Introducing SQL Developer Copilot Integration in Microsoft VSCode & MCP Support for Oracle Database](youtube:hj6WoZVGUBg)
+3. For a more detailed look at the MCP server and VS Code plugin, please reference the below YouTube recording below.
+
+    [Introducing SQL Developer Copilot Integration in Microsoft VSCode & MCP Support for Oracle Database](youtube:hj6WoZVGUBg)
 
 ## Task 3: Download and Install Oracle Instant Client
 
@@ -424,6 +424,10 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     Here's an alternate view of the data 
 
     ![MCP View Data3](images/dbsetup/mcp_view_data3.png)           
+
+6. The SQLcl MCP Server activity is captured in the Database in the **DBTOOLS$MCP_LOG** Table
+
+    ![MCP DBTOOLS Log](images/dbsetup/mcp_dbtools_log.png)           
 
 ## Task 6: .NET Setup and Sample Application
 
