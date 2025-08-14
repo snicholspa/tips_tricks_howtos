@@ -429,6 +429,10 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
 
     ![MCP DBTOOLS Log](images/dbsetup/mcp_dbtools_log.png)           
 
+    The **LOG\_MESSAGE** column contains the SQL Generated and Executed
+    
+    ![MCP DBTOOLS Log Message](images/dbsetup/mcp_dbtools_log_message.png)           
+    
 ## Task 6: .NET Setup and Sample Application
 
 1. Download and Install .NET SDK the Latest Version of .NET
