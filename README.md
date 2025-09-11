@@ -23,6 +23,7 @@ Welcome to **Steve's How-Tos**, a collection of guides and tutorials for Oracle 
   </div>
   <div style="background-color: #FFFFFF; padding: 15px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
     <h3 style="color: #E30613; margin-top: 0;">Select AI in the Database</h3>
+    <ul style="list-style-type: none; padding: 0;">
       <li><a href="https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai_oci_refined/" style="color: #333; text-decoration: none;">Select AI for NL2SQL Using only OCI on ADB-S Refined (latest)</a></li>
       <li><a href="https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai_rag/" style="color: #333; text-decoration: none;">Select AI for RAG on ADB-S</a></li>
       <li><a href="https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/select_ai_oci_only/" style="color: #333; text-decoration: none;">Select AI for NL2SQL Using only OCI on ADB-S</a></li>
