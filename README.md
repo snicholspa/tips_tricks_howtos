@@ -31,6 +31,12 @@ Welcome to **Steve's How-Tos**, a collection of guides and tutorials for Oracle 
     </ul>
   </div>
   <div style="background-color: #FFFFFF; padding: 15px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <h3 style="color: #E30613; margin-top: 0;">MLE in the Database</h3>
+    <ul style="list-style-type: none; padding: 0;">
+      <li><a href="https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/mle/" style="color: #333; text-decoration: none;">MLE in the Oracle Database</a></li>
+    </ul>
+  </div>
+  <div style="background-color: #FFFFFF; padding: 15px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
     <h3 style="color: #E30613; margin-top: 0;">PL/SQL SDK and REST in the Database</h3>
     <ul style="list-style-type: none; padding: 0;">
       <li><a href="https://snicholspa.github.io/tips_tricks_howtos/autonomous_database/pl_sql_sdk/" style="color: #333; text-decoration: none;">PL/SQL SDK for OCI</a></li>

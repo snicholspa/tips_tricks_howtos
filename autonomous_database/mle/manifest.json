@@ -1,0 +1,10 @@
+{
+    "workshoptitle": "Oracle Database Multilingual Engine (MLE)",
+    "help": "",
+	"tutorials": [
+        {
+            "title": "Oracle Database Multilingual Engine (MLE)",
+            "filename":"https://raw.githubusercontent.com/snicholspa/tips_tricks_howtos/main/autonomous_database/mle/mle_in_adb.md"
+        }
+   ]
+}
