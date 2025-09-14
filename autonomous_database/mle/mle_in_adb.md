@@ -24,7 +24,7 @@ The above introduction was source from Oracle Documentation located [here](https
 
 ## Prerequisites - Initial MLE Setup and Deployment by Chip Baber
 
-Please complete the initial MLE setup as demonstrated and document by Chip Baber in the following YouTube Recording here.  Chip leverages an Oracle APEX Workspace and Application to complete the MLE setup and deployment of an MLE Module, Environment and Javascript based database functions.
+Please complete the initial MLE setup as demonstrated and documented by Chip Baber in the following YouTube Recording here.  Chip leverages an Oracle APEX Workspace and Application to complete the MLE setup and deployment of an MLE Module, Environment and Javascript based database functions.
 
 [How to Parse a Page from a PDF inside 23ai Leveraging the Multi-lingual Engine](youtube:o9NTFNzxscA)
 
@@ -155,7 +155,7 @@ During this demo you will learn how to:
 
     ![](images/image13.png)    
 
-2. Create Table to Store MLE Module written and package by Chip
+2. Create Table to Store MLE Module written and packaged by Chip
 
 	```
     <copy>
@@ -205,7 +205,7 @@ During this demo you will learn how to:
             execute IMMEDIATE create_mle_mod_statement;
             commit;
         end;
-        dbms_output.put_line('MLE Module Created:' || create_mle_mod_statement);
+        dbms_output.put_line('MLE Module Created: ' || create_mle_mod_statement);
 
         -- Create MLE Environment
         create_mle_env_statement := 'create or replace mle env '|| env_name || ' imports (' || '''' || mod_name || '''' || ' module ' || mod_name || ')'; 
@@ -221,7 +221,7 @@ During this demo you will learn how to:
 
     ![](images/image15.png)    
 
-    You can view the record inserted into the table **user_mle_modules_code**
+    You can view the record inserted into the table **user\_mle\_modules\_code**
 
     ![](images/image16.png)    
 
