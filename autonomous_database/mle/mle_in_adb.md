@@ -12,6 +12,8 @@ The Oracle Database is renowned for its support of a rich ecosystem of programmi
 
 The above introduction was source from Oracle Documentation located [here](https://docs.oracle.com/en/database/oracle/oracle-database/23/mlejs/introduction-to-mle.html).
 
+[Oracle Database Multilingual Engine (MLE) for JavaScript Deployment Options](youtube:OZy2GcYekUo)
+
 ## Documentation Links
 
 [Oracle Database Multilingual Engine for JavaScript TOC](https://docs.oracle.com/en/database/oracle/oracle-database/23/mlejs/toc.htm)
