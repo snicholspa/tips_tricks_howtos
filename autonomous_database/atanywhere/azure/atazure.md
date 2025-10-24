@@ -1,18 +1,18 @@
-# Oracle Autonomous Database at Azure
+# Oracle Autonomous AI Database at Azure
 
 ## Introduction
 
-Are you interested in how Oracle 23ai, running natively on Azure can enhance and accelerate your next development project?I this half day developer experience will coach you through getting your first Autonomous Database up and running in Azure, how to load data and configure Visual Studio Code for rapid Application Development in five modern programming languaes. 
+Are you interested in how Oracle 26ai, running natively on Azure can enhance and accelerate your next development project?  This half day developer experience will coach you through getting your first Autonomous AI Database up and running in Azure, how to load data and configure Visual Studio Code for rapid Application Development in five modern programming languaes. 
 
-Oracle Database@Azure is an Oracle Cloud Database service that runs Oracle Database workloads in your Azure environment. All hardware for Oracle Database@Azure is colocated in Azure's data centers and uses Azure networking. The service benefits from the simplicity, security, and low latency of a single operating environment within Azure. Federated identity and access management for Oracle Database@Azure is provided by Microsoft Entra ID.
+Oracle Database@Azure is a cloud database service that runs Oracle Database workloads in your Azure environment. All hardware for Oracle Database@Azure is colocated in Azure's data centers and uses Azure networking. The service benefits from the simplicity, security, and low latency of a single operating environment within Azure. Federated identity and access management for Oracle Database@Azure is provided by Microsoft Entra ID.
 
 In this Workshop, we’ll explore the following:
 
-* Deploy a Serverless Autonomous Database (ADB-S) Instance from the Azure Portal
-* Connect to the Autonomous Database (ADB-S) Using Visual Studio Code
+* Deploy a Serverless Autonomous AI Database (ADB-S) Instance from the Azure Portal
+* Connect to the Autonomous AI Database (ADB-S) Using Visual Studio Code
 * Install Oracle Instant Client
-* Create Autonomous Database (ADB-S) Objects (user, table, load data)
-* Leverage Common Programming Languages to Manipulate Data in the Autonomous Database
+* Create Autonomous AI Database (ADB-S) Objects (user, table, load data)
+* Leverage Common Programming Languages to Manipulate Data in the Autonomous AI Database
     * .NET 
     * Node.js
     * Python
@@ -50,29 +50,29 @@ Please reference the below links to complete all the Onboarding Steps.
     
 2. Click on All Services
 
-    ![All Services](images/azure/all_services0.png)
+    ![All Services](images/azure/all-services0.png)
 
     then Databases, Oracle Database@Azure
 
-    ![All Services](images/azure/all_services.png)
+    ![All Services](images/azure/all-services.png)
 
 3. Click on Create an Oracle Autonomous Database
 
-    ![Oracle Databases](images/azure/oracle_database.png)
+    ![Oracle Databases](images/azure/oracle-database.png)
 
 4. Select Subscription and either create a new or select a Resource Group, 
     ![Name and Region](images/azure/resource-group.png)
 
     Then enter a Name and Select a Region
 
-    ![Name and Region](images/azure/name_region.png)
+    ![Name and Region](images/azure/name-region.png)
 
 5. Select Workload Type, Database Version and Enter Admin Password.
 
-    ![Workload Version and Password](images/azure/workload_version.png)
+    ![Workload Version and Password](images/azure/workload-version.png)
 
     Leave the default for License included. 
-    ![License Included](images/azure/license_included.png)
+    ![License Included](images/azure/license-included.png)
 
 6. Accept the Defaults for Networking
 
@@ -94,35 +94,35 @@ Please reference the below links to complete all the Onboarding Steps.
 
 10. Click Create at Review + Create
 
-    ![Review and Create](images/azure/review_create.png)
+    ![Review and Create](images/azure/review-create.png)
 
 11. The Deployment is **in progress**
 
-    ![Deployment In Progress](images/azure/deploy_in_progress.png)
+    ![Deployment In Progress](images/azure/deploy-in-progress.png)
 
 12. The Deployment is **complete**, Click Go to Resource
 
-    ![Deployment Complete](images/azure/deploy_complete.png)
+    ![Deployment Complete](images/azure/deploy-complete.png)
 
 13. Select the Autonomous Database you just created
 
-    ![Select Resource](images/azure/select_adb.png)
+    ![Select Resource](images/azure/select-adb.png)
 
 14. Here you can click on **Connections** to Download the Wallet. If you need to navigate to the Oracle Cloud Infrastructure console you can click **Go to OCI**. 
 
-    ![Connections](images/azure/click_connections.png)
+    ![Connections](images/azure/click-connections.png)
 
 15. Click on Download Wallet
 
-    ![Download Wallet](images/azure/download_wallet.png)
+    ![Download Wallet](images/azure/download-wallet.png)
 
 16. Enter a password and Click Download
 
-    ![Wallet Password](images/azure/wallet_password.png)
+    ![Wallet Password](images/azure/wallet-password.png)
     
 17. Copy Wallet Zip File to Desired Location and Unzip it (e.g., C:\\adbs\_at\_azure\\adb_wallets\\)
 
-    ![Wallet Unzipped](images/azure/wallet_unzip.png)
+    ![Wallet Unzipped](images/azure/wallet-unzip.png)
 
 18. Reference links for the steps in Task 1. 
 <https://learn.microsoft.com/en-us/azure/oracle/oracle-db/oracle-database-provision-autonomous-database>
@@ -142,15 +142,15 @@ Please reference the below links to complete all the Onboarding Steps.
 
 3. Click Create Connection
 
-    ![New Connection](images/vscode/create_connection.png)
+    ![New Connection](images/vscode/create-connection.png)
 
     Enter the **ADMIN** username and **PASSWORD** then select the WALLET.zip file downloaded in Task 1 as the configuration file. Click **TEST** and if successful **SAVE** to complete the setup. 
 
-    ![Admin Connection](images/vscode/admin_connection.png)    
+    ![Admin Connection](images/vscode/admin-connection.png)    
 
 4. Open SQL Worksheet. 
 
-    ![SQL Worksheet](images/vscode/sql_worksheet.png)
+    ![SQL Worksheet](images/vscode/sql-worksheet.png)
 
     Execute the SQL Statement Below to Retrieve Session Timezone from Autonomous Database
 
@@ -166,7 +166,7 @@ Please reference the below links to complete all the Onboarding Steps.
 
 5. When prompted select **NO** for the SQL LLM prompt. 
 
-    ![Session Timezone](images/vscode/LLM_prompt.png)
+    ![Session Timezone](images/vscode/LLM-prompt.png)
 
 6. Below are reference links for the actions above.
 
@@ -198,7 +198,7 @@ The steps in this task are optional and not required to complete the other core 
 
     <https://www.oracle.com/database/technologies/instant-client/downloads.html>
 
-    ![Insta Client Downloads](images/instantclient/insta_downloads.png)
+    ![Insta Client Downloads](images/instantclient/insta-downloads.png)
 
 2. Unzip the downloaded files to the desired location (e.g., C:\\Oracle\\instantclient\_23\_8)    
 
@@ -206,11 +206,11 @@ The steps in this task are optional and not required to complete the other core 
 
     When extracting if you are prompted for file duplication select to skip the files. 
 
-    ![Skip Files](images/instantclient/skip_files.png)
+    ![Skip Files](images/instantclient/skip-files.png)
 
 3. Copy the **tnsnames.ora**, **cwallet.sso** and **sqlnet.ora** files from the downloaded wallet into the directory **C:\\Oracle\\instantclient\_23\_8\\network\\admin**
 
-    ![Copy Files](images/instantclient/copy_files.png)
+    ![Copy Files](images/instantclient/copy-files.png)
 
 4. Open the **tnsnames.ora** file you copied over in a text editor. Copy your connection name. (e.g. **adbsatazure_high**)
 
@@ -225,7 +225,7 @@ The steps in this task are optional and not required to complete the other core 
     </copy>
     ```
 
-    ![SQL\*Plus Connection](images/instantclient/sqlplus_connection.png)
+    ![SQL\*Plus Connection](images/instantclient/sqlplus-connection.png)
 
 ## Task 4: Create ADB-S User with Grants
 
@@ -241,7 +241,7 @@ Navigate back to SQL Developer in Visual Studio Code. As the user **ADMIN**, iss
     </copy>
     ```
 
-    ![Create User](images/dbsetup/create_user.png)
+    ![Create User](images/dbsetup/create-user.png)
 
 2. Click the plus sign to create a new connection. 
 
@@ -249,7 +249,7 @@ Navigate back to SQL Developer in Visual Studio Code. As the user **ADMIN**, iss
 
     Create a New SQL Developer Connection in VSCode for database user **adbsatazure**
 
-    ![adbsatazure Connection](images/vscode/adbsatazure_connection.png)    
+    ![adbsatazure Connection](images/vscode/adbsatazure-connection.png)    
 
 ## Task 5: Load Sample Data into ADB-S
 
@@ -270,7 +270,7 @@ As the user **adbsatazure**, issue the below SQL Statements
     </copy>
     ```
 
-    ![Create Table](images/dbsetup/create_table.png)    
+    ![Create Table](images/dbsetup/create-table.png)    
 
 2. Paste into SQL*Worksheet the Insert Statements below Load Data into Employees Table.
 
@@ -331,13 +331,13 @@ As the user **adbsatazure**, issue the below SQL Statements
     ```
     You will need to click the **Run Script** button to execute all the statements at one time. 
 
-    ![Load Data](images/dbsetup/load_data.png)    
+    ![Load Data](images/dbsetup/load-data.png)    
     
 3. View Data in Visual Studio Code
     
     Right-click on **employees** table and select **Open** and select **Data** tab
 
-    ![View Data](images/dbsetup/view_data.png)        
+    ![View Data](images/dbsetup/view-data.png)        
 
 ## Task 5a: Using the SQLcl MCP Server to Load Sample Data into ADB-S (Optional)
 
@@ -353,11 +353,11 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![MCP List Connections](images/dbsetup/mcp_list_connections.png)
+    ![MCP List Connections](images/dbsetup/mcp-list-connections.png)
     
     Click **Continue** to Proceed.
 
-    ![MCP List Connections2](images/dbsetup/mcp_list_connections2.png)
+    ![MCP List Connections2](images/dbsetup/mcp-list-connections2.png)
 
 2. Using **Github Copilot Chat**, Connect to the ADB-S Instance as the user **adbsatazure**
 
@@ -367,11 +367,11 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![MCP Connect](images/dbsetup/mcp_connect_adbsatazure.png)
+    ![MCP Connect](images/dbsetup/mcp-connect-adbsatazure.png)
 
     Click **Continue** to Proceed.
     
-    ![MCP Connect2](images/dbsetup/mcp_connect_adbsatazure2.png)
+    ![MCP Connect2](images/dbsetup/mcp-connect-adbsatazure2.png)
 
 3. Using **Github Copilot Chat**, issue the following to create a table 
 
@@ -383,11 +383,11 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![MCP Create Table](images/dbsetup/mcp_create_table.png)
+    ![MCP Create Table](images/dbsetup/mcp-create-table.png)
 
     Click **Continue** to Proceed.
     
-    ![MCP Create Table2](images/dbsetup/mcp_create_table2.png)
+    ![MCP Create Table2](images/dbsetup/mcp-create-table2.png)
 
 4. Using **Github Copilot Chat**, issue the following to load sample data   
 
@@ -397,41 +397,41 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![MCP Load Data](images/dbsetup/mcp_load_data.png)
+    ![MCP Load Data](images/dbsetup/mcp-load-data.png)
 
     Click **Continue** to Proceed.
     
-    ![MCP Load Data2](images/dbsetup/mcp_load_data2.png)    
+    ![MCP Load Data2](images/dbsetup/mcp-load-data2.png)    
 
     Click **Continue** to Proceed.
 
-    ![MCP Load Data3](images/dbsetup/mcp_load_data3.png)    
+    ![MCP Load Data3](images/dbsetup/mcp-load-data3.png)    
 
 5. Using **Github Copilot Chat**, issue the following to view the sample data
     
     ```
     <copy>
-    show me a 5 rows of data from the emploees_mcp table    
+    show me a 5 rows of data from the emploees-mcp table    
     </copy>
     ```    
 
-    ![MCP View Data](images/dbsetup/mcp_view_data.png)       
+    ![MCP View Data](images/dbsetup/mcp-view-data.png)       
 
     Click **Continue** to Proceed.
     
-    ![MCP View Data2](images/dbsetup/mcp_view_data2.png)       
+    ![MCP View Data2](images/dbsetup/mcp-view-data2.png)       
     
     Here's an alternate view of the data 
 
-    ![MCP View Data3](images/dbsetup/mcp_view_data3.png)           
+    ![MCP View Data3](images/dbsetup/mcp-view-data3.png)           
 
 6. The SQLcl MCP Server activity is captured in the Database in the **DBTOOLS$MCP_LOG** Table
 
-    ![MCP DBTOOLS Log](images/dbsetup/mcp_dbtools_log.png)           
+    ![MCP DBTOOLS Log](images/dbsetup/mcp-dbtools-log.png)           
 
     The **LOG\_MESSAGE** column contains the SQL Generated and Executed
     
-    ![MCP DBTOOLS Log Message](images/dbsetup/mcp_dbtools_log_message.png)           
+    ![MCP DBTOOLS Log Message](images/dbsetup/mcp-dbtools-log-message.png)           
     
 ## Task 6: .NET Setup and Sample Application
 
@@ -464,7 +464,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![.NET Version](images/dotnet/dotnet_version.png)
+    ![.NET Version](images/dotnet/dotnet-version.png)
 
 3. Create .NET Environment
 
@@ -476,7 +476,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![Create New Console](images/dotnet/create_new_console.png)
+    ![Create New Console](images/dotnet/create-new-console.png)
 
 4. Test Hello World Application
 
@@ -486,7 +486,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
     
-    ![Run Hello World Application](images/dotnet/run_helloworld_app.png)
+    ![Run Hello World Application](images/dotnet/run-helloworld-app.png)
 
 5. Install Oracle Data Provider for .NET by running the command below. 
 
@@ -496,7 +496,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
     
-    ![Install ODP](images/dotnet/install_oracle_odp.png)
+    ![Install ODP](images/dotnet/install-oracle-odp.png)
 
     ```
     <copy>
@@ -504,7 +504,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
     
-    ![List packages](images/dotnet/list_package.png)
+    ![List packages](images/dotnet/list-package.png)
 
     For more information please visit. 
     
@@ -523,7 +523,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
 
     Open the file in VS Code and paste in the following. **Note:** Please update and verify your Database Username, Password, DSN and TnsAdmin Path on line 9 & 14 in the program code. 
 
-    ![Update Connection Info](images/dotnet/updateconnection_info.png)
+    ![Update Connection Info](images/dotnet/updateconnection-info.png)
 
     ```
     <copy>
@@ -728,23 +728,23 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
     
-    ![Run Application](images/dotnet/run_app.png)
+    ![Run Application](images/dotnet/run-app.png)
 
     Create Employee
 
-    ![Create Employee](images/dotnet/create_employee.png)
+    ![Create Employee](images/dotnet/create-employee.png)
 
     Read All Employees
 
-    ![Read All Employees](images/dotnet/read_all_employees.png)
+    ![Read All Employees](images/dotnet/read-all-employees.png)
 
     Update Employee
 
-    ![Update Employee](images/dotnet/update_employee.png)
+    ![Update Employee](images/dotnet/update-employee.png)
 
     Delete Employee
 
-    ![Delete Employee](images/dotnet/delete_employee.png)
+    ![Delete Employee](images/dotnet/delete-employee.png)
 
 ## Task 7: Node.js Setup and Sample Application
 
@@ -758,7 +758,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![Node Version](images/nodejs/node_version.png)
+    ![Node Version](images/nodejs/node-version.png)
 
 2. Create Environment and Initialize
 
@@ -770,7 +770,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
     
-    ![Node Initialize](images/nodejs/node_init.png)
+    ![Node Initialize](images/nodejs/node-init.png)
 
 3. Install Node.js Packages oracledb and express
 
@@ -780,7 +780,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
     
-    ![](images/nodejs/install_node_packages.png)
+    ![](images/nodejs/install-node-packages.png)
 
 4. Create Node.js Application File **app.js**
 
@@ -1015,7 +1015,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![Run Node Application](images/nodejs/run_node_app.png)
+    ![Run Node Application](images/nodejs/run-node-app.png)
 
 6. Test Node.js Application
 
@@ -1027,17 +1027,17 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![Create Employee CURL](images/nodejs/create_employee_curl.png)
+    ![Create Employee CURL](images/nodejs/create-employee-curl.png)
 
     Create Employee Using Postman
 
-    ![Create Employee Postman](images/nodejs/create_employee_postman.png)
+    ![Create Employee Postman](images/nodejs/create-employee-postman.png)
    
     Get All Employees Using Browser
 
     <http://localhost:3000/employees>
 
-    ![Get All Employees Browser](images/nodejs/get_all_employees_browser.png)
+    ![Get All Employees Browser](images/nodejs/get-all-employees-browser.png)
 
     Get All Employees using curl
 
@@ -1047,13 +1047,13 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![Get All Employees Curl](images/nodejs/get_all_employees_curl.png)
+    ![Get All Employees Curl](images/nodejs/get-all-employees-curl.png)
 
     Get a Specific Employee using Browser
 
     <http://localhost:3000/employees/25>
 
-    ![Get Specific Employee](images/nodejs/get_specific_employee.png)
+    ![Get Specific Employee](images/nodejs/get-specific-employee.png)
 
     Update Employee using curl
 
@@ -1063,7 +1063,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![Update Employee](images/nodejs/update_employee.png)
+    ![Update Employee](images/nodejs/update-employee.png)
 
     Delete Employee using curl
 
@@ -1073,7 +1073,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![Delete Employee](images/nodejs/delete_employee.png)
+    ![Delete Employee](images/nodejs/delete-employee.png)
 
 
 ## Task 8: Python Setup and Sample Application
@@ -1274,25 +1274,25 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![Run Python Application](images/python/run_app.png)
+    ![Run Python Application](images/python/run-app.png)
 
 6. Test Python Application
 
     View All Employees
 
-    ![Viewl All Employees](images/python/view_all_employees.png)
+    ![Viewl All Employees](images/python/view-all-employees.png)
 
     Add Employee
 
-    ![Add Employee](images/python/add_employee.png)
+    ![Add Employee](images/python/add-employee.png)
 
     Update Employee
 
-    ![Update Employee](images/python/update_employee.png)
+    ![Update Employee](images/python/update-employee.png)
 
     Delete Employee
 
-    ![Delete Employee](images/python/delete_employee.png)
+    ![Delete Employee](images/python/delete-employee.png)
 
 ## Task 9: GO Setup and Sample Application
 
@@ -1331,7 +1331,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![Initialize GO](images/go/go_init.png)
+    ![Initialize GO](images/go/go-init.png)
 
 5. Install and List GO Module godror 
 
@@ -1341,7 +1341,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![Install godror](images/go/godror_install.png)
+    ![Install godror](images/go/godror-install.png)
 
     ```
     <copy>
@@ -1349,7 +1349,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![List godror](images/go/godror_list.png)
+    ![List godror](images/go/godror-list.png)
 
 6. Create GO Application File **go\_crud\_adbs.go**
 
@@ -1515,15 +1515,15 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
 
     Add Employee
 
-    ![Add Employee](images/go/run_go_app.png)
+    ![Add Employee](images/go/run-go-app.png)
 
     View All Employees
 
-    ![List All Employees](images/go/list_all_employees.png)
+    ![List All Employees](images/go/list-all-employees.png)
 
     Update and Delete Employee
 
-    ![Update Delete Employee](images/go/update_delete_employee.png)
+    ![Update Delete Employee](images/go/update-delete-employee.png)
 
 ## Task 10: Rust Setup and Sample Application
 
@@ -1537,7 +1537,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     cargo --version
     </copy>
     ```
-    ![Rust Version](images/rust/rust_version.png)
+    ![Rust Version](images/rust/rust-version.png)
     
 2. Create Working Folder
 
@@ -1557,7 +1557,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![New Rust Environment](images/rust/new_environment.png)
+    ![New Rust Environment](images/rust/new-environment.png)
 
 4. Add Oracle Dependency to **Cargo.toml**
 
@@ -1569,7 +1569,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![Add Oracle Dependency](images/rust/add_oracle.png)
+    ![Add Oracle Dependency](images/rust/add-oracle.png)
 
 5. Edit Rust Application File **main.rs**
 
@@ -1662,7 +1662,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![Set Path](images/rust/set_path.png)
+    ![Set Path](images/rust/set-path.png)
 
     Build and Run the Rust Application
 
@@ -1673,21 +1673,21 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![Rust Build](images/rust/rust_build.png)
+    ![Rust Build](images/rust/rust-build.png)
 
-    ![Rust Run](images/rust/rust_run.png)
+    ![Rust Run](images/rust/rust-run.png)
 
     View All Employees
 
-    ![List All Employees](images/rust/list_all_employees.png)
+    ![List All Employees](images/rust/list-all-employees.png)
 
     Create, Update and Delete Employee
 
-    ![Create Update Delete Employee](images/rust/create_update_delete_employee.png)
+    ![Create Update Delete Employee](images/rust/create-update-delete-employee.png)
 
     View All Employees after CRUD
 
-    ![List All Employees after CRUD](images/rust/list_all_employees_after_crud.png)
+    ![List All Employees after CRUD](images/rust/list-all-employees-after-crud.png)
 
 ## Task 11: Ruby Setup and Sample Application
 
@@ -1705,7 +1705,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![Ruby Version](images/ruby/ruby_version.png)
+    ![Ruby Version](images/ruby/ruby-version.png)
 
 2. Download and Install Oracle Instant Client SDK
 
@@ -1733,7 +1733,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![Ruby Version](images/ruby/install_ruby_oci8.png)    
+    ![Ruby Version](images/ruby/install-ruby-oci8.png)    
     
     List the installed Gems
 
@@ -1744,7 +1744,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![Ruby Version](images/ruby/gem_list_oci8.png)    
+    ![Ruby Version](images/ruby/gem-list-oci8.png)    
 
 4. Create Working Folder
 
@@ -1966,7 +1966,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```    
 
-    ![Get NLS_LANG](images/ruby/get_nls_lang.png)
+    ![Get NLS_LANG](images/ruby/get-nls-lang.png)
 
     ```
     <copy>
@@ -1984,7 +1984,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```    
 
-    ![Verify Environment](images/ruby/verify_environment.png)
+    ![Verify Environment](images/ruby/verify-environment.png)
 
     Run the Ruby Application
 
@@ -1994,29 +1994,29 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
     </copy>
     ```
 
-    ![Run Ruby Application](images/ruby/run_ruby_app.png)
+    ![Run Ruby Application](images/ruby/run-ruby-app.png)
 
 7. Test Ruby Application
 
     View All Employees
 
-    ![List All Employees](images/ruby/list_all_employees.png)
+    ![List All Employees](images/ruby/list-all-employees.png)
 
     View Employee by ID
 
-    ![View Employee](images/ruby/list_employee.png)
+    ![View Employee](images/ruby/list-employee.png)
 
     Create Employee
 
-    ![Create Employee](images/ruby/create_employee.png)
+    ![Create Employee](images/ruby/create-employee.png)
 
     Update Employee
 
-    ![Update Employee](images/ruby/update_employee.png)
+    ![Update Employee](images/ruby/update-employee.png)
 
     Delete Employee
 
-    ![Delete Employee](images/ruby/delete_employee.png)
+    ![Delete Employee](images/ruby/delete-employee.png)
 
 ## Sourced Material
 Portions of the introduction were sourced from [here](https://docs.oracle.com/en-us/iaas/Content/database-at-azure/oaa.htm)
