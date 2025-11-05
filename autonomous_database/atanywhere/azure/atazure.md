@@ -42,7 +42,7 @@ Please reference the below links to complete all the Onboarding Steps.
 
 <https://docs.oracle.com/en-us/iaas/Content/database-at-azure/oaaprerequisites.htm>
 
-## Task 1: Provision Autonmous AI Database via Azure Portal and Download Wallet
+## Task 1: Provision Autonomous AI Database via Azure Portal and Download Wallet
 
 1. Log Into Azure Portal
 
@@ -182,7 +182,7 @@ The steps in this task are optional and not required to complete the other core 
 
 1. Watch the video below to see the required steps for configuring the MCP server, logging in to github copilot and connecting to your DB@Azure in your environment before performing any actions. If you would like to proceed, replicate the steps in your development environment. 
 
-    [Zero to Vibe Coding on Autonmous Database in 5 Minutes](youtube:TvQb7H11zYM)
+    [Zero to Vibe Coding on Autonomous Database in 5 Minutes](youtube:TvQb7H11zYM)
 
 2. Refer to the following Oracle documentation for **Preparing Your Environment** for more information or advanced configurations. 
 
@@ -227,7 +227,7 @@ The steps in this task are optional and not required to complete the other core 
 
     ![SQL\*Plus Connection](images/instantclient/sqlplus-connection.png)
 
-## Task 4: Create Autonmous AI Database User with Grants
+## Task 4: Create Autonomous AI Database User with Grants
 
 Navigate back to SQL Developer in Visual Studio Code. As the user **ADMIN**, issue the below SQL Statements
 
@@ -251,7 +251,7 @@ Navigate back to SQL Developer in Visual Studio Code. As the user **ADMIN**, iss
 
     ![adbsatazure Connection](images/vscode/adbsatazure-connection.png)    
 
-## Task 5: Load Sample Data into Autonmous AI Database
+## Task 5: Load Sample Data into Autonomous AI Database
 
 As the user **adbsatazure**, issue the below SQL Statements
 
@@ -359,7 +359,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
 
     ![MCP List Connections2](images/dbsetup/mcp-list-connections2.png)
 
-2. Using **Github Copilot Chat**, Connect to the Autonmous AI Database as the user **adbsatazure**
+2. Using **Github Copilot Chat**, Connect to the Autonomous AI Database as the user **adbsatazure**
 
     ```
     <copy>
