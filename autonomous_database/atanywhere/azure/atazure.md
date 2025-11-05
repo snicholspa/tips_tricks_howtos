@@ -2,16 +2,16 @@
 
 ## Introduction
 
-Are you interested in how Oracle 26ai, running natively on Azure can enhance and accelerate your next development project?  This half day developer experience will coach you through getting your first Autonomous AI Database up and running in Azure, how to load data and configure Visual Studio Code for rapid Application Development in five modern programming languaes. 
+Are you interested in how Oracle 26ai, running natively on Azure can enhance and accelerate your next development project?  This half day developer experience will coach you through getting your first Autonomous AI Database up and running in Azure, how to load data and configure Visual Studio Code for rapid Application Development in six modern programming languaes. 
 
 Oracle Database@Azure is a cloud database service that runs Oracle Database workloads in your Azure environment. All hardware for Oracle Database@Azure is colocated in Azure's data centers and uses Azure networking. The service benefits from the simplicity, security, and low latency of a single operating environment within Azure. Federated identity and access management for Oracle Database@Azure is provided by Microsoft Entra ID.
 
 In this Workshop, we’ll explore the following:
 
-* Deploy a Serverless Autonomous AI Database (ADB-S) Instance from the Azure Portal
-* Connect to the Autonomous AI Database (ADB-S) Using Visual Studio Code
+* Deploy a Serverless Autonomous AI Database Instance from the Azure Portal
+* Connect to the Autonomous AI Database Using Visual Studio Code
 * Install Oracle Instant Client
-* Create Autonomous AI Database (ADB-S) Objects (user, table, load data)
+* Create Autonomous AI Database Objects (user, table, load data)
 * Leverage Common Programming Languages to Manipulate Data in the Autonomous AI Database
     * .NET 
     * Node.js
@@ -42,7 +42,7 @@ Please reference the below links to complete all the Onboarding Steps.
 
 <https://docs.oracle.com/en-us/iaas/Content/database-at-azure/oaaprerequisites.htm>
 
-## Task 1: Provision ADB-S via Azure Portal and Download Wallet
+## Task 1: Provision Autonmous AI Database via Azure Portal and Download Wallet
 
 1. Log Into Azure Portal
 
@@ -129,7 +129,7 @@ Please reference the below links to complete all the Onboarding Steps.
 
 <https://docs.oracle.com/en-us/iaas/Content/database-at-azure-autonomous/odadb-provisioning-autonomous-database-azure.html>
 
-## Task 2: Install VSCode, Oracle SQL Developer Extension for VSCode, Define and Test ADB-S Connection
+## Task 2: Install VSCode, Oracle SQL Developer Extension for VSCode, Define and Test Connection
 
 1. Download and Install Visual Studio Code
 
@@ -152,7 +152,7 @@ Please reference the below links to complete all the Onboarding Steps.
 
     ![SQL Worksheet](images/vscode/sql-worksheet.png)
 
-    Execute the SQL Statement Below to Retrieve Session Timezone from Autonomous Database
+    Execute the SQL Statement Below to Retrieve Session Timezone from Autonomous AI Database
 
     ```
     <copy>
@@ -198,7 +198,7 @@ The steps in this task are optional and not required to complete the other core 
 
     <https://www.oracle.com/database/technologies/instant-client/downloads.html>
 
-    ![Insta Client Downloads](images/instantclient/insta-downloads.png)
+    ![Instant Client Downloads](images/instantclient/insta-downloads.png)
 
 2. Unzip the downloaded files to the desired location (e.g., C:\\Oracle\\instantclient\_23\_8)    
 
@@ -227,7 +227,7 @@ The steps in this task are optional and not required to complete the other core 
 
     ![SQL\*Plus Connection](images/instantclient/sqlplus-connection.png)
 
-## Task 4: Create ADB-S User with Grants
+## Task 4: Create Autonmous AI Database User with Grants
 
 Navigate back to SQL Developer in Visual Studio Code. As the user **ADMIN**, issue the below SQL Statements
 
@@ -251,7 +251,7 @@ Navigate back to SQL Developer in Visual Studio Code. As the user **ADMIN**, iss
 
     ![adbsatazure Connection](images/vscode/adbsatazure-connection.png)    
 
-## Task 5: Load Sample Data into ADB-S
+## Task 5: Load Sample Data into Autonmous AI Database
 
 As the user **adbsatazure**, issue the below SQL Statements
 
@@ -341,7 +341,7 @@ As the user **adbsatazure**, issue the below SQL Statements
 
 ## Task 5a: Using the SQLcl MCP Server to Load Sample Data into ADB-S (Optional)
 
-If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Oracle SQL Developer Extension for VSCode**, follow the below steps to create a table and load sample data into your Oracle Autonomous Database@Azure you provisioned in **Task 1: Provision ADB-S via Azure Portal and Download Wallet**.  
+If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Oracle SQL Developer Extension for VSCode**, follow the below steps to create a table and load sample data into your Oracle Autonomous AI Database@Azure you provisioned in **Task 1: Provision ADB-S via Azure Portal and Download Wallet**.  
 
 **Note:**  If you completed **# Task 5: Load Sample Data into ADB-S** already, the table name in step 3 below should be different.  In addition, if you plan to leverage the table created through the **SQLcl MCP Server** the code samples below will need updated accordinly to match the table created.
 
@@ -359,7 +359,7 @@ If you completed **Task 2a: Install and Setup SQLcl MCP Server included with Ora
 
     ![MCP List Connections2](images/dbsetup/mcp-list-connections2.png)
 
-2. Using **Github Copilot Chat**, Connect to the ADB-S Instance as the user **adbsatazure**
+2. Using **Github Copilot Chat**, Connect to the Autonmous AI Database as the user **adbsatazure**
 
     ```
     <copy>
@@ -2023,7 +2023,7 @@ Portions of the introduction were sourced from [here](https://docs.oracle.com/en
 
 ## Acknowledgements
   * **Authors:** Steven Nichols, Master Principal Cloud Architect
-  * **Last Updated By/Date:** Steven Nichols, July 16, 2025
+  * **Last Updated By/Date:** Steven Nichols, November 5, 2025
 
 Copyright (C)  Oracle Corporation.
 
