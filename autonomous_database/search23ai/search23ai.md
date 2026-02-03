@@ -2498,7 +2498,7 @@ As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
     </copy>
     ```
 
-   ```
+    ```
     <copy>
     -- list autonomous ai databases in compartment
     create or replace function list_adbs_tool return clob as
