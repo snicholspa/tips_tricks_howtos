@@ -2944,7 +2944,7 @@ As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
     </copy>
     ```
 
-## Task 12: Vector Text, Chunking, Embedding Manual Steps and Validation (Informational)
+## Task 13: Vector Text, Chunking, Embedding Manual Steps and Validation (Informational)
 
 **STOP and PLEASE Read the following**
 
@@ -3387,7 +3387,7 @@ As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
     </copy>
     ```
 
-## Task 13: APEX Application
+## Task 14: APEX Application
 
 1.  Create New APEX Workspace
 
