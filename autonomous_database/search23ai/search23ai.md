@@ -2944,7 +2944,7 @@ As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
     </copy>
     ```
 
-## Task 13: Vector Text, Chunking, Embedding Manual Steps and Validation (Informational)
+## Task 12: Vector Text, Chunking, Embedding Manual Steps and Validation (Informational)
 
 **STOP and PLEASE Read the following**
 
@@ -3216,7 +3216,7 @@ As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
     </copy>
     ```
 
-## Task 12: Sampling of Search Queries
+## Task 13: Sampling of Search Queries
 
 As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
 
