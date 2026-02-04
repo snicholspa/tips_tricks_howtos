@@ -9,7 +9,6 @@ Oracle Database 23ai introduces groundbreaking capabilities that make searching 
 * Ubiquitous Search
 * Vector Search
 * Natural Language to SQL
-* Select AI Agents
 * Document Search
 * Hybrid Search
 * Integrated examples that combine the above techniques
@@ -18,7 +17,16 @@ You’ll learn when to use each method, see each one in action, and discover how
 
 [Integrated Approaches to Searching and Analyzing Data in Oracle Database 23ai](youtube:VudVfg8sXwY)
 
-[Develop Oracle Autonomous AI Database Agentic AI Applications using the dbms_cloud_ai_agent Package]()
+While the focus on building AI applications in the Autonomous AI Database has been searching, posing questions, and analyzing data in the database, many customers have been asking about transactional capabilities. That is, how can we 'do stuff' rather than just having their questions answered. The recent addition of the dbms\_cloud\_ai\_agent package does just that, introducing the concept of teams, agents, tasks, and tools to do anything that pl/sql can do, but within a chat conversation with a language model.
+
+The below tasks and steps show working examples of using agents to search data, process product returns, analyze Oracle Cloud Infrastructure (OCI) logs, request and execute multiple steps in a workflow, and determine the status of and shut down or start up OCI services within a conversational flow, all purely within Autonomous AI Database without the need for other integrated services.
+
+* Review of NL2SQL and other (document/image/vector) search methodologies to put agents in context.
+* Select AI Agent Setup
+* Review chat conversation examples in SQL
+* Review a sample APEX application that demonstrations an interactive conversation.
+
+[Develop Oracle Autonomous AI Database Agentic AI Applications using the dbms\_cloud\_ai\_agent Package]()
 
 ## New to the OCI Generative AI Service
 
@@ -34,7 +42,7 @@ Please reference the below links for more information on Oracle's Artificial Int
 
 ## Documentation Links
 
-* [Oracle AI Vector Search User's Guide](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/select-ai-agent.html)
+* [Oracle Select AI Agents](https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/select-ai-agent1.html)
 
 * [Oracle AI Vector Search User's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/23/vecse/index.html)
 
