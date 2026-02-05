@@ -1363,7 +1363,7 @@ To access the documents used in this example, you can download them from the fol
 
 	**STOP and PLEASE Read the following step**
 
-2.  At this point, you should have a populated **documents** and **document_vector** tables and the PDFs were chunked and vectorized (embeddings generated) and ready for searching.  To verify this, proceed to **Task 12**.
+2.  At this point, you should have a populated **documents** and **document_vector** tables and the PDFs were chunked and vectorized (embeddings generated) and ready for searching.  To verify this, proceed to **Task 14**.
 
 ## Task 9: Create Database Objects - Functions and Hybrid Search Setup
 
@@ -2952,7 +2952,315 @@ As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
     </copy>
     ```
 
-## Task 12: Vector Text, Chunking, Embedding Manual Steps and Validation (Informational)
+## Task 12: Interact with Select AI Agent Teams Examples
+
+More examples can be found in the documentation links below 
+
+[Examples of Using Select AI Agent](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/examples-using-select-ai-agent.html)
+
+1. Interact with Movies Agent Team Example
+
+    ```
+    <copy>
+    exec dbms_cloud_ai_agent.clear_team;
+    exec dbms_cloud_ai_agent.set_team('movie_agent_team');
+
+    -- do NOT use question marks in the prompts
+    select ai agent what is the most popular movie;
+
+    -- Create conversation
+    CREATE OR REPLACE PACKAGE my_globals IS
+    l_team_cov_id varchar2(4000);
+    END my_globals;
+    /
+
+    DECLARE
+    l_team_cov_id varchar2(4000);
+    BEGIN
+    l_team_cov_id := DBMS_CLOUD_AI.create_conversation();
+    my_globals.l_team_cov_id := l_team_cov_id;
+    DBMS_OUTPUT.PUT_LINE('Created conversation with ID: ' || my_globals.l_team_cov_id);
+    END;
+    /
+
+    select ai agent how many movies are there
+
+    -- test movie question
+    set serveroutput on
+    declare
+    v_response varchar2(4000);
+    begin
+    v_response :=  dbms_cloud_ai_agent.run_team(
+        team_name   => 'movie_agent_team',
+        user_prompt => 'how many movies are there',
+        params      => '{"conversation_id": "' || my_globals.l_team_cov_id || '"}'
+    );
+    dbms_output.put_line(v_response);
+    end;
+    /    
+    </copy>
+    ```
+
+2. Interact with DBA Agent Team Example
+
+    ```
+    <copy>
+    --- get conversation id
+    select dbms_cloud_ai.create_conversation();
+
+    --- run team
+    set serveroutput on
+    declare
+    v_response varchar2(4000);
+    begin
+    v_response :=  dbms_cloud_ai_agent.run_team(
+        team_name   => 'dba_team',
+        user_prompt => 'hello',
+        params      => '{"conversation_id": "{update with above result}"}'
+    );
+    dbms_output.put_line(v_response);
+    end;
+    /
+
+    --- list databases
+    SELECT DBMS_CLOUD_AI.GENERATE (
+        prompt        => 'list databases', 
+        profile_name  => 'dba_profile', 
+        action        => 'narrate'
+    ) FROM dual;    
+    </copy>
+    ```
+
+3. Interact with Product Return Agent Team Example
+
+    ```
+    <copy>
+    EXEC DBMS_CLOUD_AI_AGENT.set_team(team_name  => 'Return_Agency_Team');  
+
+    select ai agent I want to return a smartphone case just received
+        RESPONSE                                                                                                                                                                  
+        Could you please tell me the reason for returning the smartphone case? Is it no longer needed, did it arrive too late, is the box broken, or is the product defective?
+
+    select ai agent Hi, unforunately, it is defective
+        RESPONSE                                                                                                                                                              
+        Im sorry to hear that the smartphone case is defective. Would you like a replacement, a refund, or would you prefer to consider some alternative recommendations? 
+
+    select ai agent Sure, what are some alternatives you could recommend
+        RESPONSE                                                                                                                                                                                                                                                 
+        Ive found two alternative smartphone cases for you to consider:
+        1. TitanGuard Pro - A military-grade case with reinforced corners, dust-proof port covers, and a matte anti-slip finish, ideal for rugged outdoor use. It offers extreme drop and impact resistance but has a bulky design and limited color choices.
+        2. ClearEdge Ultra - A crystal-clear slim case with an elegant appearance, card and cash storage, and RFID protection. However, it is not waterproof and is heavier than other slim cases.
+        Would you like to go with one of these alternatives, or would you prefer to stick with the original smartphone case as a replacement or refund? 
+
+    select ai agent A refund please
+        RESPONSE                                                                                                                                                                                                                                                                                                                                                                  
+        Im sorry that none of the alternatives worked for you. I'll process the refund for the defective smartphone case. Please confirm your name and order number so I can update the status. Also, I'll provide a return shipping label for you to print out and use to send the defective product back to us. Once the product is returned, the refund will be finalized. 
+
+    select ai agent Carol Chen order number 7635
+        RESPONSE                                                                                                    
+        Ive updated the order status to process your refund, Carol. Is there anything else I can help you with?
+
+    select ai agent no, thank you
+        RESPONSE                                                                                                                                                                                                  
+        Thank you, Carol, for reaching out. Your refund process for the defective smartphone case has been initiated. If you have any other concerns in the future, feel free to contact us. Have a great day!  
+
+    </copy>
+    ```
+
+4. Interact with HR Agent Team Example
+
+    ```
+    <copy>
+    -- create appraisal workflow
+    declare
+    v_response varchar2(4000);
+    begin
+    v_response :=  dbms_cloud_ai_agent.run_team(
+        team_name   => 'appraisal_workflow_team',
+        user_prompt => 'I want to request a performance appraisal from one of my subordinates',
+        params      => '{"conversation_id": "' || my_globals.l_team_cov_id || '"}'
+    );
+    dbms_output.put_line(v_response);
+    end;
+    / 
+
+    --Who is initiating the performance appraisal request?
+
+    declare
+    v_response varchar2(4000);
+    begin
+    v_response :=  dbms_cloud_ai_agent.run_team(
+        team_name   => 'appraisal_workflow_team',
+        user_prompt => 'The initiator is BO',
+        params      => '{"conversation_id": "' || my_globals.l_team_cov_id || '"}'
+    );
+    dbms_output.put_line(v_response);
+    end;
+    / 
+
+    ---Who is the performance appraisal for?
+
+    declare
+    v_response varchar2(4000);
+    begin
+    v_response :=  dbms_cloud_ai_agent.run_team(
+        team_name   => 'appraisal_workflow_team',
+        user_prompt => 'the appraisal is for PAT',
+        params      => '{"conversation_id": "' || my_globals.l_team_cov_id || '"}'
+    );
+    dbms_output.put_line(v_response);
+    end;
+    / 
+
+    ---What is the name of the appraisal?
+
+    declare
+    v_response varchar2(4000);
+    begin
+    v_response :=  dbms_cloud_ai_agent.run_team(
+        team_name   => 'appraisal_workflow_team',
+        user_prompt => 'my appraisal name is My appraisal',
+        params      => '{"conversation_id": "' || my_globals.l_team_cov_id || '"}'
+    );
+    dbms_output.put_line(v_response);
+    end;
+    / 
+
+    Dear PAT, your manager BO has initiated an appraisal named 'My appraisal'. Please provide your achievements from the past fiscal year and your goals for the coming fiscal year.
+
+    -- note AI requests appraisal for PAT not Jane (initial name) and also initially disgarded 'Sample' appraisal which was initially submitted
+    declare
+    v_response varchar2(4000);
+
+    begin
+    v_response :=  dbms_cloud_ai_agent.run_team(
+        team_name   => 'appraisal_workflow_team',
+        user_prompt => 'Appraisal: Senior Software Developer
+    Employee Name: PAT
+    Review Period: FY25
+    Supervisor: Bo
+
+    1. Performance Summary
+    I consistently demonstrates strong technical expertise, problem-solving abilities, and a commitment to team success. He delivers high-quality, maintainable code and proactively mentors junior developers, significantly elevating team capabilities. 
+
+    2. Key Achievements (with specific examples)
+    Technical Leadership: Led the design and implementation of the new microservices architecture for the payment gateway, resulting in a 20% performance improvement and enhanced scalability.
+    Code Quality: Reduced production bugs by 15% through rigorous code reviews and adopting stricter testing protocols.
+    Mentorship: Successfully onboarded two new developers, helping them quickly become productive contributors by breaking down complex concepts.
+    Innovation: Introduced automated CI/CD pipelines, streamlining deployment and reducing lead time for changes. 
+
+    3. Areas for Improvement
+    Strategic Focus: Occasionally gets too deep in technical details; needs to balance depth with project pragmatism to maintain velocity.
+    Cross-Functional Communication: While great internally, could improve proactive communication with Product Managers on early-stage requirement
+
+    4. Goals for Next Review Period
+    Goal 1 (Technical): Become proficient in cloud-native technologies (e.g., Kubernetes, Serverless) to support upcoming infrastructure migration.
+    Goal 2 (Leadership): Lead one major feature development end-to-end, focusing on early stakeholder engagement and risk mitigation.
+    Goal 3 (Process): Improve documentation standards for APIs and internal libraries.
+    5. Employee Comments (Self-Appraisal)
+    I am proud of the architectural improvements made this year and enjoyed mentoring the new team members. I recognize the need to balance deep technical work with broader project timelines and plan to focus on strategic communication and cloud skills next year.
+    Overall Assessment by Pat: I am a rock star',
+    params      => '{"conversation_id": "' || my_globals.l_team_cov_id || '"}'
+    );
+    dbms_output.put_line(v_response);
+    end;
+    / 
+
+    -- manager appraisal
+    Dear Bo, as the supervisor of Pat for the appraisal 'My appraisal' covering the review period Jan 2025 to Dec 2025, I request you to provide your appraisal of Pats performance as a Senior Software Developer. 
+    Below is the self-appraisal and performance summary provided by Pat for your reference:
+
+    declare
+    v_response varchar2(4000);
+
+    begin
+    v_response :=  dbms_cloud_ai_agent.run_team(
+        team_name   => 'appraisal_workflow_team',
+        user_prompt => 'This employee is not the hot shot they think they are, and there is room for improvement.  Objectives for the coming year include show up for work and complete your assigments',
+        params      => '{"conversation_id": "' || my_globals.l_team_cov_id || '"}'
+    );
+    dbms_output.put_line(v_response);
+    end;
+    / 
+
+    -- VP approval
+
+    Dear VP, the appraisal for PAT named 'My appraisal' for the review period Jan 2025 - Dec 2025 has been submitted for your final approval. The performance summary indicates that the employee is not the hot shot they think they are and there is room for improvement. Objectives for the coming year include showing up for work and completing assignments. Please review the details and provide your approval or any additional feedback.
+
+    declare
+    v_response varchar2(4000);
+
+    begin
+    v_response :=  dbms_cloud_ai_agent.run_team(
+        team_name   => 'appraisal_workflow_team',
+        user_prompt => 'Appraisal approved',
+        params      => '{"conversation_id": "' || my_globals.l_team_cov_id || '"}'
+    );
+    dbms_output.put_line(v_response);
+    end;
+    /    
+    </copy>
+    ```
+
+## Task 13: Select AI Agent Object and History Views and Log Query
+
+[DBMS\_CLOUD\_AI\_AGENT Views](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-ai-agent-views.html)
+
+[DBMS\_CLOUD\_AI\_AGENT History Views](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-ai-agent-views-history.html)
+
+1. Database Tables and Views
+
+    ```
+    <copy>
+    select * from user_ai_agent_teams;
+    select * from user_ai_agents;
+    select * from user_ai_agent_attributes;
+    select * from user_ai_agent_tools;
+    select * from user_ai_agent_tasks;
+    select * from user_ai_agent_task_attributes;
+    select * from user_ai_agent_tool_history order by start_date desc;
+    select * from user_ai_agent_task_history  order by start_date desc;
+    select * from user_ai_agent_team_history order by start_date desc;
+    select * from user_cloud_ai_conversations;
+    select * from user_cloud_ai_conversation_prompts;
+    </copy>
+    ```
+
+2. Retrieve Agent Logs SQL
+
+    ```
+    <copy>
+    -- query to retrieve logs
+    WITH latest_team AS (
+    SELECT team_exec_id, team_name, start_date
+    FROM user_ai_agent_team_history
+    ORDER BY start_date DESC
+    FETCH FIRST 1 ROW ONLY
+    ),
+    latest_task AS (
+        SELECT team_exec_id, task_name, agent_name, conversation_params, start_date,
+            ROW_NUMBER() OVER (PARTITION BY team_exec_id, task_name, agent_name 
+                                ORDER BY start_date DESC) as rn
+    FROM user_ai_agent_task_history
+    )
+    SELECT
+    team.team_name,
+    task.task_name,
+    task.agent_name,
+    p.prompt,
+    p.prompt_response
+    FROM latest_team team
+    JOIN latest_task task
+    ON team.team_exec_id = task.team_exec_id
+    AND task.rn = 1
+    LEFT JOIN user_cloud_ai_conversation_prompts p
+    ON p.conversation_id = JSON_VALUE(task.conversation_params, '$.conversation_id')
+    ORDER BY task.start_date DESC NULLS LAST,
+            p.created     DESC NULLS LAST;    
+    </copy>
+    ```
+
+## Task 14: Vector Text, Chunking, Embedding Manual Steps and Validation (Informational)
 
 **STOP and PLEASE Read the following**
 
@@ -3224,7 +3532,7 @@ As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
     </copy>
     ```
 
-## Task 13: Sampling of Search Queries
+## Task 15: Sampling of Search Queries
 
 As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
 
@@ -3395,7 +3703,7 @@ As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
     </copy>
     ```
 
-## Task 14: APEX Application
+## Task 16: APEX Application
 
 1.  Create New APEX Workspace
 
