@@ -26,7 +26,7 @@ The below tasks and steps show working examples of using agents to search data, 
 * Review chat conversation examples in SQL
 * Review a sample APEX application that demonstrations an interactive conversation.
 
-[Develop Oracle Autonomous AI Database Agentic AI Applications using the dbms\_cloud\_ai\_agent Package]()
+[Develop Oracle Autonomous AI Database Agentic AI Applications using the dbms\_cloud\_ai\_agent Package](youtube:YUlMWS71cfo)
 
 ## New to the OCI Generative AI Service
 
@@ -538,6 +538,16 @@ As the user **SEARCH23AI**, issue the below SQL Code.
     ```
 
 9. Create Select AI Agents Demo Data Tables and Seed Data
+
+    ```
+    <copy>
+    create table agents(agent_name varchar2(100));
+    insert into agents values('DBA Agent Team');
+    insert into agents values('Movie Agent Team');
+    insert into agents values('Return Agent Team');
+    commit;
+    </copy>
+    ```
 
     ```
     <copy>
@@ -2939,15 +2949,15 @@ As the user **SEARCH23AI**, issue the below SQL, PL/SQL Code.
     ```
     <copy>
     -- create the dba team
-    exec dbms_cloud_ai_agent.drop_team('dba_team');
-    begin                                                                 
-    dbms_cloud_ai_agent.create_team(  
-        team_name  => 'dba_team',                                                            
-        attributes => '{"agents": [ 
+    exec dbms_cloud_ai_agent.drop_team('dba_agent_team');
+    begin
+      dbms_cloud_ai_agent.create_team(
+        team_name  => 'dba_agent_team',
+        attributes => '{"agents": [
                         {"name" : "dba_agent", "task" : "dba_task"}
                                     ],
-                        "process": "sequential"}');                                                                 
-    end;    
+                        "process": "sequential"}');
+    end;
     /
     </copy>
     ```
