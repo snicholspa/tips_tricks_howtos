@@ -120,7 +120,7 @@ As the user **ADMIN**, issue the below SQL Statements
     grant execute on dbms_cloud_ai to search23ai;  
     grant execute on dbms_cloud_ai_agent to search23ai;
     grant execute on dbms_cloud_pipeline to search23ai;
-    grant execute on dbms_cloud_oci_db_database to search23ai2;
+    grant execute on dbms_cloud_oci_db_database to search23ai;
     grant execute on dbms_cloud_oci_db_database_list_autonomous_databases_response_t to search23ai;
     grant execute on dbms_cloud_oci_database_autonomous_database_summary_tbl to search23ai;
     grant execute on dbms_cloud_oci_db_database_stop_autonomous_database_response_t to search23ai;
@@ -150,7 +150,25 @@ As the user **ADMIN**, issue the below SQL Statements
 
 As the user **ADMIN**, issue the following PL/SQL Code
 
-1. Grant Non-Admin User Permission to Access OCI Gen AI Provider 
+1. Grant Non-Admin User Permission to Access OCI Gen AI Provider in **Chicago** for an Embedding Model
+
+    ```
+    <copy>
+    BEGIN
+    DBMS_NETWORK_ACL_ADMIN.APPEND_HOST_ACE (
+      HOST         => 'inference.generativeai.us-chicago-1.oci.oraclecloud.com',
+      ACE          => xs$ace_type(
+          PRIVILEGE_LIST => xs$name_list('http'),
+          PRINCIPAL_NAME => 'search23ai',
+          PRINCIPAL_TYPE => xs_acl.ptype_db));
+    END;
+    /
+    </copy>
+    ```
+
+    **Note** - The Embedding Models are usually only available in the **Chicago** region of the OCI Generative AI Service.   See this [link](https://docs.oracle.com/en-us/iaas/Content/generative-ai/model-endpoint-regions.htm) for model availability by region.
+
+2. Grant Non-Admin User Permission to Access OCI Gen AI Provider in the **Desired Region** for a Chat Model
 
     ```
     <copy>
@@ -166,9 +184,9 @@ As the user **ADMIN**, issue the following PL/SQL Code
     </copy>
     ```
 
-    **Note** - You may need to run the above for each region you plan to access the OCI Generative AI Service.
+    **Note** - The Chat Models are available in several regions within the OCI Generative AI Service.  See this [link](https://docs.oracle.com/en-us/iaas/Content/generative-ai/model-endpoint-regions.htm) for model availability by region.
 
-2. Grant Non-Admin User Permission to Access Cohere AI Provider
+3. Grant Non-Admin User Permission to Access Cohere AI Provider
 
     ```
     <copy>
@@ -186,7 +204,7 @@ As the user **ADMIN**, issue the following PL/SQL Code
     </copy>
     ```
 
-3. View Existing ACL Priviledges 
+4. View Existing ACL Priviledges 
 
     ```
     <copy>
